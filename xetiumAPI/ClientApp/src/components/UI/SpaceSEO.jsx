@@ -77,7 +77,7 @@ const SpaceSEO = () => {
                                 uri: "https://github.com",
                                 keywords: keyWordsArray,
                                 top: 100,
-                                searchsystem: 0
+                                searchsystem: 1
                             }
                             console.log(res)
                             const params = {

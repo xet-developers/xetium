@@ -7,7 +7,7 @@ import {CurrentProjectContext, UserProjectsContext} from "./contex/CurrentProjec
 
 const App = () => {
     const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
-    const [isAuth, setIsAuth] = useState(true);
+    const [isAuth, setIsAuth] = useState(false);
     const [currentProject, setCurrentProject] = useState({})
     const [userProjects, setUserProjects] = useState([])
 

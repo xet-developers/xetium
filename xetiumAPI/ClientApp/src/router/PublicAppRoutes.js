@@ -1,7 +1,6 @@
-import Register from "../pages/unregistered/Register";
 import Advertising from "../pages/unregistered/Advertising";
 import Authorization from "../pages/unregistered/Authorization";
-import CurrentProject from "../pages/registered/CurrentProject";
+import Register from "../pages/unregistered/Register";
 
 const PublicAppRoutes = [
     {

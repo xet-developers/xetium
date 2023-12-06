@@ -1,8 +1,8 @@
-import CurrentProject from "../pages/registered/CurrentProject";
 import QueryClustering from "../pages/registered/QueryClustering";
 import Report from "../pages/registered/Report";
 import SitePosition from "../pages/registered/SitePosition";
 import Tutorial from "../components/Tutorial";
+import CurrentProject from "../pages/registered/CurrentProject";
 
 
 const AuthAppRoutes = [
