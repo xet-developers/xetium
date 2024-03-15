@@ -1,4 +1,4 @@
-import {RegisterForm} from '@/widgets/RegisterForm'
+import {RegisterForm} from '@/widgets/registerForm'
 
 export const RegisterPage = (): JSX.Element  => {
     return (
