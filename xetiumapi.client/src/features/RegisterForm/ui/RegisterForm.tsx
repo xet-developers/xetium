@@ -1,5 +1,5 @@
 import {InputField} from '@/shared/ui/components/InputField'
-import {FC, useCallback} from "react";
+import {FC, memo, useCallback} from "react";
 import {useAppDispatch} from "@/shared/lib/hooks/useAppDispatch/useAppDispatch.ts";
 import {registerFormActions, registerFormReducer,} from "@/features/RegisterForm";
 import {DynamicModuleLoader, ReducersList} from "@/shared/lib/components/DynamicModuleLoader.tsx";
@@ -12,7 +12,7 @@ export interface IRegisterFormProps {
 
 }
 
-export const RegisterForm: FC<IRegisterFormProps> = () => {
+export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
     const dispatch = useAppDispatch()
 
     const onChangeUsername = useCallback(
@@ -91,4 +91,4 @@ export const RegisterForm: FC<IRegisterFormProps> = () => {
                         placeholder={'Повторите пароль'}/>
         </DynamicModuleLoader>
     );
-};
+})

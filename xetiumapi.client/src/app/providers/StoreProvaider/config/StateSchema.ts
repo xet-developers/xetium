@@ -18,7 +18,7 @@ export type MountedReducers = OptionalRecord<StateSchemaKeys, boolean>;
 
 export interface ReducerManager {
     getReducerMap: () => ReducersMapObject<StateSchema>;
-    reduce: (state: StateSchema, action: UnknownAction) => StateSchema;
+    reduce: (state: StateSchema, action: UnknownAction) => any;
     add: (key: StateSchemaKeys, reducer: Reducer) => void;
     remove: (key: StateSchemaKeys) => void;
     // true - вмонтирован, false - демонтирован

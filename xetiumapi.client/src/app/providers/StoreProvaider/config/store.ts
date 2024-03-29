@@ -9,7 +9,7 @@ export const createStore = (
     asyncReducers?: ReducersMapObject<StateSchema>,
 ) => {
 
-    const rootReducers: ReducersMapObject<StateSchema> = {
+    const rootReducers = {
         ...asyncReducers,
         [rtkApi.reducerPath]: rtkApi.reducer,
     };
