@@ -1,11 +1,17 @@
-import { appRouter } from './router'
+import {appRouter} from './providers/router'
+import {StoreProvider} from './providers/StoreProvaider'
+import {Suspense} from "react";
 
-const { AppRouter } =  appRouter
+const {AppRouter} = appRouter
 
 const App = () => {
 
     return (
-        <AppRouter/>
+        <Suspense fallback={''}>
+            <StoreProvider>
+                <AppRouter/>
+            </StoreProvider>
+        </Suspense>
     );
 }
 

@@ -1,5 +1,5 @@
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import {allRoutes} from '../consts'
+import {BrowserRouter, Link, Route, Routes} from 'react-router-dom';
+import {allRoutes} from '../../consts'
 import {sharedConfigRoutes} from '@/shared/config'
 
 const {unregisteredRoutes, registeredRoutes} = allRoutes
@@ -22,7 +22,7 @@ export const AppRouter = () => {
         <BrowserRouter>
             <Routes>
                 {routesContent}
-                <Route path="*" element={<p>затычка для 404</p>}/>
+                <Route path="*" element={<Link to={'registration'}> dsadasda</Link>}/>
             </Routes>
         </BrowserRouter>
     );

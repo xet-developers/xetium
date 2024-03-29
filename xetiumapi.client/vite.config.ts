@@ -1,6 +1,6 @@
-import { fileURLToPath, URL } from 'node:url';
+import {fileURLToPath, URL} from 'node:url';
 
-import { defineConfig } from 'vite';
+import {defineConfig, loadEnv} from 'vite';
 import plugin from '@vitejs/plugin-react';
 import fs from 'fs';
 import path from 'path';
@@ -31,30 +31,40 @@ if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
         '--format',
         'Pem',
         '--no-password',
-    ], { stdio: 'inherit', }).status) {
+    ], {stdio: 'inherit',}).status) {
         throw new Error("Could not create certificate.");
     }
 }
 
 // https://vitejs.dev/config/
-export default defineConfig({
-    plugins: [plugin()],
-    resolve: {
-        alias: {
-            '@': fileURLToPath(new URL('./src', import.meta.url))
-        }
-    },
-    server: {
-        proxy: {
-            '^/weatherforecast': {
-                target: 'https://localhost:7177/',
-                secure: false
+
+export default ({mode}) => {
+    process.env = {...process.env, ...loadEnv(mode, process.cwd())};
+    console.log(loadEnv(mode, process.cwd()))
+
+    return defineConfig({
+        define: {
+            __API__: JSON.stringify(process.env.VITE_API),
+            __IS_DEV__: JSON.stringify(process.env.VITE_IS_DEV)
+        },
+        plugins: [plugin()],
+        resolve: {
+            alias: {
+                '@': fileURLToPath(new URL('./src', import.meta.url))
             }
         },
-        port: 5173,
-        https: {
-            key: fs.readFileSync(keyFilePath),
-            cert: fs.readFileSync(certFilePath),
+        server: {
+            proxy: {
+                '^/weatherforecast': {
+                    target: 'https://localhost:7177/',
+                    secure: false
+                }
+            },
+            port: 5173,
+            https: {
+                key: fs.readFileSync(keyFilePath),
+                cert: fs.readFileSync(certFilePath),
+            }
         }
-    }
-})
+    })
+}
