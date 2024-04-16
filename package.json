@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "react-pro-sidebar": "^1.1.0"
+  },
+  "devDependencies": {
+    "sass": "^1.75.0"
+  }
+}
