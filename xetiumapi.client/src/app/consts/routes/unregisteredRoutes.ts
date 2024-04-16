@@ -1,13 +1,11 @@
 import {sharedConfigRoutes} from '@/shared/config'
 
-import {AdvertisingPage} from '@/pages/AdvertisingPage'
-import {AuthorizationPage} from '@/pages/AuthorizationPage'
 import {RegisterPage} from '@/pages/RegisterPage'
-
-
+import {LandingPage} from '@/pages/LandingPage'
+import {AuthorizationPage} from '@/pages/AuthorizationPage'
 
 const {UnregisterRouteName} = sharedConfigRoutes;
-const {REGISTER_PAGE, ADVERTISING_PAGE, AUTH_PAGE} = UnregisterRouteName
+const {REGISTER_PAGE, LANDING_PAGE, AUTH_PAGE} = UnregisterRouteName
 
 
 export const UnregisteredRoutes: sharedConfigRoutes.IRouteDescription[] = [
@@ -16,8 +14,8 @@ export const UnregisteredRoutes: sharedConfigRoutes.IRouteDescription[] = [
         component: RegisterPage
     },
     {
-        path: ADVERTISING_PAGE,
-        component: AdvertisingPage
+        path: LANDING_PAGE,
+        component: LandingPage
     },
     {
         path: AUTH_PAGE,

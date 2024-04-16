@@ -7,7 +7,7 @@ const {UnregisteredRoutes} = unregisteredRoutes
 const {RegisteredRoutes} = registeredRoutes
 
 //затычка!!
-let isAuth = false;
+let isAuth = true;
 let currentRoutes: sharedConfigRoutes.IRouteDescription[] = UnregisteredRoutes
 if (isAuth)
     currentRoutes = RegisteredRoutes;

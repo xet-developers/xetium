@@ -1,0 +1,1 @@
+export { PersonalAccountPageAsync as PersonalAccountPage } from './ui/PersonalAccountPage.async'

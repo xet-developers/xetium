@@ -1,1 +1,1 @@
-export * from './ui/AuthorizationPage'
+export { AuthorizationPageAsync as AuthorizationPage } from './ui/AuthorizationPage.async'

@@ -1,0 +1,1 @@
+export { ReportsPageAsync as ReportsPage } from './ui/ReportsPage.async'
