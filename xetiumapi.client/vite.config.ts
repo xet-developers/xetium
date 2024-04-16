@@ -40,7 +40,6 @@ if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
 
 export default ({mode}) => {
     process.env = {...process.env, ...loadEnv(mode, process.cwd())};
-    console.log(loadEnv(mode, process.cwd()))
 
     return defineConfig({
         define: {
@@ -55,8 +54,12 @@ export default ({mode}) => {
         },
         server: {
             proxy: {
-                '^/weatherforecast': {
-                    target: 'https://localhost:7177/',
+                '/account/register': {
+                    headers:{
+                        'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    target: 'https://localhost:7233',
+                    changeOrigin: true,
                     secure: false
                 }
             },

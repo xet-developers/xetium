@@ -4,14 +4,13 @@ import {type IRegisterFormSchema} from '@/features/RegisterForm';
 
 const initialState: IRegisterFormSchema = {
     username: '',
+    name: '',
     password: '',
     secPassword: "",
     email: "",
     acceptConfPolitics: false,
     acceptPersonalData: false,
-    spamCheckbox: false,
-
-    isLoading: false,
+    acceptSpam: false,
 };
 
 export const registerFormSlice = createSlice({
@@ -31,7 +30,7 @@ export const registerFormSlice = createSlice({
             state.secPassword = action.payload;
         },
         setSpamCheckbox: (state, action: PayloadAction<boolean>) => {
-            state.spamCheckbox = action.payload;
+            state.acceptSpam = action.payload;
         },
         setAcceptPersonalDataCheckbox: (state, action: PayloadAction<boolean>) => {
             state.acceptPersonalData = action.payload;

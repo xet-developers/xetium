@@ -1,12 +1,11 @@
 export interface IRegisterFormSchema {
     username: string;
+    name: string;
     email: string;
     password: string;
     secPassword: string,
-    spamCheckbox: boolean,
-    acceptPersonalData: boolean;
-    acceptConfPolitics: boolean;
-
-    isLoading: boolean;
-    error?: string;
+    acceptSpam: boolean,
+    acceptPersonalData?: boolean;
+    acceptConfPolitics?: boolean;
 }
+
