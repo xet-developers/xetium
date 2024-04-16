@@ -1,6 +1,7 @@
 import {BrowserRouter, Link, Route, Routes} from 'react-router-dom';
 import {allRoutes} from '../../consts'
 import {sharedConfigRoutes} from '@/shared/config'
+import {SideBar} from "@/widgets/Sidebar/ui/Sidebar.tsx";
 
 const {unregisteredRoutes, registeredRoutes} = allRoutes
 const {UnregisteredRoutes} = unregisteredRoutes
@@ -18,12 +19,17 @@ const routesContent = currentRoutes.map(({path, component: Component}) => (
 ));
 
 export const AppRouter = () => {
+
     return (
         <BrowserRouter>
-            <Routes>
-                {routesContent}
-                <Route path="*" element={<Link to={'registration'}> dsadasda</Link>}/>
-            </Routes>
+            <div style={{display: 'flex', flexDirection: 'row'}}>
+                <SideBar></SideBar>
+                <Routes>
+                    {routesContent}
+                    <Route path="*" element={<Link to={'registration'}> dsadasda</Link>}/>
+                </Routes>
+            </div>
+
         </BrowserRouter>
     );
 }
