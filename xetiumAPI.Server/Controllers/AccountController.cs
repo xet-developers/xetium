@@ -35,8 +35,7 @@ namespace xetiumAPI.ServerApp.Controllers
             
             if (registerResult.Succeeded)
             {
-                Login(new UserLoginModel { Password = model.Password, UserName = model.UserName });
-                return Created("Alyona Kupi", new { state = registerResult.Succeeded });
+                return await Login(new UserLoginModel { Password = model.Password, UserName = model.UserName });
             }
 
             foreach (var error in registerResult.Errors)
