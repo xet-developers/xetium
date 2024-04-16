@@ -1,11 +1,9 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
-using Medo;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using xetiumAPI.ServerApp.Interfaces;
 using xetiumAPI.Models;
-using xetiumAPI.ServerApp.Dal;
+
 using xetiumAPI.ServerApp.Extentions;
 
 namespace xetiumAPI.ServerApp.Controllers
