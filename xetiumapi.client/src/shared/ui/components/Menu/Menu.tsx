@@ -1,4 +1,3 @@
-import {MenuItem, SubMenu} from 'react-pro-sidebar';
 import {Link} from "react-router-dom";
 import {Icon} from "@/shared/ui/components/Icon";
 import IconPersonalAccount from "../../assets/account.svg";
@@ -12,6 +11,8 @@ import IconClustering from "../../assets/clusterung.svg";
 import IconAuthogeneration from "../../assets/authogeneration.svg";
 
 import cls from "../Menu/Menu.module.scss";
+import MenuItem from "antd/es/menu/MenuItem";
+import {Menu} from "antd";
 
 interface MenuItemTypeInterface {
     label: string;
@@ -63,9 +64,9 @@ export const RenderMenuItem = (item: MenuItem, index: number) => {
         );
     } else if (item.type === 'submenu') {
         return (
-            <SubMenu key={index} label={item.label} className={cls.submenu}>
+            <Menu key={index} label={item.label} className={cls.submenu}>
                 {item.items.map(RenderMenuItem)}
-            </SubMenu>
+            </Menu>
         );
     }
     return null;

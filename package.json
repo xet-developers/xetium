@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "antd": "^5.16.2",
     "react-pro-sidebar": "^1.1.0"
   },
   "devDependencies": {
