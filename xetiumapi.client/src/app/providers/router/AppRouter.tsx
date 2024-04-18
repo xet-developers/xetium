@@ -2,6 +2,7 @@ import {BrowserRouter, Link, Route, Routes} from 'react-router-dom';
 import {allRoutes} from '../../consts'
 import {sharedConfigRoutes} from '@/shared/config'
 import {SideBar} from "@/widgets/Sidebar/ui/Sidebar.tsx";
+import cls from "./AppRouter.module.scss";
 
 const {unregisteredRoutes, registeredRoutes} = allRoutes
 const {UnregisteredRoutes} = unregisteredRoutes
@@ -22,7 +23,7 @@ export const AppRouter = () => {
 
     return (
         <BrowserRouter>
-            <div style={{display: 'flex', flexDirection: 'row'}}>
+            <div className={cls.appRouter}>
                 <SideBar></SideBar>
                 <Routes>
                     {routesContent}
