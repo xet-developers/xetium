@@ -1,22 +1,42 @@
 ﻿using Domain.Entity;
+using Domain.Interfaces;
 using Services.Interfaces;
 
 namespace Services.Services;
 
 public class ProjectService: IProjectService
 {
-    public Task<Guid> CreateAsync(Project project)
+    private IProjectStore _projectStore;
+    private IStandartStore<Project> _standartStore;
+    public ProjectService(IProjectStore projectStore, IStandartStore<Project> standartStore)
     {
-        throw new NotImplementedException();
+        _projectStore = projectStore;
+        _standartStore = standartStore;
+    }
+    public async Task<Guid> CreateAsync(Project project)
+    {
+        var res = await _standartStore.CreateAsync(project);
+        
+        return res;
     }
 
-    public Task<List<Project>> GetAllAsync(Guid userId)
+    public async Task<List<Project>> GetAllAsync(Guid userId)
     {
-        throw new NotImplementedException();
+        var res = await _projectStore.GetAllAsync(userId);
+        
+        return res;
     }
 
-    public Task<bool> DeleteAsync(Guid userId, Guid projectId)
+    public  async Task DeleteAsync(Guid userId, Guid projectId)
     {
-        throw new NotImplementedException();
+        var project = await _standartStore.GetByIdAsync(projectId);
+        
+        if (project is null ||
+            project.UserId != userId)
+        {
+            throw new Exception("User not owner or project doesn't exist");
+        }
+        
+        await _standartStore.DeleteAsync(project);
     }
 }

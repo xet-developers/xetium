@@ -21,7 +21,7 @@ public static class ServiceStartUp
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = true;
             })
-            .AddEntityFrameworkStores<ApplcationDbContext>()
+            .AddEntityFrameworkStores<ApplicationDbContex>()
             .AddDefaultTokenProviders();
         
         serviceCollection.AddAuthentication(options =>
@@ -48,7 +48,7 @@ public static class ServiceStartUp
 
         var connectionString = configurationManager.GetConnectionString("DefaultConnection");
         
-        serviceCollection.AddDbContext<ApplcationDbContext>(options =>
+        serviceCollection.AddDbContext<ApplicationDbContex>(options =>
         {
             options.UseNpgsql(connectionString);
         });

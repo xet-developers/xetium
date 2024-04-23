@@ -11,6 +11,5 @@ public record BaseEntity<T>
     /// <summary>
     /// уникальный идентфиикатор сущности
     /// </summary>
-    ///
     public T Id { get;  set; }
 }

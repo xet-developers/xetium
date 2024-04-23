@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastucture;
 
-public class ApplcationDbContext: IdentityDbContext<User,IdentityRole<Guid>,Guid>
+public class ApplicationDbContex: IdentityDbContext<User,IdentityRole<Guid>,Guid>
 {
     
-    public ApplcationDbContext(DbContextOptions options)
+    public ApplicationDbContex(DbContextOptions options)
         : base(options)
     {
         Database.EnsureCreated();

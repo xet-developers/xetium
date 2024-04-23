@@ -27,8 +27,8 @@ public class ProjectController: ControllerBase
         {
             Description = modelCreate.Description,
             Name = modelCreate.Name,
-            URL = modelCreate.Url,
-            UserID = userID
+            Url = modelCreate.Url,
+            UserId = userID
         });
         return Created("Slon Kuplen",new {Id = result});
     }
@@ -52,8 +52,8 @@ public class ProjectController: ControllerBase
     public async Task<IActionResult> DeleteProject([FromRoute] Guid projectId)
     {
         var userID = GetUserId();
-        var status= await _projectService.DeleteAsync(userID,projectId);
-        return status? Ok() : 
-            BadRequest("Project not found or it's not your Project");
+        
+        await _projectService.DeleteAsync(userID,projectId);
+        return Ok();
     }
 }
