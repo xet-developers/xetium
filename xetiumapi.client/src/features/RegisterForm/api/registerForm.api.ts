@@ -10,10 +10,15 @@ interface IPostRegisterFormArg {
     checkboxSpam: boolean
 }
 
+interface IPostRegisterFormResponse{
+    expiration: string,
+    token: string
+}
+
 export const RegisterFormApi = rtkApi.injectEndpoints({
 
     endpoints: (build) => ({
-        postRegisterForm: build.mutation<string, Partial<IPostRegisterFormArg> >({
+        postRegisterForm: build.mutation<IPostRegisterFormResponse, Partial<IPostRegisterFormArg> >({
                 query: ({...data}) => ({
                     url: '/account/register',
                     method: 'POST',

@@ -1,29 +1,35 @@
 import {BrowserRouter, Link, Route, Routes} from 'react-router-dom';
 import {allRoutes} from '../../consts'
 import {sharedConfigRoutes} from '@/shared/config'
+import {useCallback} from "react";
+import {useSelector} from "react-redux";
+import {getUserAuthData} from "@/entity/User/model/selectors/getUserAuthData.ts";
 
 const {unregisteredRoutes, registeredRoutes} = allRoutes
 const {UnregisteredRoutes} = unregisteredRoutes
 const {RegisteredRoutes} = registeredRoutes
 
-//затычка!!
-let isAuth = true;
-let currentRoutes: sharedConfigRoutes.IRouteDescription[] = UnregisteredRoutes
-if (isAuth)
-    currentRoutes = RegisteredRoutes;
-//
-
-const routesContent = currentRoutes.map(({path, component: Component}) => (
-    <Route key={path} path={path} element={<Component/>}/>
-));
 
 export const AppRouter = () => {
+    const authData = useSelector(getUserAuthData)
+
+    const routes: any = useCallback(() => {
+        let currentRoutes: sharedConfigRoutes.IRouteDescription[] = UnregisteredRoutes
+
+        if (authData) {
+            currentRoutes = RegisteredRoutes;
+        }
+
+         return currentRoutes.map(({path, component: Component}) => (
+            <Route key={path} path={path} element={<Component/>}/>
+        ))
+    }, [authData]);
+
     return (
         <BrowserRouter>
             <Routes>
-                {routesContent}
+                {routes}
                 <Route path="*" element={<Link to={'registration'}> dsadasda</Link>}/>
             </Routes>
-        </BrowserRouter>
-    );
+        </BrowserRouter>);
 }

@@ -55,9 +55,16 @@ export default ({mode}) => {
         server: {
             proxy: {
                 '/account/register': {
-                    headers:{
-                        'Content-Type': 'application/json;charset=utf-8'
-                    },
+                    target: 'https://localhost:7233',
+                    changeOrigin: true,
+                    secure: false
+                },
+                '/account/login': {
+                    target: 'https://localhost:7233',
+                    changeOrigin: true,
+                    secure: false
+                },
+                '/account/info': {
                     target: 'https://localhost:7233',
                     changeOrigin: true,
                     secure: false

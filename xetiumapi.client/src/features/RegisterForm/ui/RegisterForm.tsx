@@ -1,5 +1,5 @@
 import {Input} from '@/shared/ui/components/Input/Input.tsx'
-import {FC, FormEvent, memo, useCallback, useEffect, useState} from "react";
+import {FC, FormEvent, memo, useCallback, useState} from "react";
 import {useAppDispatch} from "@/shared/lib/hooks/useAppDispatch/useAppDispatch.ts";
 import {registerFormActions, registerFormReducer,} from "@/features/RegisterForm";
 import {DynamicModuleLoader, ReducersList} from "@/shared/lib/components/DynamicModuleLoader.tsx";
@@ -10,9 +10,10 @@ import {
     getEmail,
     getName,
     getPassword,
-    getSecondPassword,
+//    getSecondPassword,
 } from "../model/selectors/registerFormSelectors.ts";
 import {useRegisterFormApi} from "@/features/RegisterForm/api/registerForm.api.ts";
+import {USER_LOCALSTORAGE_KEY} from "@/shared/const/localstorage.ts";
 
 const reducers: ReducersList = {
     registerForm: registerFormReducer,
@@ -23,17 +24,17 @@ export interface IRegisterFormProps {
 }
 
 
-export const RegisterForm: FC<IRegisterFormProps> = memo((props) => {
-    const {onSuccess}: IRegisterFormProps = props
+export const RegisterForm: FC<IRegisterFormProps> = memo(()=> {
+    //const {onSuccess}: IRegisterFormProps = props
     const dispatch = useAppDispatch()
     const username = useSelector(getName);
     const password = useSelector(getPassword);
-    const secPassword = useSelector(getSecondPassword);
+    //const secPassword = useSelector(getSecondPassword);
     const email = useSelector(getEmail);
     const acceptPersonalData = useSelector(getAcceptPersonalData);
     const acceptConfPolitics = useSelector(getAcceptConfPolitics);
     const acceptSpam = useSelector(getAcceptSpam);
-    const [updatePost, {isLoading, data, status} ] = useRegisterFormApi()
+    const [updatePost, {isLoading}] = useRegisterFormApi()
 
     const [spamCheckboxChecked, setSpamCheckboxChecked] = useState<boolean>(false)
     const [acceptConfPoliticsChecked, setAcceptConfPoliticsChecked] = useState<boolean>(false)
@@ -77,40 +78,41 @@ export const RegisterForm: FC<IRegisterFormProps> = memo((props) => {
 
     const onAcceptPersonalDataCheckbox = useCallback(
         () => {
-            setAcceptConfPoliticsChecked(!acceptConfPoliticsChecked)
-            dispatch(registerFormActions.setAcceptPersonalDataCheckbox(acceptConfPoliticsChecked));
+            setAcceptConfPoliticsChecked(!acceptPersonalDataChecked)
+            dispatch(registerFormActions.setAcceptPersonalDataCheckbox(acceptPersonalDataChecked));
         },
         [dispatch],
     );
 
     const onAcceptConfPoliticsCheckbox = useCallback(
         () => {
-            setAcceptPersonalDataChecked(!acceptPersonalDataChecked)
-            dispatch(registerFormActions.setAcceptConfPoliticsCheckbox(acceptPersonalDataChecked));
+            setAcceptPersonalDataChecked(!acceptConfPoliticsChecked)
+            dispatch(registerFormActions.setAcceptConfPoliticsCheckbox(acceptConfPoliticsChecked));
         },
         [dispatch],
     );
 
-
-
     const onRegisterClick = useCallback(
         async (e: FormEvent) => {
             e.preventDefault();
-            const result = await updatePost({
-                name: username,
-                username: username,
-                email: email,
-                password: password,
-                checkboxData: acceptPersonalData,
-                checkboxConf: acceptConfPolitics,
-                checkboxSpam: acceptSpam
-            });
-            console.log(result)
-            console.log(status)
-            console.log(data)
-            // if (status === '200') {
-            //     onSuccess();
-            // }
+            try {
+                const result = await updatePost({
+                    name: username,
+                    username: username,
+                    email: email,
+                    password: password,
+                    checkboxData: acceptPersonalData,
+                    checkboxConf: acceptConfPolitics,
+                    checkboxSpam: acceptSpam
+                }).unwrap();
+
+                if (result) {
+                    localStorage.setItem(USER_LOCALSTORAGE_KEY, result.token)
+                }
+            }
+            catch (e){
+                console.log(e)
+            }
         },
         [dispatch, password, username, email],
     );
@@ -143,7 +145,7 @@ export const RegisterForm: FC<IRegisterFormProps> = memo((props) => {
                    }}/>
 
             <button onClick={onRegisterClick}>Регистрация</button>
-            {isLoading&&<p>Loading...</p>}
+            {isLoading && <p>Loading...</p>}
         </DynamicModuleLoader>
     );
 })

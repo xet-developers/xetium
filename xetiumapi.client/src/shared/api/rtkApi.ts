@@ -6,12 +6,13 @@ export const rtkApi = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
         baseUrl: __API__,
-        mode: 'no-cors',
+        mode: 'cors',
         prepareHeaders: (headers) => {
             const token = localStorage.getItem(USER_LOCALSTORAGE_KEY) || '';
             if (token) {
-                headers.set('Authorization', token);
+                headers.set('Authorization','Bearer ' +  token);
             }
+            headers.set('Content-Type', 'application/json;charset=utf-8')
             return headers;
         },
     }),

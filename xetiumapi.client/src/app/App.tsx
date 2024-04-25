@@ -1,16 +1,20 @@
 import {appRouter} from './providers/router'
-import {StoreProvider} from './providers/StoreProvaider'
-import {Suspense} from "react";
+import {Suspense, useEffect} from "react";
+import {useAppDispatch} from "@/shared/lib/hooks/useAppDispatch/useAppDispatch.ts";
+import {initAuthData} from "@/entity/User/model/servises/initAuthData.ts";
 
 const {AppRouter} = appRouter
 
 const App = () => {
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(initAuthData())
+    }, []);
 
     return (
         <Suspense fallback={''}>
-            <StoreProvider>
-                <AppRouter/>
-            </StoreProvider>
+            <AppRouter/>
         </Suspense>
     );
 }
