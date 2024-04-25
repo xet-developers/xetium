@@ -11,7 +11,6 @@ import IconClustering from "../../assets/clusterung.svg";
 import IconAuthogeneration from "../../assets/authogeneration.svg";
 
 import cls from "../Menu/Menu.module.scss";
-import MenuItem from "antd/es/menu/MenuItem";
 import {Menu} from "antd";
 
 interface MenuItemTypeInterface {
@@ -55,18 +54,17 @@ export const RenderMenuItem = (item: MenuItem, index: number) => {
                 <Link to={item.link} key={index} className={cls.link}>
                     <div className={cls.i}>
                         <Icon src={item.icon}/>
-                        <MenuItem className={cls.submenu__item}>{item.label}</MenuItem>
+                        <Menu.Item className={cls.submenu__item}>{item.label}</Menu.Item>
                     </div>
-
                 </Link>
             </div>
 
         );
     } else if (item.type === 'submenu') {
         return (
-            <Menu key={index} label={item.label} className={cls.submenu}>
+            <Menu.SubMenu key={index} title={item.label} className={cls.submenu}>
                 {item.items.map(RenderMenuItem)}
-            </Menu>
+            </Menu.SubMenu>
         );
     }
     return null;
