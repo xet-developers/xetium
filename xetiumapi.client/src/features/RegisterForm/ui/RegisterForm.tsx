@@ -12,7 +12,7 @@ import {
     getPassword,
 //    getSecondPassword,
 } from "../model/selectors/registerFormSelectors.ts";
-import {useRegisterFormApi} from "@/features/RegisterForm/api/registerForm.api.ts";
+import {useRegisterFormApi} from "../api/registerForm.api.ts";
 import {USER_LOCALSTORAGE_KEY} from "@/shared/const/localstorage.ts";
 
 const reducers: ReducersList = {

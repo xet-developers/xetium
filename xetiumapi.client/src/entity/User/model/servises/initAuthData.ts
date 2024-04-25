@@ -1,5 +1,5 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {User} from "@/entity/User/model/types/IUserSliceSchema.ts";
+import {User} from "../types/IUserSliceSchema.ts";
 import {USER_LOCALSTORAGE_KEY} from "@/shared/const/localstorage.ts";
 import {ThunkConfig} from "@/app/providers/StoreProvaider/config/StateSchema.ts";
 import {getUserDataQuery} from "../../api/User.api.ts";
