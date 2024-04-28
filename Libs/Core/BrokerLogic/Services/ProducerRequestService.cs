@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ExampleCore.BrokerLogic.Services;
 
-public class ProducerRequestService: IHttpRequestService
+public class ProducerRequestService: IRequestService
 {
     private readonly IEnumerable<ITraceWriter> _traceWriterList;
     private readonly IClientFactory _clientFactory;
@@ -18,7 +18,7 @@ public class ProducerRequestService: IHttpRequestService
         _traceWriterList = traceWriterList;
     }
 
-    public async Task<HttpResponse<TResponse>> SendRequestAsync<TResponse, TRequest>(HttpRequestData requestData,
+    public async Task<HttpResponse<TResponse>> SendRequestAsync<TResponse, TRequest>(RequestData requestData,
         HttpConnectionData connectionData = default) where TRequest : class
         where TResponse : class
     {

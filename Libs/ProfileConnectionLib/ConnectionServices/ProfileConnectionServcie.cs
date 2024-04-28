@@ -12,16 +12,16 @@ namespace ProfileConnectionLib.ConnectionServices;
 
 public class ProfileConnectionService : IProfileConnectionServcie
 {
-    private readonly IHttpRequestService _httpClientFactory;
+    private readonly IRequestService _httpClientFactory;
     
     public ProfileConnectionService(IConfiguration configuration, IServiceProvider serviceProvider)
     { 
         var connectionType = configuration.GetSection("ConnectionSettings")["Type"];
-        _httpClientFactory = serviceProvider.GetKeyedService<IHttpRequestService>(connectionType) ?? throw new InvalidOperationException();
+        _httpClientFactory = serviceProvider.GetKeyedService<IRequestService>(connectionType) ?? throw new InvalidOperationException();
     }
     public async Task<UserNameListProfileApiResponse[]> GetUserNameListAsync(UserNameListProfileApiRequest request)
     {
-        var requestData = new HttpRequestData()
+        var requestData = new RequestData()
         {
             Uri = new Uri("http://localhost:5097/api/user/namelist"),
             Method = HttpMethod.Post,
@@ -37,7 +37,7 @@ public class ProfileConnectionService : IProfileConnectionServcie
     
     public async Task<CheckUserExistProfileApiResponse> CheckUserExistAsync(CheckUserExistProfileApiRequest checkUserExistProfileApiRequest)
     {
-        var requestData = new HttpRequestData()
+        var requestData = new RequestData()
         {
              Uri = new Uri("http://localhost:5097/api/user/exist"),
             Method = HttpMethod.Post,

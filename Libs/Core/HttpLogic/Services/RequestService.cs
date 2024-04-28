@@ -40,7 +40,7 @@ public enum ContentType
     ApplicationJwt = 8
 }
 
-public record HttpRequestData
+public record RequestData
 {
     /// <summary>
     /// Тип метода
@@ -114,13 +114,13 @@ public record HttpResponse<TResponse> : BaseHttpResponse
 }
 
 /// <inheritdoc />
-internal class HttpRequestService : IHttpRequestService
+internal class RequestService : IRequestService
 {
     private readonly IHttpConnectionService _httpConnectionService;
     private readonly IEnumerable<ITraceWriter> _traceWriterList;
 
     ///
-    public HttpRequestService(
+    public RequestService(
         IHttpConnectionService httpConnectionService,
         IEnumerable<ITraceWriter> traceWriterList)
     {
@@ -129,7 +129,7 @@ internal class HttpRequestService : IHttpRequestService
     }
 
     /// <inheritdoc />
-    public async Task<HttpResponse<TResponse>> SendRequestAsync<TResponse,TRequest>(HttpRequestData requestData,
+    public async Task<HttpResponse<TResponse>> SendRequestAsync<TResponse,TRequest>(RequestData requestData,
         HttpConnectionData connectionData) where TResponse : class where TRequest : class
     {
 
