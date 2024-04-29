@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import {RawModal} from '../../../shared/ui/components/RawModal/RawModal.tsx';
 import cls from './AnalysisToSchedulePage.module.scss';
-import {CreateCheckModal} from "@/features/CreateCheckModal.tsx";
+import {CreateCheckModal} from "@/features/CreateCheckModal/CreateCheckModal.tsx";
 
 
 export const AnalysisToSchedulePage = () => {
@@ -54,7 +53,7 @@ export const AnalysisToSchedulePage = () => {
                 </div>
             </div>
 
-            <div className={cls.modal}>
+            <div>
                 {modalOpen && <CreateCheckModal modalOpen={modalOpen} closeModal={closeModal}/>}
             </div>
         </div>
