@@ -1,0 +1,40 @@
+.blockData {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  align-items: center;
+}
+
+.btn {
+  display: flex;
+  flex-direction: row;
+  gap: 4em;
+}
+
+.cancelBtn {
+  width: 144px;
+  height: 31px;
+  border-radius: 25px;
+  background-color: rgb(0,0,0,0);
+  border: 1px solid #F66450;
+  color: #F66450;
+  font-family: "Montserrat Alternates", sans-serif;
+}
+
+.cancelBtn:hover {
+  box-shadow: 1px 5px 20px rgba(246, 100, 80, 0.55);
+}
+
+.completeBtn {
+  width: 144px;
+  height: 31px;
+  border-radius: 25px;
+  background-color: #F66450;
+  border: 1px solid #F66450;
+  color: #fff;
+  font-family: "Montserrat Alternates", sans-serif;
+}
+
+.completeBtn:hover {
+  box-shadow: 1px 5px 20px #F66450;
+}
