@@ -4,7 +4,7 @@ export const AuthorizationPage = () => {
     return (
         <div>
             <AuthorizationForm/>
-            authorization
+
         </div>
     );
 };

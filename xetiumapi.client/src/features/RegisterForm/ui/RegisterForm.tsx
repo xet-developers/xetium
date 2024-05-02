@@ -1,4 +1,3 @@
-import {Input} from '@/shared/ui/components/Input/Input.tsx'
 import {FC, FormEvent, memo, useCallback, useState} from "react";
 import {useAppDispatch} from "@/shared/lib/hooks/useAppDispatch/useAppDispatch.ts";
 import {registerFormActions, registerFormReducer,} from "@/features/RegisterForm";
@@ -14,6 +13,7 @@ import {
 } from "../model/selectors/registerFormSelectors.ts";
 import {useRegisterFormApi} from "../api/registerForm.api.ts";
 import {USER_LOCALSTORAGE_KEY} from "@/shared/const/localstorage.ts";
+import {Button, Flex, Input} from "antd";
 
 const reducers: ReducersList = {
     registerForm: registerFormReducer,
@@ -24,7 +24,7 @@ export interface IRegisterFormProps {
 }
 
 
-export const RegisterForm: FC<IRegisterFormProps> = memo(()=> {
+export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
     //const {onSuccess}: IRegisterFormProps = props
     const dispatch = useAppDispatch()
     const username = useSelector(getName);
@@ -109,8 +109,7 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(()=> {
                 if (result) {
                     localStorage.setItem(USER_LOCALSTORAGE_KEY, result.token)
                 }
-            }
-            catch (e){
+            } catch (e) {
                 console.log(e)
             }
         },
@@ -119,33 +118,38 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(()=> {
 
     return (
         <DynamicModuleLoader reducers={reducers}>
-            <Input onChange={(value: string) => onChangeUsername(value)}
-                   placeholder={'введите Имя'}/>
-            <Input onChange={(value: string) => onChangeEmail(value)}
-                   placeholder={'введите почту'}/>
-            <Input onChange={(value: string) => onChangePassword(value)}
-                   placeholder={'введите пароль'}/>
-            <Input onChange={(value: string) => onChangeSecondPassword(value)}
-                   placeholder={'Повторите пароль'}/>
+            <Flex justify={'center'} align={"center"}>
 
-            <Input type={'checkbox'}
-                   checked={spamCheckboxChecked}
-                   onChange={() => {
-                       onChangeSpamCheckbox()
-                   }}/>
-            <Input type={'checkbox'}
-                   checked={acceptPersonalDataChecked}
-                   onChange={() => {
-                       onAcceptPersonalDataCheckbox()
-                   }}/>
-            <Input type={'checkbox'}
-                   checked={acceptConfPoliticsChecked}
-                   onChange={() => {
-                       onAcceptConfPoliticsCheckbox()
-                   }}/>
+                <Flex vertical={true} gap={5} justify={"center"}>
+                    <Input onChange={(value: string) => onChangeUsername(value)}
+                           placeholder={'введите Имя'}/>
+                    <Input onChange={(value: string) => onChangeEmail(value)}
+                           placeholder={'введите почту'}/>
+                    <Input onChange={(value: string) => onChangePassword(value)}
+                           placeholder={'введите пароль'}/>
+                    <Input onChange={(value: string) => onChangeSecondPassword(value)}
+                           placeholder={'Повторите пароль'}/>
 
-            <button onClick={onRegisterClick}>Регистрация</button>
-            {isLoading && <p>Loading...</p>}
+                    <Input type={'checkbox'}
+                           checked={spamCheckboxChecked}
+                           onChange={() => {
+                               onChangeSpamCheckbox()
+                           }}/>
+                    <Input type={'checkbox'}
+                           checked={acceptPersonalDataChecked}
+                           onChange={() => {
+                               onAcceptPersonalDataCheckbox()
+                           }}/>
+                    <Input type={'checkbox'}
+                           checked={acceptConfPoliticsChecked}
+                           onChange={() => {
+                               onAcceptConfPoliticsCheckbox()
+                           }}/>
+
+                    <Button onClick={onRegisterClick}>Регистрация</Button>
+                    {isLoading && <p>Loading...</p>}
+                </Flex>
+            </Flex>
         </DynamicModuleLoader>
     );
 })

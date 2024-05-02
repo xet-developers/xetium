@@ -4,7 +4,7 @@ export const RegisterPage = (): JSX.Element  => {
     return (
         <div>
             <RegisterForm/>
-            registerPage
+
         </div>
     );
 };
