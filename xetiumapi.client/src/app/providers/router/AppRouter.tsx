@@ -1,7 +1,7 @@
 import {BrowserRouter, Link, Route, Routes} from 'react-router-dom';
 import {allRoutes} from '../../consts'
 import {sharedConfigRoutes} from '@/shared/config'
-import {useCallback} from "react";
+import {useMemo} from "react";
 import {useSelector} from "react-redux";
 import {getUserAuthData} from "@/entity/User";
 
@@ -13,17 +13,19 @@ const {RegisteredRoutes} = registeredRoutes
 export const AppRouter = () => {
     const authData = useSelector(getUserAuthData)
 
-    const routes: any = useCallback(() => {
+    const routes = useMemo(() => {
         let currentRoutes: sharedConfigRoutes.IRouteDescription[] = UnregisteredRoutes
 
         if (authData) {
             currentRoutes = RegisteredRoutes;
         }
 
-         return currentRoutes.map(({path, component: Component}) => (
+
+        return currentRoutes.map(({path, component: Component}) => (
             <Route key={path} path={path} element={<Component/>}/>
         ))
     }, [authData]);
+
 
     return (
         <BrowserRouter>
