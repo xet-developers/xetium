@@ -30,7 +30,6 @@ export const AppRouter = () => {
                     <Route path="*" element={<Link to={'registration'}> dsadasda</Link>}/>
                 </Routes>
             </div>
-
         </BrowserRouter>
     );
 }

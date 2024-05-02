@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import cls from './AnalysisToSchedulePage.module.scss';
 import {CreateCheckModal} from "@/features/CreateCheckModal/CreateCheckModal.tsx";
+import { Calendar } from "antd";
 
 
 export const AnalysisToSchedulePage = () => {
@@ -29,7 +30,6 @@ export const AnalysisToSchedulePage = () => {
 
     return (
         <div className={cls.page}>
-
             <div className={cls.headerSpace}>
                 <span className={cls.header}>Расписание проверки позиций</span>
             </div>
@@ -49,7 +49,7 @@ export const AnalysisToSchedulePage = () => {
                 </div>
 
                 <div className={cls.calendar}>
-
+                    <Calendar/>
                 </div>
             </div>
 

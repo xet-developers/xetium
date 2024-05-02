@@ -16,21 +16,21 @@ export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
 
     const items: MenuProps['items'] = [
         {
-            label: 'Первый кластер',
+            label: 'Кластер №1',
             key: '1',
         },
         {
-            label: 'Второй кластер',
+            label: 'Кластер №2',
             key: '2',
         },
         {
-            label: 'Третий кластер',
+            label: 'Кластер №3',
             key: '3',
         },
     ];
 
-    const onClick: MenuProps['onClick'] = ({ label }) => {
-        message.info(`Вы выбрали ${label}`);
+    const onClick: MenuProps['onClick'] = ({ key }) => {
+        message.info(`Вы выбрали кластер №${key}`);
     };
 
     return (
