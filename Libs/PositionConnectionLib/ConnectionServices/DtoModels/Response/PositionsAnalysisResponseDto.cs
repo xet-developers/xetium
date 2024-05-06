@@ -2,7 +2,7 @@
 
 public class PositionsAnalysisResponseDto
 {
-    public required List<PositionAnalysis> Position { get; set; }
+    public required List<PositionAnalysis> PositionAnalysisData { get; set; }
 }
 
 

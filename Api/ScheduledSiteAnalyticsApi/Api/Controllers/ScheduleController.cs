@@ -25,6 +25,7 @@ public class ScheduleController: ControllerBase
         await _scheduleService.ScheduleTask(new TaskDetails()
         {
             Id = scheduleRequest.Id,
+            ProjectID = scheduleRequest.ProjectID,
             Keywords = scheduleRequest.Keywords,
             ScheduleTime = scheduleRequest.DateTime,
             Top = scheduleRequest.Top,

@@ -10,7 +10,7 @@ namespace Services;
 
 public static class ServiceStartUp
 {
-    public static IServiceCollection TryAddService(this IServiceCollection serviceCollection)
+    public static IServiceCollection TryAddServices(this IServiceCollection serviceCollection)
     {
         serviceCollection.TryAddScoped<IScheduleService, ScheduleService>();
         return serviceCollection;

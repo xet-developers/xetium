@@ -1,10 +1,12 @@
-﻿namespace Domain.Interfaces;
+﻿using ExampleCore.Dal.Base;
 
-public interface IStandartStore<T>
+namespace Domain.Interfaces;
+
+public interface IStandartStore
 {
-    Task<T> GetByIdAsync(Guid id);
-    Task<Guid> CreateAsync(T entity);
-    Task UpdateAsync(T entity);
-    Task DeleteAsync(T entity);
-    Task<List<T>> GetAllAsync();
+    Task<T> GetByIdAsync<T>(Guid id) where T : BaseEntity<Guid>;
+    Task<Guid> CreateAsync<T>(T entity) where T : BaseEntity<Guid>;
+    Task UpdateAsync<T>(T entity) where T : BaseEntity<Guid>;
+    Task DeleteAsync<T>(T entity) where T : BaseEntity<Guid>;
+    Task<List<T>> GetAllAsync<T>() where T : BaseEntity<Guid>;
 }

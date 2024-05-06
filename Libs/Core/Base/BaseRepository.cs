@@ -5,16 +5,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastucture.Data;
 
-public class BaseRepository<T>: IStandartStore<T> 
-    where T: BaseEntity<Guid>
+public class BaseRepository: IStandartStore
 {
     private readonly DbContext _applicationDbContext;
     public BaseRepository(DbContext applicationDbContext)
     {
         _applicationDbContext = applicationDbContext;
     }
-    
-    public async Task<T> GetByIdAsync(Guid id)
+
+    public async Task<T> GetByIdAsync<T>(Guid id)
+        where T : BaseEntity<Guid>
     {
         var res = await _applicationDbContext.Set<T>().FindAsync(id);
 
@@ -26,7 +26,8 @@ public class BaseRepository<T>: IStandartStore<T>
         return res;
     }
 
-    public async Task<Guid> CreateAsync(T entity)
+    public async Task<Guid> CreateAsync<T>(T entity)
+        where T : BaseEntity<Guid>
     {
         var entityId = new Uuid7().ToGuid();
         entity.Id = entityId;
@@ -36,7 +37,8 @@ public class BaseRepository<T>: IStandartStore<T>
         return entityId;
     }
 
-    public async Task UpdateAsync(T entity)
+    public async Task UpdateAsync<T>(T entity)
+        where T : BaseEntity<Guid>
     {
         _applicationDbContext.Set<T>().Update(entity);
 
@@ -44,14 +46,16 @@ public class BaseRepository<T>: IStandartStore<T>
     }
     
 
-    public async Task DeleteAsync(T entity)
+    public async Task DeleteAsync<T>(T entity)
+        where T : BaseEntity<Guid>
     {
         _applicationDbContext.Set<T>().Remove(entity);
 
         await _applicationDbContext.SaveChangesAsync();
     }
 
-    public async Task<List<T>> GetAllAsync()
+    public async Task<List<T>> GetAllAsync<T>()
+        where T : BaseEntity<Guid>
     {
         var res = await _applicationDbContext.Set<T>().ToListAsync();
 

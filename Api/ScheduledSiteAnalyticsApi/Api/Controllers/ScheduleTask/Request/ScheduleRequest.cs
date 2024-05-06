@@ -3,7 +3,7 @@
 public class ScheduleRequest
 {
     public required Guid Id { get; set; }
-    
+    public required Guid ProjectID { get; set; }
     public required DateTime DateTime { get; set; }
     
     public required int Frequency { get; set; }

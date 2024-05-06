@@ -4,6 +4,6 @@ namespace Domain.Interfaces;
 
 public interface IScheduleTask
 {
-    public Task ScheduleTask(TaskDetails taskDetails);
+    public Task ScheduleTaskAsync(TaskDetails taskDetails);
 
 }

@@ -34,7 +34,7 @@ public class ScheduleService: IScheduleService
     
     private async Task ScheduleFunction(TaskDetails taskDetails)
     {
-        await _scheduleTask.ScheduleTask(taskDetails);
+        await _scheduleTask.ScheduleTaskAsync(taskDetails);
     }
     
 }

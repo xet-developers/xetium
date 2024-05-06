@@ -6,7 +6,7 @@ namespace Domain.Entity;
 public record TaskDetails: BaseEntity<Guid>
 {
     public required DateTime ScheduleTime { get; set; }
-    
+    public required Guid ProjectID { get; set; }
     public required string Url { get; set; }
    
     public required int Top { get; set; }
