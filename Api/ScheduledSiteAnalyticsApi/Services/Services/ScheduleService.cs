@@ -18,8 +18,6 @@ public class ScheduleService: IScheduleService
     
     public async Task<TaskDetails> ScheduleTask(TaskDetails taskDetails)
     {
-        // Получаем MethodInfo для метода ScheduleFunction
-        
         // todo сделать кэш, который будет хранить айдишники уже созданных тасок, чтобы если брокер по 100-500 nagadit сообщениями, не делать запросики в бд
         await taskDetails.AddOrUpdateAsync(_scheduleTask);
         
