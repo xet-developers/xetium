@@ -13,7 +13,10 @@ import {
 } from "../model/selectors/registerFormSelectors.ts";
 import {useRegisterFormApi} from "../api/registerForm.api.ts";
 import {USER_LOCALSTORAGE_KEY} from "@/shared/const/localstorage.ts";
-import {Button, Flex, Input} from "antd";
+import {ConfigProvider, Button, Flex, Input, Typography, Checkbox, CheckboxProps } from "antd";
+
+const { Title, Link } = Typography;
+import cls from "@/features/RegisterForm/styles/RegisterForm.module.scss";
 
 const reducers: ReducersList = {
     registerForm: registerFormReducer,
@@ -116,40 +119,107 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
         [dispatch, password, username, email],
     );
 
+    const onChange: CheckboxProps['onChange'] = (e) => {
+        console.log(`checked = ${e.target.checked}`);
+    };
+
     return (
         <DynamicModuleLoader reducers={reducers}>
-            <Flex justify={'center'} align={"center"}>
+            <ConfigProvider
+                theme={{
+                    token: {
+                        colorPrimary: '#F66450',
+                        fontFamilyCode: 'Montserrat Alternates',
+                        colorText: '#252525'
+                    },
+                    components: {
+                        Button: {
+                            defaultHoverColor: '#F66450'
+                        },
+                    },
+                }}
+            >
+                <div className={cls.page}>
+                    <Flex align={"center"} className={cls.formRight}>
+                        <Flex gap={5} align={'space-between'}>
+                            <Flex vertical={true} gap={5} align={'center'} className={cls.formLeft}>
+                                <Title level={2} style={{marginTop: '60px', fontSize: '40px', fontFamily: 'Montserrat'}}>Регистрация</Title>
+                                <Flex justify={'center'} gap={5} style={{marginTop: '-20px', paddingBottom: '40px'}}>
+                                    <Title level={5} style={{color: '#5F5F5F', fontSize: '15px', fontFamily: 'Montserrat'}}>Уже есть аккаунт?</Title>
+                                    <Link href="/authorization">
+                                        <Title level={5} style={{color: '#F66450', fontSize: '15px', fontFamily: 'Montserrat'}} className={cls.hoverText}>
+                                            Войти
+                                        </Title>
+                                    </Link>
+                                </Flex>
 
-                <Flex vertical={true} gap={5} justify={"center"}>
-                    <Input onChange={(value: string) => onChangeUsername(value)}
-                           placeholder={'введите Имя'}/>
-                    <Input onChange={(value: string) => onChangeEmail(value)}
-                           placeholder={'введите почту'}/>
-                    <Input onChange={(value: string) => onChangePassword(value)}
-                           placeholder={'введите пароль'}/>
-                    <Input onChange={(value: string) => onChangeSecondPassword(value)}
-                           placeholder={'Повторите пароль'}/>
+                                <Flex vertical={true} justify={'center'} gap={40}>
+                                    <Input onChange={(value: string) => onChangeUsername(value)}
+                                           placeholder={'Имя пользователя'} className={cls.input}/>
+                                    <Input onChange={(value: string) => onChangeEmail(value)}
+                                           placeholder={'Почта'} className={cls.input}/>
+                                    <Input onChange={(value: string) => onChangePassword(value)}
+                                           placeholder={'Пароль'} className={cls.input}/>
+                                    <Input onChange={(value: string) => onChangeSecondPassword(value)}
+                                           placeholder={'Повторите пароль'} className={cls.input}/>
+                                </Flex>
 
-                    <Input type={'checkbox'}
-                           checked={spamCheckboxChecked}
-                           onChange={() => {
-                               onChangeSpamCheckbox()
-                           }}/>
-                    <Input type={'checkbox'}
-                           checked={acceptPersonalDataChecked}
-                           onChange={() => {
-                               onAcceptPersonalDataCheckbox()
-                           }}/>
-                    <Input type={'checkbox'}
-                           checked={acceptConfPoliticsChecked}
-                           onChange={() => {
-                               onAcceptConfPoliticsCheckbox()
-                           }}/>
+                                {isLoading ? (
+                                    <Title level={5} style={{color: '#252525', marginTop: '60px', fontSize: '18px', fontWeight: '400', fontFamily: 'Montserrat'}}>
+                                        Загрузка...
+                                    </Title>
+                                ) : (
+                                    <Button type="primary" onClick={onRegisterClick} className={cls.btn}>
+                                        <Title level={5} style={{color: '#fff', marginTop: '10px', fontSize: '18px', fontWeight: '400', fontFamily: 'Montserrat'}}>
+                                            ЗАРЕГИСТРИРОВАТЬСЯ
+                                        </Title>
+                                    </Button>
+                                )}
+                            </Flex>
 
-                    <Button onClick={onRegisterClick}>Регистрация</Button>
-                    {isLoading && <p>Loading...</p>}
-                </Flex>
-            </Flex>
+
+                            <Flex vertical={true} align={'start'} style={{marginLeft: '10px', marginTop:'200px'}} gap={40}>
+                                <Flex justify={'center'} gap={10}>
+                                    <Checkbox
+                                        checked={acceptPersonalDataChecked}
+                                        onChange={() => {
+                                        onAcceptPersonalDataCheckbox()
+                                    }}></Checkbox>
+                                    <Title level={5} style={{color: '#252525', fontSize: '13px', fontWeight: '400',
+                                        fontFamily: 'Montserrat'}}>
+                                        Даю свое согласие на обработку персональных данных
+                                    </Title>
+                                </Flex>
+
+                                <Flex justify={'center'} gap={10}>
+                                    <Checkbox
+                                        checked={acceptConfPoliticsChecked}
+                                        onChange={() => {
+                                            onAcceptConfPoliticsCheckbox()
+                                        }}></Checkbox>
+                                    <Title level={5} style={{color: '#252525', fontSize: '13px', fontWeight: '400',
+                                        fontFamily: 'Montserrat'}}>
+                                        Согласен с условиями пользования и политикой конфиденциальности
+                                    </Title>
+                                </Flex>
+
+                                <Flex justify={'center'} align={'center'} gap={10}>
+                                    <Checkbox
+                                        checked={spamCheckboxChecked}
+                                        onChange={() => {
+                                            onChangeSpamCheckbox()
+                                        }}></Checkbox>
+                                    <Title level={5} style={{color: '#252525', fontSize: '13px', fontWeight: '400',
+                                        fontFamily: 'Montserrat'}}>
+                                        Даю свое согласие на получение информационной рассылки
+                                    </Title>
+                                </Flex>
+                            </Flex>
+                        </Flex>
+                    </Flex>
+                </div>
+
+            </ConfigProvider>
         </DynamicModuleLoader>
     );
 })

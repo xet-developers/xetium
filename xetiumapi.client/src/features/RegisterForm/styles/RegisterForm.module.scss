@@ -1,0 +1,50 @@
+.page {
+  width: auto;
+  height: 100vh;
+  background-color: #d1d1d1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Montserrat", sans-serif;
+}
+
+.formRight {
+  width: 900px;
+  height: 701px;
+  border-radius: 25px;
+  background-color: #C0CCF7;
+  box-shadow: 0px 5px 20px rgba(99, 99, 99, 0.68);
+}
+
+.formLeft {
+  width: 870px;
+  height: 701px;
+  border-radius: 25px 0px 0px 25px;
+  background-color: #fff;
+}
+
+.input {
+  width: 500px;
+  height: 57px;
+  background-color: #D9D9D9;
+  border-color: #7B7B7B;
+  font-size: 18px;
+  font-family: "Montserrat", sans-serif;
+}
+
+.btn {
+  width: 387px;
+  height: 68px;
+  background-color: #F66450;
+  border-radius: 35px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.hoverText:hover {
+  text-decoration: underline #F66450 2px;
+
+}
