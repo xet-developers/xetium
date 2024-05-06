@@ -1,3 +1,4 @@
+using Hangfire;
 using Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,5 +19,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.MapControllers();
+app.UseHangfireDashboard();
 
 app.Run();

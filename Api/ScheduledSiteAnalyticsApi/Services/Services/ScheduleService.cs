@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using System.Reflection;
 using Domain.Entity;
 using Domain.Interfaces;
 using Hangfire;
@@ -17,11 +18,11 @@ public class ScheduleService: IScheduleService
     
     public async Task<TaskDetails> ScheduleTask(TaskDetails taskDetails)
     {
-
+        // Получаем MethodInfo для метода ScheduleFunction
+        
         // todo сделать кэш, который будет хранить айдишники уже созданных тасок, чтобы если брокер по 100-500 nagadit сообщениями, не делать запросики в бд
-        await taskDetails.AddOrUpdateAsync(ScheduleFunction, _scheduleTask)
-            .ConfigureAwait(false);
-
+        await taskDetails.AddOrUpdateAsync(_scheduleTask);
+        
         return taskDetails;
     }
     
@@ -31,10 +32,4 @@ public class ScheduleService: IScheduleService
         await Task.Run(() => RecurringJob.RemoveIfExists(taskId.ToString()))
             .ConfigureAwait(false);
     }
-    
-    private static async Task ScheduleFunction(TaskDetails taskDetails, IScheduleTask scheduleTask)
-    {
-        await scheduleTask.ScheduleTaskAsync(taskDetails);
-    }
-    
 }

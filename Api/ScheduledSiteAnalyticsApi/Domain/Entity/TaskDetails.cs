@@ -2,6 +2,7 @@
 using Domain.Interfaces;
 using ExampleCore.Dal.Base;
 using Hangfire;
+using Hangfire.Common;
 
 namespace Domain.Entity;
 
@@ -19,7 +20,7 @@ public record TaskDetails: BaseEntity<Guid>
     
     public required int SearchSystem { get; set; }
     
-    public async Task AddOrUpdateAsync(Func<TaskDetails, IScheduleTask, Task> methodCall, IScheduleTask scheduleTask)
+    public async Task AddOrUpdateAsync( IScheduleTask scheduleTask)
     {
         var random = new Random();
 
@@ -27,12 +28,14 @@ public record TaskDetails: BaseEntity<Guid>
         
         var executionTime  = ScheduleTime.AddSeconds(entropy);
 
-
-        var methodExpression = Expression.Lambda<Func<Task>>(() => methodCall(this,scheduleTask));
-
-        await Task.Run(() => RecurringJob.AddOrUpdate(Id.ToString(), 
-                methodExpression, $"{executionTime.Minute} {executionTime.Hour} ** {executionTime.Day}"))
-            .ConfigureAwait(false);
+        await Task.Run(() => RecurringJob.AddOrUpdate<TaskDetails>(
+            Id.ToString(), 
+            x => x.ScheduleFunction(this, scheduleTask), 
+            Cron.Daily, 
+            new RecurringJobOptions { TimeZone = TimeZoneInfo.Utc}));
     }
-    
+    public async Task ScheduleFunction(TaskDetails taskDetails, IScheduleTask scheduleTask)
+    {
+        await scheduleTask.ScheduleTaskAsync(taskDetails);
+    }
 }
