@@ -1,4 +1,5 @@
-﻿using Domain.Entity;
+﻿using System.Linq.Expressions;
+using Domain.Entity;
 using Domain.Interfaces;
 using Hangfire;
 using Services.Interfaces;
@@ -9,7 +10,6 @@ public class ScheduleService: IScheduleService
 {
 
     private readonly IScheduleTask _scheduleTask;
-    
     public ScheduleService(IScheduleTask scheduleTask)
     {
         _scheduleTask = scheduleTask;
@@ -19,7 +19,7 @@ public class ScheduleService: IScheduleService
     {
 
         // todo сделать кэш, который будет хранить айдишники уже созданных тасок, чтобы если брокер по 100-500 nagadit сообщениями, не делать запросики в бд
-        await taskDetails.AddOrUpdateAsync(ScheduleFunction)
+        await taskDetails.AddOrUpdateAsync(ScheduleFunction, _scheduleTask)
             .ConfigureAwait(false);
 
         return taskDetails;
@@ -32,9 +32,9 @@ public class ScheduleService: IScheduleService
             .ConfigureAwait(false);
     }
     
-    private async Task ScheduleFunction(TaskDetails taskDetails)
+    private static async Task ScheduleFunction(TaskDetails taskDetails, IScheduleTask scheduleTask)
     {
-        await _scheduleTask.ScheduleTaskAsync(taskDetails);
+        await scheduleTask.ScheduleTaskAsync(taskDetails);
     }
     
 }

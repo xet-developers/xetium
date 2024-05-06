@@ -1,4 +1,6 @@
-﻿using ExampleCore.Dal.Base;
+﻿using System.Linq.Expressions;
+using Domain.Interfaces;
+using ExampleCore.Dal.Base;
 using Hangfire;
 
 namespace Domain.Entity;
@@ -17,16 +19,19 @@ public record TaskDetails: BaseEntity<Guid>
     
     public required int SearchSystem { get; set; }
     
-    public async Task AddOrUpdateAsync(Func<TaskDetails, Task> methodCall)
+    public async Task AddOrUpdateAsync(Func<TaskDetails, IScheduleTask, Task> methodCall, IScheduleTask scheduleTask)
     {
         var random = new Random();
 
         var entropy = random.Next(10, 240);
         
         var executionTime  = ScheduleTime.AddSeconds(entropy);
-        
-        await Task.Run( () => RecurringJob.AddOrUpdate(Id.ToString(), 
-             () => methodCall(this),$"{executionTime.Minute} {executionTime.Hour} ** {executionTime.Day}"))
+
+
+        var methodExpression = Expression.Lambda<Func<Task>>(() => methodCall(this,scheduleTask));
+
+        await Task.Run(() => RecurringJob.AddOrUpdate(Id.ToString(), 
+                methodExpression, $"{executionTime.Minute} {executionTime.Hour} ** {executionTime.Day}"))
             .ConfigureAwait(false);
     }
     
