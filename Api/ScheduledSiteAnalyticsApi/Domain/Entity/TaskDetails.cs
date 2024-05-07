@@ -3,6 +3,7 @@ using Domain.Interfaces;
 using ExampleCore.Dal.Base;
 using Hangfire;
 using Hangfire.Common;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Domain.Entity;
 
@@ -20,7 +21,7 @@ public record TaskDetails: BaseEntity<Guid>
     
     public required int SearchSystem { get; set; }
     
-    public async Task AddOrUpdateAsync( IScheduleTask scheduleTask)
+    public async Task AddOrUpdateAsync(IServiceProvider serviceProvider)
     {
         var random = new Random();
 
@@ -28,11 +29,14 @@ public record TaskDetails: BaseEntity<Guid>
         
         var executionTime  = ScheduleTime.AddSeconds(entropy);
 
-        await Task.Run(() => RecurringJob.AddOrUpdate<TaskDetails>(
+
+        var service = serviceProvider.GetRequiredService<IScheduleTask>();
+
+        RecurringJob.AddOrUpdate<TaskDetails>(
             Id.ToString(), 
-            x => x.ScheduleFunction(this, scheduleTask), 
-            Cron.Daily, 
-            new RecurringJobOptions { TimeZone = TimeZoneInfo.Utc}));
+            x => x.ScheduleFunction(this, service), 
+            Cron.Minutely, 
+            new RecurringJobOptions { TimeZone = TimeZoneInfo.Utc});
     }
     public async Task ScheduleFunction(TaskDetails taskDetails, IScheduleTask scheduleTask)
     {

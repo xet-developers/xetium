@@ -10,8 +10,9 @@ public class PositionConnection: IScheduleTask
 {
     private IPositionConnectionService _positionConnection;
     private IStandartStore _standartStore;
-    public PositionConnection(IPositionConnectionService positionConnection)
+    public PositionConnection(IPositionConnectionService positionConnection, IStandartStore standartStore)
     {
+        _standartStore = standartStore;
         _positionConnection = positionConnection;
 
     }

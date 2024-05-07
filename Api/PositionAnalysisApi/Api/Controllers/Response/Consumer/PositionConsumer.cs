@@ -28,15 +28,16 @@ public class PositionConsumer: IConsumer<PositionAnalysisRequestDto>
             URI = message.Url
         });
 
-        await context.RespondAsync(new PositionsAnalysisResponseDto()
+        await context.RespondAsync(new PositionsAnalysisResponseDto
         {
-            Position = position.Select(r => new PositionAnalysis()
-            {
-                Date = r.Date,
-                Keyword = r.Keyword,
-                Position = r.Position,
-                SearchSystem = r.SearchSystem
-            }).ToList()
+            PositionAnalysisData = position.Select(r => new PositionAnalysis()
+                {
+                    Date = r.Date,
+                    Keyword = r.Keyword,
+                    Position = r.Position,
+                    SearchSystem = r.SearchSystem
+                })
+                .ToList(),
         });
     }
 }

@@ -9,25 +9,24 @@ namespace Services.Services;
 
 public class ScheduleService: IScheduleService
 {
-
-    private readonly IScheduleTask _scheduleTask;
-    public ScheduleService(IScheduleTask scheduleTask)
+    
+    private readonly IServiceProvider _serviceProvider;
+    public ScheduleService(IScheduleTask scheduleTask, IServiceProvider serviceProvider)
     {
-        _scheduleTask = scheduleTask;
+        _serviceProvider = serviceProvider;
     }
     
     public async Task<TaskDetails> ScheduleTask(TaskDetails taskDetails)
     {
         // todo сделать кэш, который будет хранить айдишники уже созданных тасок, чтобы если брокер по 100-500 nagadit сообщениями, не делать запросики в бд
-        await taskDetails.AddOrUpdateAsync(_scheduleTask);
+        await taskDetails.AddOrUpdateAsync(_serviceProvider);
         
         return taskDetails;
     }
     
-    public async Task DeleteTask(Guid taskId)
+    public Task DeleteTask(Guid taskId)
     {
-        
-        await Task.Run(() => RecurringJob.RemoveIfExists(taskId.ToString()))
-            .ConfigureAwait(false);
+        RecurringJob.RemoveIfExists(taskId.ToString());
+        return Task.CompletedTask;
     }
 }
