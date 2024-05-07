@@ -119,10 +119,6 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
         [dispatch, password, username, email],
     );
 
-    const onChange: CheckboxProps['onChange'] = (e) => {
-        console.log(`checked = ${e.target.checked}`);
-    };
-
     return (
         <DynamicModuleLoader reducers={reducers}>
             <ConfigProvider
@@ -154,13 +150,13 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
                                 </Flex>
 
                                 <Flex vertical={true} justify={'center'} gap={40}>
-                                    <Input onChange={(value: string) => onChangeUsername(value)}
+                                    <Input onChange={(e) => onChangeUsername(e.target.value)}
                                            placeholder={'Имя пользователя'} className={cls.input}/>
-                                    <Input onChange={(value: string) => onChangeEmail(value)}
+                                    <Input onChange={(e) => onChangeEmail(e.target.value)}
                                            placeholder={'Почта'} className={cls.input}/>
-                                    <Input onChange={(value: string) => onChangePassword(value)}
+                                    <Input onChange={(e) => onChangePassword(e.target.value)}
                                            placeholder={'Пароль'} className={cls.input}/>
-                                    <Input onChange={(value: string) => onChangeSecondPassword(value)}
+                                    <Input onChange={(e) => onChangeSecondPassword(e.target.value)}
                                            placeholder={'Повторите пароль'} className={cls.input}/>
                                 </Flex>
 
