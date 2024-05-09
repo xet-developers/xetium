@@ -141,7 +141,17 @@
   background-color: rgba(246, 100, 80, 0.27);
   border: 1px solid rgba(246, 100, 80, 0.68);
   font-family: "Montserrat", sans-serif;
-  width: 23em;
+  width: 35em;
+  height: 40px;
+  margin-bottom: -55px;
+}
+
+.alertNull {
+  margin: 1em;
+  background-color: rgba(174, 190, 255, 0.45);
+  border: 1px solid rgb(177, 194, 255);
+  font-family: "Montserrat", sans-serif;
+  width: 35em;
   height: 40px;
   margin-bottom: -55px;
 }

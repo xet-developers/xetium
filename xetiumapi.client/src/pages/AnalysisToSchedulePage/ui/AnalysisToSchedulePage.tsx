@@ -124,7 +124,9 @@ export const AnalysisToSchedulePage = () => {
                         </div>
                     </div>
 
-                    <Alert message={`Вы выбрали день проверки: ${selectedValue?.format('YYYY-MM-DD')}`} className={cls.alert}/>
+                    {getListData(value).length > 0? (
+                        <Alert message={`${selectedValue?.format('DD.MM.YYYY')} запланировано следующее количество проверок: ${getListData(value).length}`} className={cls.alert}/>
+                    ) : <Alert message={`${selectedValue?.format('DD.MM.YYYY')} проверки не запланированы`} className={cls.alertNull}/>}
 
                     <div className={cls.calendar}>
                         <Calendar cellRender={cellRender} value={value} onSelect={onSelect} onPanelChange={onPanelChange} />
