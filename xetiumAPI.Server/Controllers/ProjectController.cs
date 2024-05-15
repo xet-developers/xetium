@@ -23,7 +23,7 @@ public class ProjectController: Controller
     
     [Route("create")]
     [HttpPost]
-    public async Task<IActionResult> CreateProject([FromBody] ProjectModelCreate modelCreate)
+    public async Task<IActionResult> Calendar([FromBody] ProjectModelCreate modelCreate)
     {
         var userID = GetUserId();
         var result = await _projectService.CreateProjectAsync(modelCreate, userID);
