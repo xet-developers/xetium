@@ -1,0 +1,26 @@
+.modalDelete {
+  font-family: "Montserrat Alternates", sans-serif;
+  width: 400px;
+  height: 150px;
+  background-color: #DEDEDE;
+  border-radius: 15px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+}
+
+.blockData {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  padding: 1em;
+}
+

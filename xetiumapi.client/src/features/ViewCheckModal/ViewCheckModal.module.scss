@@ -1,0 +1,42 @@
+.modalView {
+  font-family: "Montserrat Alternates", sans-serif;
+  width: 369px;
+  height: 168px;
+  background-color: #C0CCF7;
+  border-radius: 15px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+}
+
+.blockData {
+  width: 355px;
+  height: 153px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1em;
+  padding: 1em;
+}
+
+.date {
+  font-size: 14px;
+  color: #454545;
+}
+
+.name {
+  font-size: 20px;
+  color: #454545;
+}
+
+.btnDelete {
+  font-size: 12px;
+  color: #454545;
+}
