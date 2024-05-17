@@ -1,5 +1,5 @@
 .modalDelete {
-  font-family: "Montserrat Alternates", sans-serif;
+  font-family: "Montserrat", sans-serif;
   width: 400px;
   height: 150px;
   background-color: #DEDEDE;
@@ -22,5 +22,47 @@
   align-items: center;
   gap: 1em;
   padding: 1em;
+  text-align: center;
 }
+
+.btns {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3em;
+  margin-top: 1em;
+  margin-bottom: -2em;
+}
+
+.date {
+  font-family: "Montserrat", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.btnDelete {
+  width: 144px;
+  height: 31px;
+  border-radius: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+}
+
+.btnCancel {
+  width: 144px;
+  height: 31px;
+  border-radius: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Montserrat", sans-serif;
+  background-color: #fff;
+  border: 1px solid #F66450;
+  color: #F66450;
+  font-weight: 500;
+}
+
 

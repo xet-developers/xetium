@@ -3,13 +3,9 @@ import {useState} from 'react';
 import React from 'react';
 import {ConfigProvider, Modal, Button} from 'antd';
 
-interface DeleteCheckModalProps {
-    open?: any
-}
+export const DeleteCheckModal = ({ open }: any): React.JSX.Element => {
 
-export const DeleteCheckModal = ({isModal}: DeleteCheckModalProps): React.JSX.Element => {
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(open || false);
 
     const handleOk = () => {
         setIsModalOpen(false);
@@ -37,7 +33,7 @@ export const DeleteCheckModal = ({isModal}: DeleteCheckModalProps): React.JSX.El
                     }
                 }}
             >
-                <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel} className={cls.modalView}>
+                <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel} className={cls.modalView} footer={[]}>
                     <div className={cls.blockData}>
                         <span className={cls.date}>
                             Вы уверены, что хотите удалить
@@ -46,13 +42,15 @@ export const DeleteCheckModal = ({isModal}: DeleteCheckModalProps): React.JSX.El
                             будут удалены.
                         </span>
 
-                        <Button type="primary" className={cls.btnDelete} onClick={deleteCheck}>
-                            УДАЛИТЬ
-                        </Button>
+                        <div className={cls.btns}>
+                            <Button type="primary" className={cls.btnDelete} size={'large'} onClick={deleteCheck}>
+                                УДАЛИТЬ
+                            </Button>
 
-                        <Button type="primary" className={cls.btnDelete} onClick={deleteCheck}>
-                            Отмена
-                        </Button>
+                            <Button type="primary" className={cls.btnCancel} size={'large'} onClick={handleCancel}>
+                                Отмена
+                            </Button>
+                        </div>
                     </div>
                 </Modal>
             </ConfigProvider>

@@ -1,5 +1,5 @@
 import React, { useMemo, useEffect } from 'react';
-import {BrowserRouter, Link, Route, Routes, useLocation } from 'react-router-dom';
+import {BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import {allRoutes} from '../../consts';
 import {sharedConfigRoutes} from '@/shared/config';
 import {useSelector} from "react-redux";
@@ -15,7 +15,6 @@ export const AppRouter = () => {
 
     const [headerName, setHeaderName] = React.useState('');
 
-    const location = useLocation();
 
     useEffect(() => {
         handlePathChange(location.pathname);
@@ -25,6 +24,9 @@ export const AppRouter = () => {
         switch (path) {
             case '/analysistoschedule':
                 setHeaderName('Расписание проверки позиций');
+                break;
+            case '/reports':
+                setHeaderName('Отчеты');
                 break;
             default:
                 setHeaderName('');

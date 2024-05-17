@@ -9,9 +9,8 @@ export const AnalysisToSchedulePage = () => {
     return (
         <div style={{display: 'flex', flexDirection: 'row'}}>
             <SideBar/>
-
             <div className={cls.page}>
-                <Header name="Расписание проверки позиций"/>
+                <Header/>
                 <CalendarWidget/>
             </div>
         </div>

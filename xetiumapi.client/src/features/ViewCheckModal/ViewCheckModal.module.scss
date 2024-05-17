@@ -1,7 +1,7 @@
 .modalView {
   font-family: "Montserrat Alternates", sans-serif;
   width: 369px;
-  height: 168px;
+  height: 230px;
   background-color: #C0CCF7;
   border-radius: 15px;
   position: fixed;
@@ -16,14 +16,16 @@
 }
 
 .blockData {
-  width: 355px;
-  height: 153px;
+  width: 450px;
+  height: 160px;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   gap: 1em;
-  padding: 1em;
+  margin-bottom: -2em;
+  border-radius: 10px;
+  padding-bottom: 1em;
 }
 
 .date {
@@ -34,9 +36,14 @@
 .name {
   font-size: 20px;
   color: #454545;
+  margin-bottom: 1em;
 }
 
 .btnDelete {
+  width: 120px;
   font-size: 12px;
   color: #454545;
+  display: flex;
+  align-items: center;
+  margin-left: -1em;
 }

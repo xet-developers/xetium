@@ -5,9 +5,9 @@ import { DeleteOutlined } from '@ant-design/icons';
 import { ConfigProvider, Modal, Button } from 'antd';
 import {DeleteCheckModal} from "@/features/DeleteCheckModal/DeleteCheckModal.tsx";
 
-export const ViewCheckModal = ({ date, time }):React.JSX.Element => {
+export const ViewCheckModal = ({ open, date, time }: any): React.JSX.Element => {
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(open || false);
     const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
 
     const handleOk = () => {
@@ -27,7 +27,7 @@ export const ViewCheckModal = ({ date, time }):React.JSX.Element => {
             <ConfigProvider
                 theme={{
                     token: {
-                        colorPrimary: '#F66450'
+                        colorPrimary: '#C0CCF7'
                     },
                     components: {
                         DatePicker: {
@@ -36,13 +36,20 @@ export const ViewCheckModal = ({ date, time }):React.JSX.Element => {
                     }
                 }}
             >
-                <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel} className={cls.modalView}>
+                <Modal
+                    open={isModalOpen}
+                    onOk={handleOk}
+                    onCancel={handleCancel}
+                    className={cls.modalView}
+                    footer={[
+
+                    ]}>
                     <div className={cls.blockData}>
                         <span className={cls.date}>
                             {date.format('DD.MM.YYYY')} в {time}
                         </span>
 
-                        <span className={cls.name}>
+                            <span className={cls.name}>
                             Проверка 1
                         </span>
 
@@ -51,6 +58,7 @@ export const ViewCheckModal = ({ date, time }):React.JSX.Element => {
                             Удалить
                         </Button>
                     </div>
+
                 </Modal>
             </ConfigProvider>
             <div>

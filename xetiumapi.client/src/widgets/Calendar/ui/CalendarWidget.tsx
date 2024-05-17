@@ -1,12 +1,13 @@
-import cls from "@/pages/AnalysisToSchedulePage/ui/CalendarWidget.module.scss";
+import cls from "./CalendarWidget.module.scss";
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import { Calendar, Badge, BadgeProps, CalendarProps, Alert } from "antd";
 import { useState } from 'react';
 import {CreateCheckModal} from "@/features/CreateCheckModal/CreateCheckModal.tsx";
+import {ViewCheckModal} from "@/features/ViewCheckModal/ViewCheckModal.tsx";
 
 export const CalendarWidget = () => {
-    const [, setMonth] = useState(new Date().getMonth());
+    // const [month, setMonth] = useState(new Date().getMonth());
     const [modalOpen, setModalOpen] = useState(false);
 
     const closeModal = () => {
@@ -17,23 +18,9 @@ export const CalendarWidget = () => {
         setModalOpen(true);
     };
 
-    const nextMonth = () => {
-        setMonth(prevMonth => (prevMonth + 1) % 12);
-    };
-
-    const prevMonth = () => {
-        setMonth(prevMonth => (prevMonth - 1 + 12) % 12);
-    };
-
-    const currentMonth = () => {
+    /*const currentMonth = () => {
         setMonth(new Date().getMonth());
-    };
-
-    const getMonthData = (value: Dayjs) => {
-        if (value.month() === 8) {
-            return 1394;
-        }
-    };
+    };*/
 
     const getListData = (value: Dayjs) => {
         let listData;
@@ -59,12 +46,30 @@ export const CalendarWidget = () => {
         return listData || [];
     };
 
+    const getTotalListDataCount = () => {
+        const daysInMonth = value.daysInMonth();
+        const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1); // Создаем массив чисел от 1 до количества дней в месяце
+
+        const totalListDataCount = daysArray.reduce((acc, day) => {
+            const currentDate = value.clone().date(day);
+            const listData = getListData(currentDate);
+            return acc + listData.length; // Суммируем длины listData
+        }, 0);
+
+        return totalListDataCount;
+    };
+
+    const getMonthData = (value: Dayjs) => {
+        if (value.month() === 4) {
+            return `В этом месяце ${getTotalListDataCount()} проверки`;
+        }
+    };
+
     const monthCellRender = (value: Dayjs) => {
-        const num = getMonthData(value);
-        return num ? (
+        const str = getMonthData(value);
+        return str ? (
             <div className={cls.notesMonth}>
-                <section>{num}</section>
-                <span>Backlog number</span>
+                <section>{str}</section>
             </div>
         ) : null;
     };
@@ -100,6 +105,12 @@ export const CalendarWidget = () => {
         setValue(newValue);
     };
 
+    const [isModalCheckOpen, setIsModalCheckOpen] = useState(false);
+
+    const showCheckModal = () => {
+        setIsModalCheckOpen(true);
+    };
+
     return (
         <div>
             <div className={cls.blockCalendar}>
@@ -109,11 +120,9 @@ export const CalendarWidget = () => {
                         <button onClick={openModal} className={cls.buttonPlan}>+ Запланировать</button>
                     </div>
 
-                    <div className={cls.blockSwitch}>
-                        <button onClick={prevMonth} className={cls.month}>{'<'}</button>
+                    {/*<div className={cls.blockSwitch}>
                         <button onClick={currentMonth} className={cls.currentMonth}>текущий месяц</button>
-                        <button onClick={nextMonth} className={cls.month}>{'>'}</button>
-                    </div>
+                    </div>*/}
                 </div>
 
                 {getListData(value).length > 0 ? (
@@ -130,6 +139,10 @@ export const CalendarWidget = () => {
 
             <div>
                 {modalOpen && <CreateCheckModal modalOpen={modalOpen} closeModal={closeModal}/>}
+            </div>
+
+            <div>
+                {<ViewCheckModal open={true} date={value} time={'20:00'}/>}
             </div>
         </div>
 
