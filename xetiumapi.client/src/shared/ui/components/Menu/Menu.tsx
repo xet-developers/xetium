@@ -19,8 +19,8 @@ type MenuItem = {
 };
 
 export const MenuItems: MenuItem[] = [
-    getItem('1','Личный кабинет', '/personalaccount', <UserOutlined style={{ color: '#ffffff' }}/>),
-    getItem('0','Имя пространства', '/', <ProductOutlined style={{ color: '#ffffff' }}/>,[
+    getItem('0','Личный кабинет', '/personalaccount', <UserOutlined style={{ color: '#ffffff' }}/>),
+    getItem('1','Имя пространства', '/', <ProductOutlined style={{ color: '#ffffff' }}/>,[
         getItem('2','Пространство 1', '/', <RightOutlined style={{ color: '#ffffff' }}/>),
         getItem('3','Добавить пространство', '/', <PlusCircleOutlined style={{ color: '#ffffff' }}/>),
     ]),

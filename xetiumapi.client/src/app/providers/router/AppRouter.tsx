@@ -56,6 +56,6 @@ export const AppRouter = () => {
                     {routes}
                     <Route path="*" element={<Link to={'registration'} > dsadasda</Link>}/>
                 </Routes>
-            </BrowserRouter>);
+            </BrowserRouter>
         </HeaderContext.Provider>)
 };

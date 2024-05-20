@@ -6,18 +6,32 @@ import { Layout, Menu, ConfigProvider } from "antd";
 import type { MenuProps } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { StyleProvider } from '@ant-design/cssinjs';
+import {CreateProject} from "@/features/CreateProject/ui/CreateProject.tsx";
 
 interface ISidebarProps {
 }
 
 export const Sidebar: FC<ISidebarProps> = () => {
     const [collapsed, setCollapsed] = useState(false);
+    const [isModalVisible, setIsModalVisible] = useState(false);
     const navigate = useNavigate();
 
+    const openModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const closeModal = () => {
+        setIsModalVisible(false);
+    };
+
     const onClick: MenuProps['onClick'] = ({key}: { key: string }) => {
-        const item = MenuItems.find(item => item.key === key);
-        if (item && item.link) {
-            navigate(item.link);
+        if (key === '3') {
+            openModal();
+        } else {
+            const item = MenuItems.find(item => item.key === key);
+            if (item && item.link) {
+                navigate(item.link);
+            }
         }
     };
 
@@ -51,6 +65,7 @@ export const Sidebar: FC<ISidebarProps> = () => {
                 </div>
                 <span className={cls.creators}>© ️XET Development, 2024</span>
             </Layout>
+            <CreateProject open={isModalVisible} setOpen={setIsModalVisible}></CreateProject>
         </StyleProvider>
     );
 };
