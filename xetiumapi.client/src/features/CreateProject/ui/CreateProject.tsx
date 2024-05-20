@@ -3,7 +3,7 @@ import React from 'react';
 import {useAppDispatch} from "@/shared/lib/hooks/useAppDispatch/useAppDispatch.ts";
 import {createProjectActions} from "@/features/CreateProject/model/slice/createProject.slice.ts";
 import cls from "@/features/CreateProject/ui/CreateProject.module.scss";
-import {Button, ConfigProvider, Modal, Input } from 'antd';
+import {Button, ConfigProvider, Modal, Input, message } from 'antd';
 import { useCreateProjectApi} from "@/features/Header/api/createProject.api.ts";
 
 export const CreateProject = ({ open, setOpen }: any): React.JSX.Element => {
@@ -12,30 +12,30 @@ export const CreateProject = ({ open, setOpen }: any): React.JSX.Element => {
 
     const [trigger, result] = useCreateProjectApi();
     const dispatch = useAppDispatch();
+    const [projectName, setProjectName] = useState('');
+    const [projectUrl, setProjectUrl] = useState('');
+    const [projectDesc, setProjectDesc] = useState('');
 
-    const onChangeProjectName = useCallback(
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            dispatch(createProjectActions.setProjectName(event.target.value));
-        },
-        [dispatch],
-    );
+    const onChangeProjectName = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        setProjectName(event.target.value);
+        dispatch(createProjectActions.setProjectName(event.target.value));
+    }, [dispatch]);
 
-    const onChangeProjectUrl = useCallback(
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            dispatch(createProjectActions.setProjectUrl(event.target.value));
-        },
-        [dispatch],
-    );
+    const onChangeProjectUrl = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        setProjectUrl(event.target.value);
+        dispatch(createProjectActions.setProjectUrl(event.target.value));
+    }, [dispatch]);
 
-    const onChangeProjectLabel = useCallback(
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            dispatch(createProjectActions.setProjectLabel(event.target.value));
-        },
-        [dispatch],
-    );
+    const onChangeProjectLabel = useCallback((event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setProjectDesc(event.target.value);
+        dispatch(createProjectActions.setProjectLabel(event.target.value));
+    }, [dispatch]);
 
     const handleOk = () => {
-        setOpen(false);
+        if (!projectName ||!projectUrl ||!projectDesc) {
+            message.info('Заполните все поля');
+        }
+        else { setOpen(false); }
     };
 
     const handleCancel = () => {
@@ -71,11 +71,11 @@ export const CreateProject = ({ open, setOpen }: any): React.JSX.Element => {
                     <div className={cls.data}>
                         <span className={cls.header}>Создание проекта</span>
 
-                        <Input onChange={onChangeProjectName} className={cls.inputName} placeholder={'Название'}/>
+                        <Input value={projectName} onChange={onChangeProjectName} className={cls.inputName} placeholder={'Название'}/>
 
-                        <Input onChange={onChangeProjectUrl} className={cls.inputLink} placeholder={'Ссылка на сайт: HTTPS://EXAMPLE.COM/*'}/>
+                        <Input value={projectUrl} onChange={onChangeProjectUrl} className={cls.inputLink} placeholder={'Ссылка на сайт: HTTPS://EXAMPLE.COM/*'}/>
 
-                        <TextArea rows={5} onChange={onChangeProjectLabel} className={cls.inputDesc} placeholder={'Описание'} autoSize={{
+                        <TextArea value={projectDesc} rows={5} onChange={onChangeProjectLabel} className={cls.inputDesc} placeholder={'Описание'} autoSize={{
                             minRows:3,
                             maxRows: 5
                         }}/>
