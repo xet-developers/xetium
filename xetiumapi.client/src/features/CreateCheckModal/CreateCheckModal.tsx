@@ -18,7 +18,7 @@ export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
     };
 
     const [selectedCheckbox, setSelectedCheckbox] = useState([]);
-    const handleCheckboxChange = (e) => {
+    const handleCheckboxChange = (e: { target: { checked: any; value: any; }; }) => {
         const { checked, value } = e.target;
         if (checked) {
             setSelectedCheckbox([...selectedCheckbox, value]);
@@ -28,14 +28,14 @@ export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
     };
 
     const [cluster, setCluster] = React.useState(null);
-    const handleChangeCluster = (value) => {
+    const handleChangeCluster = (value: string | React.SetStateAction<null>) => {
         setCluster(value);
     };
     useEffect(() => {
     }, [cluster]);
 
     const [repeat, setRepeat] = React.useState(null);
-    const handleChangeRepeat = (value) => {
+    const handleChangeRepeat = (value: React.SetStateAction<null>) => {
         setRepeat(value);
     };
     useEffect(() => {

@@ -7,7 +7,6 @@ import {CreateCheckModal} from "@/features/CreateCheckModal/CreateCheckModal.tsx
 import {ViewCheckModal} from "@/features/ViewCheckModal/ViewCheckModal.tsx";
 
 export const CalendarWidget = () => {
-    // const [month, setMonth] = useState(new Date().getMonth());
     const [modalOpen, setModalOpen] = useState(false);
 
     const closeModal = () => {
@@ -17,10 +16,6 @@ export const CalendarWidget = () => {
     const openModal = () => {
         setModalOpen(true);
     };
-
-    /*const currentMonth = () => {
-        setMonth(new Date().getMonth());
-    };*/
 
     const getListData = (value: Dayjs) => {
         let listData;
@@ -120,9 +115,6 @@ export const CalendarWidget = () => {
                         <button onClick={openModal} className={cls.buttonPlan}>+ Запланировать</button>
                     </div>
 
-                    {/*<div className={cls.blockSwitch}>
-                        <button onClick={currentMonth} className={cls.currentMonth}>текущий месяц</button>
-                    </div>*/}
                 </div>
 
                 {getListData(value).length > 0 ? (

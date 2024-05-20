@@ -20,10 +20,6 @@ export const Sidebar: FC<ISidebarProps> = () => {
         setIsModalVisible(true);
     };
 
-    const closeModal = () => {
-        setIsModalVisible(false);
-    };
-
     const onClick: MenuProps['onClick'] = ({key}: { key: string }) => {
         if (key === '3') {
             openModal();
@@ -37,23 +33,23 @@ export const Sidebar: FC<ISidebarProps> = () => {
 
     return (
         <StyleProvider>
-            <Layout className={cls.sidebar} collapsible collapsed={collapsed}
-                    onCollapse={(value) => setCollapsed(value)}>
+            <Layout className={cls.sidebar} collapsed={collapsed}
+                    onCollapse={(value: boolean | ((prevState: boolean) => boolean)) => setCollapsed(value)}>
                 <div>
                     <AppLogo className={cls.logotype}></AppLogo>
                     <ConfigProvider
                         theme={{
                             components: {
                                 Menu: {
-                                    iconSize: '24px',
+                                    iconSize: 24,
                                     subMenuItemBg: '#252525',
                                     itemSelectedBg: '#454545',
-                                    itemHeight: '45px',
+                                    itemHeight: 45,
                                     itemHoverColor: '#fff',
                                     itemSelectedColor: '#fff',
                                     itemHoverBg: '#424242',
                                     itemActiveBg: '#313131',
-                                    itemFontSize: '15px',
+                                    fontSize: 14,
                                     colorPrimary: '#fff',
                                     itemColor: '#fff'
                                 },
