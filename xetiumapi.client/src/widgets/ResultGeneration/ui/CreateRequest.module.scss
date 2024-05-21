@@ -1,0 +1,55 @@
+.container {
+  width: 755px;
+  height: 335px;
+  border-radius: 8px;
+  font-family: "Montserrat", sans-serif;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+  margin-top: 1em;
+  margin-left: 1em;
+}
+
+.header {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 1em;
+}
+
+.radio {
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  margin-left: 2.5em;
+}
+
+.keyWords {
+  margin-top: 1.5em;
+  margin-left: 1em;
+}
+
+.textUp {
+  font-size: 13px;
+  color: #F66450;
+  font-weight: 500;
+}
+
+.btn {
+  width: 206px;
+  height: 30px;
+  background-color: #F66450;
+  border-radius: 7px;
+  color: white;
+  margin-top: 1.5em;
+  margin-right: 1.5em;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  margin-left: 1em;
+  margin-top: 1.5em;
+}
