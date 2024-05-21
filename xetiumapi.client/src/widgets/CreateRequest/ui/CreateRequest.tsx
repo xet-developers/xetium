@@ -2,10 +2,11 @@ import cls from "./CreateRequest.module.scss";
 import { useState } from 'react';
 import type { RadioChangeEvent } from 'antd';
 import { Button, Input, Select, Radio, ConfigProvider } from "antd";
+import { FileSyncOutlined } from '@ant-design/icons';
+
+const { TextArea } = Input;
 
 export const CreateRequest = () => {
-
-    const { TextArea } = Input;
 
     const [valueRadio, setValueRadio] = useState();
 
@@ -21,7 +22,7 @@ export const CreateRequest = () => {
             theme={{
                 token: {
                     colorPrimary: '#F66450',
-                    colorText: '#FFF'
+                    colorText: '#252525'
                 },
                 components: {
                     DatePicker: {
@@ -37,17 +38,16 @@ export const CreateRequest = () => {
             <div className={cls.container}>
                 <span className={cls.header}>Создание запроса</span>
 
-                <div className={cls.radios}>
-                    <Radio.Group onChange={onChange} value={valueRadio}>
-                        <Radio value={1}>Выборочная генерация</Radio>
-                        <Radio value={2}>Полная генерация</Radio>
-                    </Radio.Group>
-                </div>
+                <Radio.Group onChange={onChange} value={valueRadio}>
+                    <Radio value={1} className={cls.radio}>Выборочная генерация</Radio>
+                    <Radio value={2} className={cls.radio}>Полная генерация</Radio>
+                </Radio.Group>
 
                 <div className={cls.keyWords}>
                     <span className={cls.textUp}>Ключевые слова</span>
                     <TextArea autoSize={{minRows: 4, maxRows: 4}}
-                              placeholder={'Введите ключевые слова, на которые необходимо опираться при генерации запросов'}></TextArea>
+                              placeholder={'Введите ключевые слова, на которые необходимо опираться при генерации запросов'} style={{marginTop: "8px", width: "720px"}}>
+                    </TextArea>
                 </div>
 
                 <div className={cls.footer}>
@@ -55,7 +55,7 @@ export const CreateRequest = () => {
                         <span className={cls.textUp}>Количество генерируемых слов</span>
                         <Select
                             defaultValue="10"
-                            style={{ width: 70 }}
+                            style={{ width: 70, fontFamily: "Montserrat" }}
                             options={[
                                 { value: '5', label: '5' },
                                 { value: '10', label: '10' },
@@ -69,7 +69,7 @@ export const CreateRequest = () => {
                         <span className={cls.textUp}>Интент пользователя</span>
                         <Select
                             defaultValue="10"
-                            style={{ width: 170 }}
+                            style={{ width: 200, fontFamily: "Montserrat" }}
                             options={[
                                 { value: '5', label: 'Навигационный' },
                                 { value: '10', label: 'Транзакционный' },
@@ -79,7 +79,7 @@ export const CreateRequest = () => {
                         />
                     </div>
 
-                    <Button className={cls.btn} onClick={handleGenerate}>СГЕНЕРИРОВАТЬ</Button>
+                    <Button className={cls.btn} onClick={handleGenerate}><FileSyncOutlined/>СГЕНЕРИРОВАТЬ</Button>
                 </div>
             </div>
         </ConfigProvider>
