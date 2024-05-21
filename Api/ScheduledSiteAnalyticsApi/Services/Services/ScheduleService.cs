@@ -10,13 +10,6 @@ namespace Services.Services;
 
 public class ScheduleService: IScheduleService
 {
-    
-    private readonly IServiceProvider _serviceProvider;
-    public ScheduleService(IServiceProvider serviceProvider)
-    {
-        _serviceProvider = serviceProvider;
-    }
-    
     public async Task<TaskDetails> ScheduleTask(TaskDetails taskDetails)
     {
         // todo сделать кэш, который будет хранить айдишники уже созданных тасок, чтобы если брокер по 100-500 nagadit сообщениями, не делать запросики в бд
