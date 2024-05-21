@@ -1,3 +1,6 @@
+using Api;
+using Api.Controllers.Response.Consumer;
+using MassTransit;
 using ProfileConnectionLib;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,8 +9,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.TryAddServices();
 builder.Services.TryAddInfrastructure();
-builder.Services.TryAddPositionLib(builder.Configuration);
 builder.Services.AddControllers();
+builder.Services.AddBroker();
 
 var app = builder.Build();
 

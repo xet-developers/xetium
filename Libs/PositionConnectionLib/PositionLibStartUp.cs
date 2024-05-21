@@ -14,7 +14,7 @@ public static class PositionLibStartUp
     public static IServiceCollection TryAddPositionLib(this IServiceCollection serviceCollection, 
         IConfigurationManager configurationManager)
     {
-        serviceCollection.TryAddScoped<IPositionConnectionService,PositioncConnectionService>();
+        serviceCollection.AddScoped<IPositionConnectionService,PositioncConnectionService>();
         serviceCollection.AddBrokerLogic();
         serviceCollection.AddMassTransit(x =>
         {

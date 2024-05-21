@@ -9,10 +9,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.TryAddServices();
 builder.Services.TryAddInfrastucture(builder.Configuration);
-GlobalConfiguration.Configuration.UseSerializerSettings(new JsonSerializerSettings
-{
-    TypeNameHandling = TypeNameHandling.Auto
-});
+
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -24,5 +22,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.MapControllers();
 app.UseHangfireDashboard();
+
 
 app.Run();

@@ -21,25 +21,20 @@ public record TaskDetails: BaseEntity<Guid>
     
     public required int SearchSystem { get; set; }
     
-    public async Task AddOrUpdateAsync(IServiceProvider serviceProvider)
+    public Task AddOrUpdateAsync()
     {
         var random = new Random();
 
         var entropy = random.Next(10, 240);
         
         var executionTime  = ScheduleTime.AddSeconds(entropy);
-
-
-        var service = serviceProvider.GetRequiredService<IScheduleTask>();
-
-        RecurringJob.AddOrUpdate<TaskDetails>(
-            Id.ToString(), 
-            x => x.ScheduleFunction(this, service), 
-            Cron.Minutely, 
+        
+        RecurringJob.AddOrUpdate<IScheduleTask>(
+            Id.ToString(),
+            x => x.ScheduleTaskAsync(this),
+            Cron.Minutely,
             new RecurringJobOptions { TimeZone = TimeZoneInfo.Utc});
-    }
-    public async Task ScheduleFunction(TaskDetails taskDetails, IScheduleTask scheduleTask)
-    {
-        await scheduleTask.ScheduleTaskAsync(taskDetails);
+        
+        return Task.CompletedTask;
     }
 }

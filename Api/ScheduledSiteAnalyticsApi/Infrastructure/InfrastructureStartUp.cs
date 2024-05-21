@@ -29,8 +29,9 @@ public static class InfrastuctureStartUp
         serviceCollection.AddHangfire(config =>
             config.UsePostgreSqlStorage(connectionString));
         serviceCollection.AddScoped<DbContext>(provider => provider.GetService<ApplicationDbContext>());
+
         serviceCollection.AddHangfireServer();
-        
+
         return serviceCollection;
     }
 }
