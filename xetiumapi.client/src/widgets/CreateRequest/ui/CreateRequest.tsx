@@ -46,7 +46,7 @@ export const CreateRequest = () => {
                 <div className={cls.keyWords}>
                     <span className={cls.textUp}>Ключевые слова</span>
                     <TextArea autoSize={{minRows: 4, maxRows: 4}}
-                              placeholder={'Введите ключевые слова, на которые необходимо опираться при генерации запросов'} style={{marginTop: "8px", width: "720px"}}>
+                              placeholder={'Введите ключевые слова, на которые необходимо опираться при генерации запросов'} style={{marginTop: "8px", width: "720px", fontFamily: "Montserrat" }}>
                     </TextArea>
                 </div>
 
