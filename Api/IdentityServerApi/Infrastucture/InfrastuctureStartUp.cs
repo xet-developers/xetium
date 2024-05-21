@@ -23,28 +23,7 @@ public static class ServiceStartUp
             })
             .AddEntityFrameworkStores<ApplicationDbContex>()
             .AddDefaultTokenProviders();
-        
-        serviceCollection.AddAuthentication(options =>
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-        }).AddJwtBearer(options =>
-        {
-            options.SaveToken = true;
-            options.RequireHttpsMetadata = false;
-            options.TokenValidationParameters = new TokenValidationParameters()
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidAudience = AuthOptions.AUDIENCE,
-                ValidIssuer = AuthOptions.ISSUER,
-                RequireExpirationTime = true,
-                IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey()
-            };
-        });
-        serviceCollection.AddAuthorization();
-
+        serviceCollection.AddAuth();
 
         var connectionString = configurationManager.GetConnectionString("DefaultConnection");
         

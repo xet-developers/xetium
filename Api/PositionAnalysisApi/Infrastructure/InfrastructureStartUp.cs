@@ -1,4 +1,5 @@
 ﻿using Domain.Interfaces;
+using ExampleCore.AuthOptions;
 using ExampleCore.HttpLogic;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,7 @@ public static class InfrastructureStartUp
     {
         serviceCollection.AddScoped<ISiteInfo, SiteInfo>();
         serviceCollection.AddHttpRequestService();
-        
+        serviceCollection.AddAuth();
         return serviceCollection;
     }
 }
