@@ -32,7 +32,7 @@ public record TaskDetails: BaseEntity<Guid>
         RecurringJob.AddOrUpdate<IScheduleTask>(
             Id.ToString(),
             x => x.ScheduleTaskAsync(this),
-            Cron.Minutely,
+            $"{executionTime.Minute} {executionTime.Hour} ** {executionTime.Day}",
             new RecurringJobOptions { TimeZone = TimeZoneInfo.Utc});
         
         return Task.CompletedTask;
