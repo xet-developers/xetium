@@ -14,5 +14,22 @@
 .header {
   font-size: 20px;
   font-weight: 500;
-  margin: 1em;
+  margin-top: 1em;
+  margin-left: 1em;
+  display: flex;
+  flex-direction: row;
+  gap: 1.5em;
+  align-items: center;
 }
+
+.btn {
+  border-radius: 10px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 12px;
+}
+
+.blockData {
+  margin-top: 1em;
+  margin-left: 0.5em;
+}
+
