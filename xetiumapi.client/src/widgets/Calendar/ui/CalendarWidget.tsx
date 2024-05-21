@@ -1,8 +1,8 @@
 import cls from "./CalendarWidget.module.scss";
-import type { Dayjs } from 'dayjs';
+import type {Dayjs} from 'dayjs';
 import dayjs from 'dayjs';
-import { Calendar, Badge, BadgeProps, CalendarProps, Alert } from "antd";
-import { useState } from 'react';
+import {Calendar, Badge, BadgeProps, CalendarProps, Alert} from "antd";
+import {useState} from 'react';
 import {CreateCheckModal} from "@/features/CreateCheckModal/CreateCheckModal.tsx";
 import {ViewCheckModal} from "@/features/ViewCheckModal/ViewCheckModal.tsx";
 
@@ -22,18 +22,18 @@ export const CalendarWidget = () => {
         switch (value.date()) {
             case 8:
                 listData = [
-                    { type: 'warning', content: 'Проверка 1' },
-                    { type: 'success', content: 'Проверка 2' },
+                    {type: 'warning', content: 'Проверка 1'},
+                    {type: 'success', content: 'Проверка 2'},
                 ];
                 break;
             case 10:
                 listData = [
-                    { type: 'warning', content: 'Проверка 2' },
+                    {type: 'warning', content: 'Проверка 2'},
                 ];
                 break;
             case 13:
                 listData = [
-                    { type: 'warning', content: 'Проверка 1' },
+                    {type: 'warning', content: 'Проверка 1'},
                 ];
                 break;
             default:
@@ -43,7 +43,7 @@ export const CalendarWidget = () => {
 
     const getTotalListDataCount = () => {
         const daysInMonth = value.daysInMonth();
-        const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1); // Создаем массив чисел от 1 до количества дней в месяце
+        const daysArray = Array.from({length: daysInMonth}, (_, i) => i + 1); // Создаем массив чисел от 1 до количества дней в месяце
 
         const totalListDataCount = daysArray.reduce((acc, day) => {
             const currentDate = value.clone().date(day);
@@ -75,7 +75,7 @@ export const CalendarWidget = () => {
             <ul className={cls.events}>
                 {listData.map((item) => (
                     <li key={item.content}>
-                        <Badge status={item.type as BadgeProps['status']} text={item.content} />
+                        <Badge status={item.type as BadgeProps['status']} text={item.content}/>
                     </li>
                 ))}
             </ul>

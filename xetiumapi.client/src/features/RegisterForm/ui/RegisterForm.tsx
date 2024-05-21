@@ -13,9 +13,9 @@ import {
 } from "../model/selectors/registerFormSelectors.ts";
 import {useRegisterFormApi} from "../api/registerForm.api.ts";
 import {USER_LOCALSTORAGE_KEY} from "@/shared/const/localstorage.ts";
-import {ConfigProvider, Button, Flex, Input, Typography, Checkbox, CheckboxProps } from "antd";
+import {ConfigProvider, Button, Flex, Input, Typography, Checkbox, CheckboxProps} from "antd";
 
-const { Title, Link } = Typography;
+const {Title, Link} = Typography;
 import cls from "@/features/RegisterForm/styles/RegisterForm.module.scss";
 
 const reducers: ReducersList = {
@@ -76,7 +76,7 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
             setSpamCheckboxChecked(!spamCheckboxChecked)
             dispatch(registerFormActions.setSpamCheckbox(spamCheckboxChecked));
         },
-        [dispatch],
+        [dispatch, spamCheckboxChecked],
     );
 
     const onAcceptPersonalDataCheckbox = useCallback(
@@ -84,7 +84,7 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
             setAcceptConfPoliticsChecked(!acceptPersonalDataChecked)
             dispatch(registerFormActions.setAcceptPersonalDataCheckbox(acceptPersonalDataChecked));
         },
-        [dispatch],
+        [dispatch, acceptPersonalDataChecked],
     );
 
     const onAcceptConfPoliticsCheckbox = useCallback(
@@ -92,7 +92,7 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
             setAcceptPersonalDataChecked(!acceptConfPoliticsChecked)
             dispatch(registerFormActions.setAcceptConfPoliticsCheckbox(acceptConfPoliticsChecked));
         },
-        [dispatch],
+        [dispatch, acceptConfPoliticsChecked],
     );
 
     const onRegisterClick = useCallback(
@@ -110,13 +110,13 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
                 }).unwrap();
 
                 if (result) {
-                    localStorage.setItem(USER_LOCALSTORAGE_KEY, result.token)
+                    //localStorage.setItem(USER_LOCALSTORAGE_KEY, result.token)
                 }
             } catch (e) {
                 console.log(e)
             }
         },
-        [dispatch, password, username, email],
+        [dispatch, password, username, email, acceptPersonalData, acceptConfPolitics, acceptSpam],
     );
 
     return (
@@ -139,11 +139,19 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
                     <Flex align={"center"} className={cls.formRight}>
                         <Flex gap={5} align={'space-between'}>
                             <Flex vertical={true} gap={5} align={'center'} className={cls.formLeft}>
-                                <Title level={2} style={{marginTop: '60px', fontSize: '40px', fontFamily: 'Montserrat'}}>Регистрация</Title>
+                                <Title level={2} style={{
+                                    marginTop: '60px',
+                                    fontSize: '40px',
+                                    fontFamily: 'Montserrat'
+                                }}>Регистрация</Title>
                                 <Flex justify={'center'} gap={5} style={{marginTop: '-20px', paddingBottom: '40px'}}>
-                                    <Title level={5} style={{color: '#5F5F5F', fontSize: '15px', fontFamily: 'Montserrat'}}>Уже есть аккаунт?</Title>
+                                    <Title level={5}
+                                           style={{color: '#5F5F5F', fontSize: '15px', fontFamily: 'Montserrat'}}>Уже
+                                        есть аккаунт?</Title>
                                     <Link href="/authorization">
-                                        <Title level={5} style={{color: '#F66450', fontSize: '15px', fontFamily: 'Montserrat'}} className={cls.hoverText}>
+                                        <Title level={5}
+                                               style={{color: '#F66450', fontSize: '15px', fontFamily: 'Montserrat'}}
+                                               className={cls.hoverText}>
                                             Войти
                                         </Title>
                                     </Link>
@@ -161,12 +169,24 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
                                 </Flex>
 
                                 {isLoading ? (
-                                    <Title level={5} style={{color: '#252525', marginTop: '60px', fontSize: '18px', fontWeight: '400', fontFamily: 'Montserrat'}}>
+                                    <Title level={5} style={{
+                                        color: '#252525',
+                                        marginTop: '60px',
+                                        fontSize: '18px',
+                                        fontWeight: '400',
+                                        fontFamily: 'Montserrat'
+                                    }}>
                                         Загрузка...
                                     </Title>
                                 ) : (
                                     <Button type="primary" onClick={onRegisterClick} className={cls.btn}>
-                                        <Title level={5} style={{color: '#fff', marginTop: '10px', fontSize: '18px', fontWeight: '400', fontFamily: 'Montserrat'}}>
+                                        <Title level={5} style={{
+                                            color: '#fff',
+                                            marginTop: '10px',
+                                            fontSize: '18px',
+                                            fontWeight: '400',
+                                            fontFamily: 'Montserrat'
+                                        }}>
                                             ЗАРЕГИСТРИРОВАТЬСЯ
                                         </Title>
                                     </Button>
@@ -174,39 +194,46 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
                             </Flex>
 
 
-                            <Flex vertical={true} align={'start'} style={{marginLeft: '10px', marginTop:'200px'}} gap={40}>
+                            <Flex vertical={true} align={'start'} style={{marginLeft: '10px', marginTop: '200px'}}
+                                  gap={40}>
                                 <Flex justify={'center'} gap={10}>
                                     <Checkbox
-                                        checked={acceptPersonalDataChecked}
+                                        checked={acceptPersonalData}
                                         onChange={() => {
-                                        onAcceptPersonalDataCheckbox()
-                                    }}></Checkbox>
-                                    <Title level={5} style={{color: '#252525', fontSize: '13px', fontWeight: '400',
-                                        fontFamily: 'Montserrat'}}>
+                                            onAcceptPersonalDataCheckbox()
+                                        }}></Checkbox>
+                                    <Title level={5} style={{
+                                        color: '#252525', fontSize: '13px', fontWeight: '400',
+                                        fontFamily: 'Montserrat'
+                                    }}>
                                         Даю свое согласие на обработку персональных данных
                                     </Title>
                                 </Flex>
 
                                 <Flex justify={'center'} gap={10}>
                                     <Checkbox
-                                        checked={acceptConfPoliticsChecked}
+                                        checked={acceptConfPolitics}
                                         onChange={() => {
                                             onAcceptConfPoliticsCheckbox()
                                         }}></Checkbox>
-                                    <Title level={5} style={{color: '#252525', fontSize: '13px', fontWeight: '400',
-                                        fontFamily: 'Montserrat'}}>
+                                    <Title level={5} style={{
+                                        color: '#252525', fontSize: '13px', fontWeight: '400',
+                                        fontFamily: 'Montserrat'
+                                    }}>
                                         Согласен с условиями пользования и политикой конфиденциальности
                                     </Title>
                                 </Flex>
 
                                 <Flex justify={'center'} align={'center'} gap={10}>
                                     <Checkbox
-                                        checked={spamCheckboxChecked}
+                                        checked={acceptSpam}
                                         onChange={() => {
                                             onChangeSpamCheckbox()
                                         }}></Checkbox>
-                                    <Title level={5} style={{color: '#252525', fontSize: '13px', fontWeight: '400',
-                                        fontFamily: 'Montserrat'}}>
+                                    <Title level={5} style={{
+                                        color: '#252525', fontSize: '13px', fontWeight: '400',
+                                        fontFamily: 'Montserrat'
+                                    }}>
                                         Даю свое согласие на получение информационной рассылки
                                     </Title>
                                 </Flex>

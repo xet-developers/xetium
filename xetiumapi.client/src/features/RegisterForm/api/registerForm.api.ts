@@ -23,6 +23,7 @@ export const RegisterFormApi = rtkApi.injectEndpoints({
                     url: '/account/register',
                     method: 'POST',
                     body: JSON.stringify(data),
+                    invalidatesTags: ['User']
                 })
             }
         )

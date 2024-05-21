@@ -1,19 +1,32 @@
-import React, { useContext } from 'react';
+import  {FC, memo, useMemo} from 'react';
 import cls from "./Header.module.scss";
-import {HeaderContext} from "@/app/consts/routes/HeaderContext.ts";
+import { useLocation } from 'react-router-dom';
 
 type HeaderProps = {
     name?: string;
 };
 
-export const Header: React.FC<HeaderProps> = () => {
-    const { headerName }: any = useContext(HeaderContext);
+export const Header: FC<HeaderProps> = memo(() => {
+    const location = useLocation()
+
+
+    const handlePathChange = useMemo(() => {
+
+        switch (window.location.pathname) {
+            case '/analysistoschedule':
+                return 'Расписание проверки позиций';
+            case '/reports':
+                return 'Отчеты'
+            default:
+                return'';
+        }
+    }, [location]);
 
     return (
         <div className={cls.headerSpace}>
-            <span className={cls.header}>{headerName}</span>
+            <span className={cls.header}>{handlePathChange}</span>
         </div>
     );
-};
+});
 
 
