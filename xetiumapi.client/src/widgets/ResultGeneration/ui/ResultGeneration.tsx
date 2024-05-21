@@ -132,7 +132,7 @@ export const ResultGeneration = () => {
                     {generation? (
                         <Skeleton active className={cls.skeleton}/>
                     ) : (
-                        <Table columns={columns} dataSource={data}/>
+                        <Table columns={columns} dataSource={data} className="blockData"/>
                     )}
                 </div>
             </div>
