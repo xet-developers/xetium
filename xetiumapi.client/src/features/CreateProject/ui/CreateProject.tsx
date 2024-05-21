@@ -88,7 +88,6 @@ export const CreateProject = ({ open, setOpen }: any): React.JSX.Element => {
                             ОТМЕНА
                         </Button>
                     </div>
-
                 </Modal>
             </ConfigProvider>
         </>

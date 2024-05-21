@@ -9,14 +9,13 @@ type HeaderProps = {
 export const Header: FC<HeaderProps> = memo(() => {
     const location = useLocation()
 
-
     const handlePathChange = useMemo(() => {
 
         switch (window.location.pathname) {
             case '/analysistoschedule':
                 return 'Расписание проверки позиций';
-            case '/reports':
-                return 'Отчеты'
+            case '/autoquerygeneration':
+                return 'Автогенерация запросов'
             default:
                 return'';
         }

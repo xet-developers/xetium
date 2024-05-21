@@ -1,0 +1,33 @@
+.container {
+  width: 755px;
+  height: 335px;
+  border-radius: 8px;
+  font-family: "Montserrat", sans-serif;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+.radios {
+  display: flex;
+  flex-direction: row;
+  gap: 3em;
+}
+
+.keyWords {
+  margin-top: 1em;
+}
+
+.keyWordsHeader {
+  font-size: 11px;
+  color: #F66450;
+}
+
+.btn {
+  width: 206px;
+  height: 30px;
+  background-color: #F66450;
+  border-radius: 5px;
+  color: white;
+}
