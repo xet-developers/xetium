@@ -15,7 +15,17 @@ export const Header: FC<HeaderProps> = memo(() => {
             case '/analysistoschedule':
                 return 'Расписание проверки позиций';
             case '/autoquerygeneration':
-                return 'Автогенерация запросов'
+                return 'Автогенерация запросов';
+            case '/queryclustering':
+                return 'Кластеризация запросов';
+            case '/checksitepositions':
+                return 'Проверка позиций сайта';
+            case '/reports':
+                return 'Отчеты';
+            case '/personalaccount':
+                return 'Личный кабинет';
+            case '/myproject':
+                return 'Мой проект';
             default:
                 return'';
         }

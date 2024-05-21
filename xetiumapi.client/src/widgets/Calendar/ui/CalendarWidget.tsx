@@ -8,6 +8,8 @@ import {ViewCheckModal} from "@/features/ViewCheckModal/ViewCheckModal.tsx";
 
 export const CalendarWidget = () => {
     const [modalOpen, setModalOpen] = useState(false);
+    const [viewCheckModalOpen, setViewCheckModalOpen] = useState(false);
+    const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
 
     const closeModal = () => {
         setModalOpen(false);
@@ -91,9 +93,19 @@ export const CalendarWidget = () => {
     const [value, setValue] = useState(() => dayjs('2024-05-21'));
     const [selectedValue, setSelectedValue] = useState(() => dayjs('2024-05-21'));
 
+    const showViewCheckModal = (date: Dayjs) => {
+        setSelectedDate(date);
+        setViewCheckModalOpen(true);
+    };
+
+    const closeViewCheckModal = () => {
+        setViewCheckModalOpen(false);
+    };
+
     const onSelect = (newValue: Dayjs) => {
         setValue(newValue);
         setSelectedValue(newValue);
+        showViewCheckModal(newValue);
     };
 
     const onPanelChange = (newValue: Dayjs) => {
@@ -134,7 +146,7 @@ export const CalendarWidget = () => {
             </div>
 
             <div>
-                {<ViewCheckModal open={true} date={value} time={'20:00'}/>}
+                {viewCheckModalOpen && <ViewCheckModal open={viewCheckModalOpen} date={value} time={'20:00'}/>}
             </div>
         </div>
 
