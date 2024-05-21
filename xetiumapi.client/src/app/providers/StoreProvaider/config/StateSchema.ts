@@ -8,6 +8,7 @@ import { type rtkApi } from '@/shared/api/rtkApi';
 import type {IRegisterFormSchema} from '@/features/RegisterForm'
 import {IAuthorizationFormSliceSchema} from "@/features/AuthorizationForm/model/types/IAuthorizationFormSliceSchema.ts";
 import {IUserSliceSchema} from "@/entity/User";
+import {ICreateProjectSliceSchema} from "@/features/CreateProject";
 
 export interface StateSchema {
     [rtkApi.reducerPath]: ReturnType<typeof rtkApi.reducer>;
@@ -15,6 +16,7 @@ export interface StateSchema {
     //async
     registerForm?: IRegisterFormSchema;
     authorizationForm?: IAuthorizationFormSliceSchema;
+    createProject?: ICreateProjectSliceSchema
 }
 
 export type StateSchemaKeys = keyof StateSchema;

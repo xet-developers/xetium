@@ -10,42 +10,47 @@ import { AnalysisToSchedulePage } from '@/pages/AnalysisToSchedulePage';
 
 const {RegisterRouteName} = sharedConfigRoutes;
 const {
-    QUERY_CLUSTERING_PAGE, 
-    CHECK_SITE_POSITIONS_PAGE, 
-    REPORTS_PAGE, 
-    PERSONAL_ACCOUNT_PAGE, 
-    MY_PROJECT_PAGE, 
-    AUTO_QUERY_GENERATION_PAGE, 
-    ANALYSIS_TO_SCHEDULE_PAGE} = RegisterRouteName
+    QUERY_CLUSTERING_PAGE,
+    CHECK_SITE_POSITIONS_PAGE,
+    REPORTS_PAGE,
+    PERSONAL_ACCOUNT_PAGE,
+    MY_PROJECT_PAGE,
+    AUTO_QUERY_GENERATION_PAGE,
+    ANALYSIS_TO_SCHEDULE_PAGE,
+    EMPTY} = RegisterRouteName
 
 
 export const RegisteredRoutes: sharedConfigRoutes.IRouteDescription[] = [
     {
-        path: QUERY_CLUSTERING_PAGE, 
+        path: QUERY_CLUSTERING_PAGE,
         component: QueryClusteringPage
     },
     {
-        path: CHECK_SITE_POSITIONS_PAGE, 
+        path: CHECK_SITE_POSITIONS_PAGE,
         component: CheckSitePositionsPage
     },
     {
-        path: REPORTS_PAGE, 
+        path: REPORTS_PAGE,
         component: ReportsPage
     },
     {
-        path: PERSONAL_ACCOUNT_PAGE, 
+        path: PERSONAL_ACCOUNT_PAGE,
         component: PersonalAccountPage
     },
     {
-        path: MY_PROJECT_PAGE, 
+        path: MY_PROJECT_PAGE,
         component: MyProjectPage
     },
     {
-        path: AUTO_QUERY_GENERATION_PAGE, 
+        path: AUTO_QUERY_GENERATION_PAGE,
         component: AutoQueryGenerationPage
     },
     {
-        path: ANALYSIS_TO_SCHEDULE_PAGE, 
+        path: ANALYSIS_TO_SCHEDULE_PAGE,
         component: AnalysisToSchedulePage
     },
+    {
+        path: EMPTY,
+        component: MyProjectPage
+    }
 ];

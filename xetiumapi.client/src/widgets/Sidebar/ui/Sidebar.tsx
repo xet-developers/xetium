@@ -6,7 +6,7 @@ import { Layout, Menu, ConfigProvider } from "antd";
 import type { MenuProps } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { StyleProvider } from '@ant-design/cssinjs';
-import {CreateProject} from "@/features/CreateProject/ui/CreateProject.tsx";
+import {CreateProject} from "@/features/CreateProject";
 
 interface ISidebarProps {
 }
