@@ -1,33 +1,48 @@
-import { useCallback, useState } from 'react';
+import {FC, useCallback, useState} from 'react';
 import React from 'react';
 import {useAppDispatch} from "@/shared/lib/hooks/useAppDispatch/useAppDispatch.ts";
-import {createProjectActions} from "@/features/CreateProject/model/slice/createProject.slice.ts";
+import {createProjectActions, createProjectReducer} from "../model/slice/createProject.slice.ts";
 import cls from "@/features/CreateProject/ui/CreateProject.module.scss";
 import {Button, ConfigProvider, Modal, Input, message } from 'antd';
 import { useCreateProjectApi} from "@/features/Header/api/createProject.api.ts";
+import {useSelector} from "react-redux";
+import {DynamicModuleLoader, ReducersList} from "@/shared/lib/components/DynamicModuleLoader.tsx";
+import {
+    getProjectLabel,
+    getProjectName,
+    getProjectUrl
+} from "@/features/CreateProject/model/selectors/createProject.selectors.ts";
 
-export const CreateProject = ({ open, setOpen }: any): React.JSX.Element => {
-    //const props: ICreateProjectProps = {}
+const reducers: ReducersList = {
+    createProject: createProjectReducer,
+};
+
+export interface ICreateProjectProps {
+    open: boolean,
+    setOpen: (value: boolean) => void
+}
+
+export const CreateProject: FC<ICreateProjectProps> = (props): React.JSX.Element => {
+    const {open, setOpen}: ICreateProjectProps = props
     const { TextArea } = Input;
 
-    const [trigger, result] = useCreateProjectApi();
+    //const [trigger, result] = useCreateProjectApi();
     const dispatch = useAppDispatch();
-    const [projectName, setProjectName] = useState('');
-    const [projectUrl, setProjectUrl] = useState('');
-    const [projectDesc, setProjectDesc] = useState('');
+
+    const projectName = useSelector(getProjectName)
+    const projectUrl = useSelector(getProjectUrl)
+    const projectDesc = useSelector(getProjectLabel)
+
 
     const onChangeProjectName = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        setProjectName(event.target.value);
         dispatch(createProjectActions.setProjectName(event.target.value));
     }, [dispatch]);
 
     const onChangeProjectUrl = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        setProjectUrl(event.target.value);
         dispatch(createProjectActions.setProjectUrl(event.target.value));
     }, [dispatch]);
 
     const onChangeProjectLabel = useCallback((event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setProjectDesc(event.target.value);
         dispatch(createProjectActions.setProjectLabel(event.target.value));
     }, [dispatch]);
 
@@ -43,7 +58,7 @@ export const CreateProject = ({ open, setOpen }: any): React.JSX.Element => {
     };
 
     return (
-        <>
+        <DynamicModuleLoader reducers={reducers}>
             <ConfigProvider
                 theme={{
                     token: {
@@ -90,7 +105,7 @@ export const CreateProject = ({ open, setOpen }: any): React.JSX.Element => {
                     </div>
                 </Modal>
             </ConfigProvider>
-        </>
+        </DynamicModuleLoader>
     );
 };
 

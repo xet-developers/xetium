@@ -13,10 +13,11 @@ import {
 } from "../model/selectors/registerFormSelectors.ts";
 import {useRegisterFormApi} from "../api/registerForm.api.ts";
 import {USER_LOCALSTORAGE_KEY} from "@/shared/const/localstorage.ts";
-import {ConfigProvider, Button, Flex, Input, Typography, Checkbox, CheckboxProps} from "antd";
+import {ConfigProvider, Button, Flex, Input, Typography, Checkbox} from "antd";
 
 const {Title, Link} = Typography;
 import cls from "@/features/RegisterForm/styles/RegisterForm.module.scss";
+import {initAuthData} from "@/entity/User/model/servises/initAuthData.ts";
 
 const reducers: ReducersList = {
     registerForm: registerFormReducer,
@@ -110,7 +111,8 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
                 }).unwrap();
 
                 if (result) {
-                    //localStorage.setItem(USER_LOCALSTORAGE_KEY, result.token)
+                    localStorage.setItem(USER_LOCALSTORAGE_KEY, result.token)
+                    dispatch(initAuthData())
                 }
             } catch (e) {
                 console.log(e)

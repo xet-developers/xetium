@@ -14,6 +14,4 @@ export const UserApi = rtkApi.injectEndpoints({
     })
 })
 
-//прописать нужный хук
-export const dasdsadas = UserApi.useGetUserDataQuery
 export const getUserDataQuery = UserApi.endpoints.getUserData.initiate;

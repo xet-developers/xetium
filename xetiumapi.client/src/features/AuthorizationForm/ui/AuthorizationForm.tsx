@@ -12,6 +12,7 @@ import {USER_LOCALSTORAGE_KEY} from "@/shared/const/localstorage.ts";
 import cls from "../styles/AuthorizationForm.module.scss";
 
 import {ConfigProvider, Button, Flex, Input, Typography } from "antd";
+import {initAuthData} from "@/entity/User/model/servises/initAuthData.ts";
 const { Title, Link } = Typography;
 
 interface IAuthorizationFormProps {
@@ -55,6 +56,7 @@ export const AuthorizationForm: FC<IAuthorizationFormProps> = () => {
 
             if (result) {
                 localStorage.setItem(USER_LOCALSTORAGE_KEY, result)
+                dispatch(initAuthData())
             }
         },
         [dispatch, password, username],

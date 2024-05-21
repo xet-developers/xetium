@@ -5,7 +5,7 @@ import {LandingPage} from '@/pages/LandingPage'
 import {AuthorizationPage} from '@/pages/AuthorizationPage'
 
 const {UnregisterRouteName} = sharedConfigRoutes;
-const {REGISTER_PAGE, LANDING_PAGE, AUTH_PAGE} = UnregisterRouteName
+const {REGISTER_PAGE, LANDING_PAGE, EMPTY, AUTH_PAGE} = UnregisterRouteName
 
 
 export const UnregisteredRoutes: sharedConfigRoutes.IRouteDescription[] = [
@@ -19,6 +19,10 @@ export const UnregisteredRoutes: sharedConfigRoutes.IRouteDescription[] = [
     },
     {
         path: AUTH_PAGE,
+        component: AuthorizationPage
+    },
+    {
+        path: EMPTY,
         component: AuthorizationPage
     }
 ];
