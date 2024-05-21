@@ -1,12 +1,19 @@
 import cls from "./ResultGeneration.module.scss";
-import  { useState } from 'react';
-import { Button, ConfigProvider, Table, TableProps  } from "antd";
+import  { useState, useEffect } from 'react';
+import { Button, ConfigProvider, Table, TableProps, Skeleton } from "antd";
 import { DownloadOutlined } from '@ant-design/icons';
 
 
 export const ResultGeneration = () => {
 
     const [loadings, setLoadings] = useState<boolean[]>([]);
+    const [generation, setGeneration] = useState(true);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setGeneration(false);
+        }, 3000);
+    }, []);
 
     const enterLoading = (index: number) => {
         setLoadings((prevLoadings) => {
@@ -121,7 +128,13 @@ export const ResultGeneration = () => {
                     </Button>
                 </div>
 
-                <Table className={cls.blockData} columns={columns} dataSource={data} />
+                <div className="blockData">
+                    {generation? (
+                        <Skeleton active className={cls.skeleton}/>
+                    ) : (
+                        <Table columns={columns} dataSource={data}/>
+                    )}
+                </div>
             </div>
         </ConfigProvider>
     );
