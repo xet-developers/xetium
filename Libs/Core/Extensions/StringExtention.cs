@@ -1,9 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 
-namespace ExampleCore.Extensions;
-
-
-
+namespace Core.Extensions;
 public static class StringExtention
 {
     public static JwtSecurityToken ParseJWT(this string jwt)

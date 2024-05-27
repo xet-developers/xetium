@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace xetiumAPI.ServerApp.Attributes;
+namespace Core.Attributes;
 
 public class ValidEnumValueAttribute : ValidationAttribute
 {
