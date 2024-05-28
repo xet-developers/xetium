@@ -1,7 +1,7 @@
 using Api;
 using Api.Controllers.Response.Consumer;
 using MassTransit;
-using ProfileConnectionLib;
+
 
 var builder = WebApplication.CreateBuilder(args);
 

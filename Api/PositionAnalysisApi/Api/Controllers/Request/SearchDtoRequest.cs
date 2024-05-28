@@ -1,6 +1,6 @@
 ﻿using Domain.Entity;
 using System.ComponentModel.DataAnnotations;
-using xetiumAPI.ServerApp.Attributes;
+using Core.Attributes;
 
 namespace Api.Controllers.Request
 {

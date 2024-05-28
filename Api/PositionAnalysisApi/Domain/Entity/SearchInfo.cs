@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using xetiumAPI.ServerApp.Attributes;
 
 namespace Domain.Entity
 {

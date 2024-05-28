@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Libs\PositionConnectionLib\PositionConnectionLib.csproj" />
+    <ProjectReference Include="..\..\..\Libs\ProjectConnectionService\ProjectConnectionService.csproj" />
     <ProjectReference Include="..\Service\Service.csproj" />
   </ItemGroup>
 

@@ -8,9 +8,9 @@ namespace Infrastructure.Connection;
 
 public class PositionConnection: IScheduleTask
 {
-    private IPositionConnectionService _positionConnection;
-    private IStandartStore _standartStore;
-    public PositionConnection(IPositionConnectionService positionConnection, IStandartStore standartStore)
+    private readonly IProjectConnectionService _positionConnection;
+    private  readonly IStandartStore _standartStore;
+    public PositionConnection(IProjectConnectionService positionConnection, IStandartStore standartStore)
     {
         _standartStore = standartStore;
         _positionConnection = positionConnection;
@@ -38,6 +38,7 @@ public class PositionConnection: IScheduleTask
         {
             var pos = new SitePosition()
            {
+                ProjectId = taskDetails.ProjectID,
                 Date = positionAnalysis.Date,
                 Keyword = positionAnalysis.Keyword,
                 Position = positionAnalysis.Position,

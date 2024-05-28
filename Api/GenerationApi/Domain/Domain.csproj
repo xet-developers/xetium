@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Libs\Core\Core.csproj" />
+    <ProjectReference Include="..\..\..\Libs\ProjectConnectionService\ProjectConnectionService.csproj" />
   </ItemGroup>
 
 </Project>

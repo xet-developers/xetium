@@ -11,11 +11,11 @@ using ProfileConnectionLib.ConnectionServices.Interfaces;
 
 namespace ProfileConnectionLib.ConnectionServices;
 
-public class PositioncConnectionService : IPositionConnectionService
+public class ProjectConnectionService : IProjectConnectionService
 {
     private readonly IRequestService _clientFactory;
     
-    public PositioncConnectionService(IConfiguration configuration, IServiceProvider serviceProvider)
+    public ProjectConnectionService(IConfiguration configuration, IServiceProvider serviceProvider)
     { 
         var connectionType = configuration.GetSection("ConnectionSettings")["Type"];
         _clientFactory = serviceProvider.GetKeyedService<IRequestService>(connectionType) ?? throw new InvalidOperationException();
@@ -38,5 +38,19 @@ public class PositioncConnectionService : IPositionConnectionService
         }
         
         return client.Body;
+    }
+
+    public async Task<UserSearchesResponseDto> GetReportInfoOrDefault(UserSearchesRequestDto request)
+    {
+        var requestData = new RequestData()
+        {
+            ContentType = ContentType.ApplicationJson,
+            Body = request
+        };
+
+        var client =
+            await _clientFactory.SendRequestAsync<UserSearchesResponseDto, UserSearchesRequestDto>(requestData);
+        
+        return (client.StatusCode >= (HttpStatusCode)400 ? null : client.Body)!;
     }
 }

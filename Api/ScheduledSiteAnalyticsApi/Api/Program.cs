@@ -1,3 +1,4 @@
+using Api;
 using Hangfire;
 using Newtonsoft.Json;
 using Services;
@@ -9,7 +10,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.TryAddServices();
 builder.Services.TryAddInfrastucture(builder.Configuration);
-
+builder.Services.AddBroker();
 
 var app = builder.Build();
 

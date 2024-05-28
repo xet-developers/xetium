@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Interfaces;
 using OfficeOpenXml;
+using ProfileConnectionLib.ConnectionServices.DtoModels.Request;
 using Service.Interfaces;
 using ProfileConnectionLib.ConnectionServices.DtoModels.Response;
 
@@ -13,12 +15,24 @@ namespace Service.Services
 {
     public class PositionReportService : IPositionReportService
     {
-       
-        PositionsAnalysisResponseDto _analysisResponseDto;//временное решение, надо придумать, как лучше будет.
 
+        private readonly IReportConnection _reportConnection;
+        public PositionReportService(IReportConnection reportConnection)
+        {
+            _reportConnection = reportConnection;
+        }
         public async Task<FileStream> GetPositionReportAsync(ReportInfo reportInfo, Guid UserId)
         {
-            var project = new List<PositionsAnalysisResponseDto>() { _analysisResponseDto};
+            var info = await _reportConnection.GetReportInfo(new UserSearchesRequestDto()
+            {
+                FirstDate = reportInfo.FirstDate,
+                LastDate = reportInfo.LastDate,
+                ProjectId = reportInfo.Id,
+                UserId = UserId
+            });
+            
+            // todo list iz odnogo element ispravvvvvvvvvvvvvvvvvv  ^u^
+            var project = new List<UserSearchesResponseDto>() { info };
             var fileName = new Uuid7().ToString();
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
@@ -30,11 +44,11 @@ namespace Service.Services
                 };
             }
 
-            var fs = File.Open($"{Directory.GetCurrentDirectory()}{fileName}.xlsx", FileMode.Open);
+            var fs =  File.Open($"{Directory.GetCurrentDirectory()}{fileName}.xlsx", FileMode.Open);
             return await Task.FromResult(fs);
         }
 
-        private static async Task<bool> FillSheetAsync(List<PositionsAnalysisResponseDto> project, string fileName,
+        private static async Task<bool> FillSheetAsync(List<UserSearchesResponseDto> project, string fileName,
             ExcelPackage package, ReportInfo reportInfo)
         {
             ExcelWorksheet sheet = package.Workbook.Worksheets.Add("report");
