@@ -55,17 +55,17 @@ export default ({mode}) => {
         server: {
             proxy: {
                 '/account/register': {
-                    target: 'https://localhost:7233',
+                    target: 'https://localhost:5000',
                     changeOrigin: true,
                     secure: false
                 },
                 '/account/login': {
-                    target: 'https://localhost:7233',
+                    target: 'https://localhost:5000',
                     changeOrigin: true,
                     secure: false
                 },
                 '/account/info': {
-                    target: 'https://localhost:7233',
+                    target: 'https://localhost:5000',
                     changeOrigin: true,
                     secure: false
                 }

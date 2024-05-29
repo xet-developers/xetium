@@ -10,16 +10,16 @@ public class PositionConsumer: IConsumer<PositionAnalysisRequestDto>
 {
 
     private readonly ISitePositionService _sitePositionService;
-    
+
     public PositionConsumer(ISitePositionService sitePositionService)
     {
         _sitePositionService = sitePositionService;
     }
-    
+
     public async Task Consume(ConsumeContext<PositionAnalysisRequestDto> context)
     {
         var message = context.Message;
-        
+
         var position = await _sitePositionService.GetPositionAsync(new SearchInfo()
         {
             Keywords = message.Keywords,
@@ -35,7 +35,8 @@ public class PositionConsumer: IConsumer<PositionAnalysisRequestDto>
                     Date = r.Date,
                     Keyword = r.Keyword,
                     Position = r.Position,
-                    SearchSystem = r.SearchSystem
+                    SearchSystem = r.SearchSystem,
+                    IsCompleted = true
                 })
                 .ToList(),
         });
