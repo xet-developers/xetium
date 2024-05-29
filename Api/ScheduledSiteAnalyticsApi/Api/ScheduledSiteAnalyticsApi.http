@@ -1,0 +1,6 @@
+@ScheduledSiteAnalyticsApi_HostAddress = http://localhost:5108
+
+GET {{ScheduledSiteAnalyticsApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

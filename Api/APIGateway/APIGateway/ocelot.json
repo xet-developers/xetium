@@ -1,0 +1,74 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:5000/"
+  },
+
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/account/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7254
+        }
+      ],
+      "UpstreamPathTemplate": "/account/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "AuthenticationOptions": {
+        "JwtBearer": {
+          "Issuer": "XetApi",
+          "Audience": "XetUser"
+        }
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/analytics/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7133
+        }
+      ],
+      "UpstreamPathTemplate": "/analytics/{everything}",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/project/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7110
+        }
+      ],
+      "UpstreamPathTemplate": "/project/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/scheduletask/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7252
+        }
+      ],
+      "UpstreamPathTemplate": "/scheduletask/{everything}",
+      "UpstreamHttpMethod": [ "POST", "DELETE", "PATCH", "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/generation/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7088
+        }
+      ],
+      "UpstreamPathTemplate": "/generation/{everything}",
+      "UpstreamHttpMethod": [ "POST" ]
+    }
+  ]
+}
