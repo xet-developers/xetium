@@ -7,8 +7,8 @@ namespace Services.Services;
 public class ProjectService: IProjectService
 {
     private IProjectStore _projectStore;
-    private IStandartStore<Project> _standartStore;
-    public ProjectService(IProjectStore projectStore, IStandartStore<Project> standartStore)
+    private IStandartStore _standartStore;
+    public ProjectService(IProjectStore projectStore, IStandartStore standartStore)
     {
         _projectStore = projectStore;
         _standartStore = standartStore;
@@ -29,7 +29,7 @@ public class ProjectService: IProjectService
 
     public  async Task DeleteAsync(Guid userId, Guid projectId)
     {
-        var project = await _standartStore.GetByIdAsync(projectId);
+        var project = await _standartStore.GetByIdAsync<Project>(projectId);
         
         if (project is null ||
             project.UserId != userId)
