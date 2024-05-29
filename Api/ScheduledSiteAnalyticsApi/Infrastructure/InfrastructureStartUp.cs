@@ -4,6 +4,7 @@ using Hangfire;
 using Hangfire.PostgreSql;
 using Infrastructure;
 using Infrastructure.Connection;
+using Infrastructure.Data;
 using Infrastucture.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +19,7 @@ public static class InfrastuctureStartUp
         serviceCollection.TryAddScoped<IScheduleTask, PositionConnection>();
         serviceCollection.TryAddPositionLib(configurationManager);
         serviceCollection.AddHttpRequestService();
-        
+        serviceCollection.TryAddScoped<ITasksInfoRepository, TaskInfoRepository>();
         
         var connectionString = configurationManager.GetConnectionString("DefaultConnection");
         serviceCollection.AddDbContext<ApplicationDbContext>(options =>

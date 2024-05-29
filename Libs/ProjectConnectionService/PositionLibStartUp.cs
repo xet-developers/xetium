@@ -15,19 +15,6 @@ public static class PositionLibStartUp
         IConfigurationManager configurationManager)
     {
         serviceCollection.AddScoped<IProjectConnectionService,ProjectConnectionService>();
-        serviceCollection.AddBrokerLogic();
-        serviceCollection.AddMassTransit(x =>
-        {
-            x.UsingRabbitMq((context, cfg) =>
-            {
-                cfg.Host("localhost", "/", h =>
-                {
-                    h.Username("guest");
-                    h.Password("guest");
-                });
-            });
-            
-        });
         
         return serviceCollection;
     }

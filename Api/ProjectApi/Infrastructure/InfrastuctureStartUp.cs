@@ -4,6 +4,7 @@ using Infrastucture.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 
 public static class InfrastructureStartUp
@@ -11,7 +12,7 @@ public static class InfrastructureStartUp
     public static IServiceCollection TryAddInfrastructure(this IServiceCollection serviceCollection, IConfigurationManager configurationManager)
     {
         serviceCollection.AddScoped<IProjectStore, ProjectStore>();
-        
+        serviceCollection.TryAddScoped<IStandartStore, BaseRepository>();
         
         var connectionString = configurationManager.GetConnectionString("DefaultConnection");
         
@@ -19,7 +20,7 @@ public static class InfrastructureStartUp
         {
             options.UseNpgsql(connectionString);
         });
-        
+        serviceCollection.AddScoped<DbContext>(provider => provider.GetService<ApplicationDbContex>());
         return serviceCollection;
     }
     

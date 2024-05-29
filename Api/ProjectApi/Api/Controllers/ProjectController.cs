@@ -1,4 +1,4 @@
-﻿using ExampleCore.Extensions;
+﻿using Core.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectApi.Controllers.Project.Request;
