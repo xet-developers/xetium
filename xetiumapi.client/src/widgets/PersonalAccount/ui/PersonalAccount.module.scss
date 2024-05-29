@@ -1,0 +1,14 @@
+.container {
+  width: 1525px;
+  height: 666px;
+  border-radius: 8px;
+  font-family: "Montserrat", sans-serif;
+  background-color: #fff;
+  display: flex;
+  flex-direction: row;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+  margin-top: 1em;
+  margin-left: 1em;
+  justify-content: center;
+  align-items: center;
+}
