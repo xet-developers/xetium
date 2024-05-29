@@ -7,10 +7,9 @@ import {
     MonitorOutlined,
     ScheduleOutlined,
     PartitionOutlined,
-    ClusterOutlined,
-    RightOutlined } from '@ant-design/icons';
+    ClusterOutlined} from '@ant-design/icons';
 
-type MenuItem = {
+export type MenuItem = {
     key: React.Key;
     label: string;
     link?: string;
@@ -21,7 +20,6 @@ type MenuItem = {
 export const MenuItems: MenuItem[] = [
     getItem('0','Личный кабинет', '/personalaccount', <UserOutlined style={{ color: '#ffffff' }}/>),
     getItem('1','Имя пространства', '/', <ProductOutlined style={{ color: '#ffffff' }}/>,[
-        getItem('2','Пространство 1', '/', <RightOutlined style={{ color: '#ffffff' }}/>),
         getItem('3','Добавить пространство', '/', <PlusCircleOutlined style={{ color: '#ffffff' }}/>),
     ]),
     getItem('4','Мой проект', '/myproject', <ProfileOutlined style={{ color: '#ffffff' }}/>),
