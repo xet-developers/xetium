@@ -15,4 +15,5 @@ public class PositionAnalysis
     public required int Position { get; init; }
 
     public required int SearchSystem { get; init; }
+    public required bool IsCompleted { get; init;}
 }

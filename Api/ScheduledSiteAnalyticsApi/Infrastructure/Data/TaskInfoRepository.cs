@@ -13,7 +13,7 @@ public class TaskInfoRepository: ITasksInfoRepository
         _applicationDbContext = applicationDbContext;
     }
     
-    public async Task<List<SitePosition>> GetCompletedTask(UserSearchInfo userSearchInfo)
+    public async Task<List<SitePosition>> GetCompletedTaskAsync(UserSearchInfo userSearchInfo)
     {
 
        var res = await _applicationDbContext.SitePositions.Include(sp => sp.ScheduleTaskDetails)
@@ -26,5 +26,27 @@ public class TaskInfoRepository: ITasksInfoRepository
             .ToListAsync();
 
        return res;
+    }
+
+    public async Task AddOrUpdateAsync(TaskDetails taskDetails)
+    {
+        var existingTask = await _applicationDbContext.TaskDetails.FindAsync(taskDetails.Id);
+        if (existingTask != null)
+        {
+            _applicationDbContext.Entry(existingTask).CurrentValues.SetValues(taskDetails);
+        }
+        else
+        {
+            await _applicationDbContext.TaskDetails.AddAsync(taskDetails);
+        }
+        await _applicationDbContext.SaveChangesAsync();
+    }
+
+    public async Task<List<TaskDetails>> GetPendingTasksAsync(UserSearchInfo userSearchInfo)
+    {
+        var res = await _applicationDbContext.TaskDetails
+                             .Where(t => t.UserId == userSearchInfo.UserId && t.ProjectID == userSearchInfo.ProjectId && !t.IsCompleted)
+                             .ToListAsync();
+        return res;
     }
 }

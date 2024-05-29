@@ -10,6 +10,7 @@ namespace Domain.Entity;
 public record TaskDetails: BaseEntity<Guid>
 {
     public required DateTime ScheduleTime { get; set; }
+    public required Guid UserId { get; set; }
     public required Guid ProjectID { get; set; }
     public required string Url { get; set; }
    
@@ -20,6 +21,7 @@ public record TaskDetails: BaseEntity<Guid>
     public required string[] Keywords { get; set; }
     
     public required int SearchSystem { get; set; }
+    public bool IsCompleted { get; set; }
     
     public Task AddOrUpdateAsync()
     {

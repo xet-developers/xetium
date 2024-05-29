@@ -57,6 +57,18 @@
       ],
       "UpstreamPathTemplate": "/scheduletask/{everything}",
       "UpstreamHttpMethod": [ "POST", "DELETE", "PATCH", "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/generation/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7088
+        }
+      ],
+      "UpstreamPathTemplate": "/generation/{everything}",
+      "UpstreamHttpMethod": [ "POST" ]
     }
   ]
 }

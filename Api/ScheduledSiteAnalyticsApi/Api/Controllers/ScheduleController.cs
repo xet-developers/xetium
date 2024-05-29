@@ -1,6 +1,8 @@
 ﻿using Api.Controllers.ScheduleTask.Request;
+using Core.Extensions;
 using Domain.Entity;
 using Microsoft.AspNetCore.Mvc;
+using ProfileConnectionLib.ConnectionServices.DtoModels.Request;
 using Services.Interfaces;
 
 namespace Api.Controllers;
@@ -22,9 +24,13 @@ public class ScheduleController: ControllerBase
     [HttpPost("create")]
     public async Task<IActionResult> CreateTask([FromBody] ScheduleRequest scheduleRequest)
     {
-        await _scheduleService.ScheduleTask(new TaskDetails()
+        var token = Request.Headers["Authorization"].FirstOrDefault().ParseJWT();
+        var userID = Guid.Parse(token.Claims.FirstOrDefault(c => c.Type == "id").Value);
+
+        await _scheduleService.ScheduleTaskAsync(new TaskDetails()
         {
             Id = scheduleRequest.Id,
+            UserId = userID,
             ProjectID = scheduleRequest.ProjectID,
             Keywords = scheduleRequest.Keywords,
             ScheduleTime = scheduleRequest.DateTime,
@@ -57,8 +63,19 @@ public class ScheduleController: ControllerBase
 
 
     [HttpGet]
-    public async Task<IActionResult> GetAllTask()
+    public async Task<ActionResult<UserSearchesRequestDto>> GetAllTask([FromQuery] Guid projectId, DateTime firstDate, DateTime lastDate)
     {
-        return Ok();
+        var token = Request.Headers["Authorization"].FirstOrDefault().ParseJWT();
+        var userID = Guid.Parse(token.Claims.FirstOrDefault(c => c.Type == "id").Value);
+
+        var res = await _scheduleService.GetAllTasksInfoAsync(new UserSearchInfo
+        {
+            UserId = userID,
+            ProjectId = projectId,
+            FirstDate = firstDate,
+            LastDate = lastDate
+        });
+
+        return Ok(res);
     }
 }

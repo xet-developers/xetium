@@ -17,7 +17,7 @@ public class GetCompletedTasksConsumer: IConsumer<UserSearchesRequestDto>
     public async Task Consume(ConsumeContext<UserSearchesRequestDto> context)
     {
         var info = context.Message;
-        var res = await _scheduleService.GetCompletedTasksInfo(new UserSearchInfo()
+        var res = await _scheduleService.GetCompletedTasksInfoAsync(new UserSearchInfo()
         {
             UserId = info.UserId,
             FirstDate = info.FirstDate,

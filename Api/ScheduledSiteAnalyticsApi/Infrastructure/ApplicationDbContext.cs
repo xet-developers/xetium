@@ -8,7 +8,7 @@ public class ApplicationDbContext: DbContext
     public DbSet<ScheduleTask> ScheduleTask { get; set; }
     public DbSet<ScheduleTaskDetails> ScheduleTaskDetails {  get; set; }
     public DbSet<SitePosition> SitePositions { get; set; }
-
+    public DbSet<TaskDetails> TaskDetails { get; set; }
     public ApplicationDbContext(DbContextOptions options)
        : base(options)
     {

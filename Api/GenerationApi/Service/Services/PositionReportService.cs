@@ -38,7 +38,7 @@ namespace Service.Services
 
             using (var package = new ExcelPackage())
             {
-                if (await FillSheetAsync(project, fileName, package, reportInfo) is false)
+                if (await FillSheetAsync(info, fileName, package, reportInfo) is false)
                 {
                     return null;
                 };
@@ -48,40 +48,37 @@ namespace Service.Services
             return await Task.FromResult(fs);
         }
 
-        private static async Task<bool> FillSheetAsync(List<UserSearchesResponseDto> project, string fileName,
+        private static async Task<bool> FillSheetAsync(UserSearchesResponseDto project, string fileName,
             ExcelPackage package, ReportInfo reportInfo)
         {
             ExcelWorksheet sheet = package.Workbook.Worksheets.Add("report");
             FillHeaders(sheet);
             var row = 3;
             var column = 2;
-            var searches = project.Where(search => search.PositionAnalysisData[0].Date >= reportInfo.FirstDate && search.PositionAnalysisData[0].Date <= reportInfo.LastDate);
+            var searches = project.PositionAnalysisData.Where(search => search.Date >= reportInfo.FirstDate && search.Date <= reportInfo.LastDate);
             foreach (var search in searches)
             {
-                FillPreHeaders(sheet, column, search.PositionAnalysisData.First().Date);
+                FillPreHeaders(sheet, column, search.Date);
 
-                foreach (var result in search.PositionAnalysisData)
+                var flag = false;
+                for (var i = 1; i < row; i++)
                 {
-                    var flag = false;
-                    for (var i = 1; i < row; i++)
+                    if ((string)sheet.Cells[i, 1].Value == search.Keyword)
                     {
-                        if ((string)sheet.Cells[i, 1].Value == result.Keyword)
-                        {
-                            FillTable(sheet, i, column, result);
-                            flag = true;
-                        }
+                        FillTable(sheet, i, column, search);
+                        flag = true;
                     }
-
-                    if (flag)
-                    {
-                        continue;
-                    }
-
-                    sheet.Cells[row, 1].Value = result.Keyword;
-                    FillTable(sheet, row, column, result);
-
-                    row++;
                 }
+
+                if (flag)
+                {
+                    continue;
+                }
+
+                sheet.Cells[row, 1].Value = search.Keyword;
+                FillTable(sheet, row, column, search);
+
+                row++;
                 column += 2;
             }
 
