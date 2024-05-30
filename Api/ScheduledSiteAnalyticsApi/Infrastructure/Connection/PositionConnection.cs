@@ -1,5 +1,6 @@
 ﻿using Domain.Entity;
 using Domain.Interfaces;
+using Medo;
 using Microsoft.EntityFrameworkCore;
 using ProfileConnectionLib.ConnectionServices.DtoModels.Request;
 using ProfileConnectionLib.ConnectionServices.Interfaces;
@@ -30,8 +31,14 @@ public class PositionConnection: IScheduleTask
         var scheduleTaskDetails = new ScheduleTaskDetails()
         {
             ProjectID = taskDetails.ProjectID,
-            DateTime = DateTime.UtcNow
+            DateTime = DateTime.Now.ToUniversalTime(),
+            ScheduleTask = new ScheduleTask()
+            {
+                Id = new Uuid7().ToGuid(),
+                UserId = taskDetails.UserId
+            }
         };
+        
         await _standartStore.CreateAsync(scheduleTaskDetails);
 
         foreach (var positionAnalysis in res.PositionAnalysisData)
@@ -39,7 +46,7 @@ public class PositionConnection: IScheduleTask
             var pos = new SitePosition()
            {
                 ProjectId = taskDetails.ProjectID,
-                Date = positionAnalysis.Date,
+                Date = positionAnalysis.Date.ToUniversalTime(),
                 Keyword = positionAnalysis.Keyword,
                 Position = positionAnalysis.Position,
                 SearchSystem = positionAnalysis.SearchSystem,
