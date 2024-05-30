@@ -1,3 +1,5 @@
+using ExampleCore.AuthOptions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,8 +9,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.TryAddServices();
 builder.Services.TryAddInfrastructure(builder.Configuration);
 builder.Services.AddControllers();
-builder.Services.AddAuthorization();
-builder.Services.AddAuthentication();
+builder.Services.AddAuth();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
