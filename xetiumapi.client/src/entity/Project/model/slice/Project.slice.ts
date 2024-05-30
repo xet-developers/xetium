@@ -1,17 +1,19 @@
 import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
 import {IProjectSliceSchema} from '../types/IProjectSliceSchema'
+import {USER_CURRENT_PROJECT_ID} from "@/shared/const/localstorage.ts";
 
 
 const initialState: IProjectSliceSchema = {
-    test: ''
+    currentProjectId: ' ' || localStorage.getItem(USER_CURRENT_PROJECT_ID)
 };
 
 export const ProjectSlice = createSlice({
     name: 'Project',
     initialState,
     reducers: {
-        testReducer: (state, action: PayloadAction<string>) => {
-            state.test = action.payload;
+        setCurrentProjectId: (state, action: PayloadAction<string>) => {
+            localStorage.setItem(USER_CURRENT_PROJECT_ID, action.payload)
+            state.currentProjectId = action.payload;
         },
     },
 });

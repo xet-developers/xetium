@@ -2,12 +2,20 @@ import cls from "./CalendarWidget.module.scss";
 import type {Dayjs} from 'dayjs';
 import dayjs from 'dayjs';
 import {Calendar, Badge, BadgeProps, CalendarProps, Alert} from "antd";
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {CreateCheckModal} from "@/features/CreateCheckModal/CreateCheckModal.tsx";
 import {ViewCheckModal} from "@/features/ViewCheckModal/ViewCheckModal.tsx";
+import {useGetAllCheckQuery} from "@/features/CreateCheckModal";
+import {useSelector} from "react-redux";
+import {currentProjectId} from "@/entity/Project";
 
 export const CalendarWidget = () => {
     const [modalOpen, setModalOpen] = useState(false);
+    const currentProject = useSelector(currentProjectId)
+    const {data: userCheck} = useGetAllCheckQuery(currentProject)
+
+    useEffect(() => {
+    }, [userCheck]);
 
     const closeModal = () => {
         setModalOpen(false);

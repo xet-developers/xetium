@@ -5,9 +5,14 @@ interface IPostLoginArgs{
     Password: string
 }
 
+interface IPostLoginRes {
+    expiration: string;
+    token: string;
+}
+
 export const AuthorizationFormApi = rtkApi.injectEndpoints({
     endpoints: (build) => ({
-        postLogin: build.mutation<string, Partial<IPostLoginArgs>>({
+        postLogin: build.mutation<IPostLoginRes, Partial<IPostLoginArgs>>({
                 query: ({...data}) => ({
                     url: '/account/login',
                     method: 'POST',

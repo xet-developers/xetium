@@ -5,8 +5,18 @@ import {RawModal} from "@/shared/ui/components/RawModal/RawModal.tsx";
 import { DownOutlined, CalendarOutlined, FieldTimeOutlined, RetweetOutlined, ClusterOutlined, SearchOutlined } from '@ant-design/icons';
 import { ConfigProvider, Calendar, theme, TimePicker, MenuProps, Dropdown, message, Space, Checkbox, Select } from 'antd';
 import dayjs from 'dayjs';
+import {usePostCreateCheckMutation} from "./api/CreateCheckModal.api.ts";
+import {useSelector} from "react-redux";
+import {currentProjectId} from "@/entity/Project";
 
 export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
+    const [time, setTime] = React.useState(null);
+    const [selectedCheckbox, setSelectedCheckbox] = useState([]);
+    const [cluster, setCluster] = React.useState(null);
+    const [repeat, setRepeat] = React.useState(null);
+    const [date, setDate] = useState(() => dayjs('2024-05-21'));
+    const [trigger, {isLoading, data}] = usePostCreateCheckMutation()
+    const currentProject = useSelector(currentProjectId)
 
     const { token } = theme.useToken();
     const format = 'HH:mm';
@@ -17,7 +27,6 @@ export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
         borderRadius: token.borderRadiusLG,
     };
 
-    const [selectedCheckbox, setSelectedCheckbox] = useState([]);
     const handleCheckboxChange = (e: { target: { checked: any; value: any; }; }) => {
         const { checked, value } = e.target;
         if (checked) {
@@ -27,17 +36,16 @@ export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
         }
     };
 
-    const [cluster, setCluster] = React.useState(null);
     const handleChangeCluster = (value: string | React.SetStateAction<null>) => {
         setCluster(value);
     };
     useEffect(() => {
     }, [cluster]);
 
-    const [repeat, setRepeat] = React.useState(null);
     const handleChangeRepeat = (value: React.SetStateAction<null>) => {
         setRepeat(value);
     };
+
     useEffect(() => {
     }, [repeat]);
 
@@ -61,20 +69,37 @@ export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
         handleChangeCluster(key)
     };
 
-    const [date, setDate] = useState(() => dayjs('2024-05-21'));
     const handleSelect = (date) => {
         setDate(date);
     };
 
-    const [time, setTime] = React.useState(null);
     const handleTimeChange = (value) => {
         setTime(value.format('HH:mm'));
     };
     useEffect(() => {
     }, [time]);
 
+    const handleSetCheck = async () => {
+        const a = await trigger({
+            projectID: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            dateTime: "2024-05-30T15:56:00.081Z",
+            frequency: 0,
+            url: "string",
+            keywords: [],
+            searchSystem: 0,
+            top: 0
+        })
+
+        console.log('dsadsadsadsadasdsadsa')
+        console.log(a)
+    }
+
+    useEffect(() => {
+        console.log(data)
+    }, [data]);
+
     return (
-        <RawModal isOpen={modalOpen} onClose={closeModal} className={cls.Modal} textBtn={'Отмена'}>
+        <RawModal onSubmint={handleSetCheck} isOpen={modalOpen} onClose={closeModal} className={cls.Modal} textBtn={'Отмена'}>
             <ConfigProvider
                 theme={{
                     token: {
@@ -155,6 +180,7 @@ export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
                     </div>
                     {/*<p>Данные проверки: {date.format('DD.MM.YYYY')} в {time}, повторять {repeat}, использовать кластер №{cluster}, искать в {selectedCheckbox}</p>*/}
                 </div>
+
             </ConfigProvider>
         </RawModal>
     );
