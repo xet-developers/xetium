@@ -1,5 +1,6 @@
 ﻿using Api.Controllers.Response.Consumer;
 using MassTransit;
+using MassTransit.RabbitMqTransport;
 
 namespace Api;
 
@@ -9,8 +10,8 @@ public static class BrokerStartUp
     {
         serviceCollection.AddMassTransit(x =>
         {
-            x.AddConsumer<PositionConsumer>();
-
+            x.AddConsumer<PositionConsumer, PositionConsumerDefinition>();
+            
             x.UsingRabbitMq((context, cfg) =>
             {
                 cfg.Host("localhost", "/", h =>
@@ -18,10 +19,11 @@ public static class BrokerStartUp
                     h.Username("guest");
                     h.Password("guest");
                 });
-
+                
                 cfg.ConfigureEndpoints(context);
             });
         });
+
 
         return serviceCollection;
     }

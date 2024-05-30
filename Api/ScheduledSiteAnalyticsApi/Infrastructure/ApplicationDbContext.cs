@@ -9,7 +9,7 @@ public class ApplicationDbContext: DbContext
     public DbSet<ScheduleTaskDetails> ScheduleTaskDetails {  get; set; }
     public DbSet<SitePosition> SitePositions { get; set; }
     public DbSet<TaskDetails> TaskDetails { get; set; }
-    public ApplicationDbContext(DbContextOptions options)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
        : base(options)
     {
         Database.EnsureCreated();

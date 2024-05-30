@@ -14,13 +14,22 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\Libs\PositionConnectionLib\PositionConnectionLib.csproj" />
       <ProjectReference Include="..\..\..\Libs\ProjectConnectionService\ProjectConnectionService.csproj" />
       <ProjectReference Include="..\Services\Services.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Hangfire.PostgreSql" Version="1.20.8" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.6" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="8.0.6" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.6" />
+      <PackageReference Include="Npgsql" Version="8.0.3" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
     </ItemGroup>
 
 </Project>

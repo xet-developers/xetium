@@ -13,15 +13,17 @@ public class ScheduleService: IScheduleService
 {
     private ITasksInfoRepository _tasksInfoRepository;
 
-    public ScheduleService(ITasksInfoRepository tasksInfoRepository)
+    private IStandartStore _standartStore;
+    public ScheduleService(ITasksInfoRepository tasksInfoRepository, IStandartStore standartStore)
     {
+        _standartStore = standartStore;
         _tasksInfoRepository = tasksInfoRepository;
     }
 
     public async Task<TaskDetails> ScheduleTaskAsync(TaskDetails taskDetails)
     {
         // todo сделать кэш, который будет хранить айдишники уже созданных тасок, чтобы если брокер по 100-500 nagadit сообщениями, не делать запросики в бд
-        await taskDetails.AddOrUpdateAsync();
+        await taskDetails.AddOrUpdateAsync(_standartStore);
         await _tasksInfoRepository.AddOrUpdateAsync(taskDetails);
         return taskDetails;
     }

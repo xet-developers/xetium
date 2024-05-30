@@ -14,6 +14,7 @@ public class PositionConsumer: IConsumer<PositionAnalysisRequestDto>
     public PositionConsumer(ISitePositionService sitePositionService)
     {
         _sitePositionService = sitePositionService;
+        
     }
 
     public async Task Consume(ConsumeContext<PositionAnalysisRequestDto> context)

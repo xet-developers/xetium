@@ -1,4 +1,5 @@
 ﻿using CoreLib.HttpServiceV2.Services.Interfaces;
+using ExampleCore.BrokerLogic.Services;
 using ExampleCore.HttpLogic.Services;
 using ExampleCore.HttpLogic.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -24,7 +25,7 @@ public static class HttpServiceStartup
             .AddTransient<IHttpConnectionService, HttpConnectionService>();
         
         services.TryAddKeyedTransient<IRequestService, RequestService>("http");
-
+        services.TryAddKeyedScoped<IRequestService, ProducerRequestService>("broker");
         return services;
     }
 }

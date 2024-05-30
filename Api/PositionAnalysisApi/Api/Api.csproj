@@ -7,10 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Libs\PositionConnectionLib\PositionConnectionLib.csproj" />
     <ProjectReference Include="..\..\..\Libs\ProjectConnectionService\ProjectConnectionService.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\Service\Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.2.2" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.2" />
   </ItemGroup>
 
 </Project>
