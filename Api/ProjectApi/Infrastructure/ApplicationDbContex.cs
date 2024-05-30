@@ -13,5 +13,9 @@ public class ApplicationDbContex: DbContext
     {
         Database.EnsureCreated();
     }
-    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Project>().ToTable("Projects");
+    }
+
 }

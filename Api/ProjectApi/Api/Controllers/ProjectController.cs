@@ -8,7 +8,6 @@ namespace ProjectApi.Controllers;
 
 [Route("project")]
 [ApiController]
-[Authorize]
 public class ProjectController: ControllerBase
 {
     private IProjectService _projectService;

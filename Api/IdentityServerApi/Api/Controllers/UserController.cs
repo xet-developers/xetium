@@ -1,5 +1,5 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
-using ExampleCore.Extensions;
+using Core.Extensions;
 using IdentityServerApi.Controllers.User.Request;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
