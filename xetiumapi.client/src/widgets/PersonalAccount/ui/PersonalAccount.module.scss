@@ -1,0 +1,49 @@
+.container {
+  width: 1525px;
+  height: 666px;
+  border-radius: 8px;
+  font-family: "Montserrat", sans-serif;
+  background-color: #fff;
+  display: flex;
+  flex-direction: row;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+  margin-top: 1em;
+  margin-left: 1em;
+  justify-content: center;
+  align-items: center;
+  gap: 12em;
+}
+
+.btnOk {
+  width: 367px;
+  height: 52px;
+  border-radius: 35px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 13px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(to right, #FF8A7A, #F66450);
+  justify-content: center;
+  font-weight: 500;
+  margin-top: -2em;
+  left: 30%;
+  box-shadow: 0 5px 15px rgba(195, 77, 60, 0.67);
+}
+
+.btnLogout {
+  width: 270px;
+  height: 52px;
+  border-radius: 35px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 13px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(to right, #424242, #5c5c5c);
+  justify-content: center;
+  font-weight: 500;
+  margin-top: -2em;
+  left: 35%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
