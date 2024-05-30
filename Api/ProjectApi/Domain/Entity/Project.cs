@@ -5,6 +5,8 @@ using Newtonsoft.Json;
 
 namespace Domain.Entity;
 
+
+[Table("project")]
 public record Project: BaseEntity<Guid>
 {
     [Column("name")]

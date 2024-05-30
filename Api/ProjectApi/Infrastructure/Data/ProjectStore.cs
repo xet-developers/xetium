@@ -14,9 +14,10 @@ public class ProjectStore: IProjectStore
     }
     public async Task<List<Project>> GetAllAsync(Guid userId)
     {
-       var res = await _applicationDbContex._projectDbSet
+       var res = await _applicationDbContex.ProjectDbSet
             .Where(p => p.UserId == userId)
             .ToListAsync();
+
        return res;
     }
 }

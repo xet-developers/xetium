@@ -20,6 +20,7 @@ public static class InfrastructureStartUp
         {
             options.UseNpgsql(connectionString);
         });
+
         serviceCollection.AddScoped<DbContext>(provider => provider.GetService<ApplicationDbContex>());
         return serviceCollection;
     }
