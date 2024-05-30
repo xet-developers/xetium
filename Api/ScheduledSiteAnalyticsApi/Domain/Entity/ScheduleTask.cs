@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entity
 {
+    [Table("ScheduleTask")]
     public record ScheduleTask : BaseEntity<Guid>
     {
         public Guid UserId { get; set; }

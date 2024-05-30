@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entity
 {
+    [Table("ScheduleTaskDetails")]
     public record ScheduleTaskDetails : BaseEntity<Guid>
     {
         public required Guid ProjectID { get; set; }

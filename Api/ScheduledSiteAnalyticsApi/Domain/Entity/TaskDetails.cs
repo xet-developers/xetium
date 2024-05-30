@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq.Expressions;
 using Domain.Interfaces;
 using ExampleCore.Dal.Base;
 using Hangfire;
@@ -8,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Domain.Entity;
 
+
+[Table("tasks")]
 public record TaskDetails: BaseEntity<Guid>
 {
     public required DateTime ScheduleTime { get; set; }

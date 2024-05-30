@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
 using ProfileConnectionLib;
 
 public static class InfrastuctureStartUp
@@ -23,7 +24,7 @@ public static class InfrastuctureStartUp
         
         var connectionString = configurationManager.GetConnectionString("DefaultConnection");
         serviceCollection.AddDbContext<ApplicationDbContext>(options =>
-            options.UseNpgsql(connectionString));
+            options.UseNpgsql(connectionString).LogTo(Console.WriteLine, LogLevel.Information));
 
         serviceCollection.TryAddScoped<IStandartStore, BaseRepository>();
         connectionString = configurationManager.GetConnectionString("HangfireConnection");
@@ -32,7 +33,7 @@ public static class InfrastuctureStartUp
         serviceCollection.AddScoped<DbContext>(provider => provider.GetService<ApplicationDbContext>());
 
         serviceCollection.AddHangfireServer();
-
+        
         return serviceCollection;
     }
 }

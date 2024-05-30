@@ -1,5 +1,7 @@
 using Api;
 using Hangfire;
+using Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Services;
 
@@ -16,6 +18,11 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    using (var scope = app.Services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        await context.Database.MigrateAsync();
+    }
     app.UseSwagger();
     app.UseSwaggerUI();
 }

@@ -1,12 +1,15 @@
 ﻿using ExampleCore.Dal.Base;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.Entity
 {
+    
+    [Table("siteposition")]
     public record SitePosition : BaseEntity<Guid>
     {
         public required Guid ProjectId { get; set; }
