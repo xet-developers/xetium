@@ -49,14 +49,14 @@ export const ResultsLast = () => {
                 <div className={cls.checkError}>
                     <span className={cls.textError}>30.05.24</span>
                     <span className={cls.textError}>17:00</span>
-                    <span className={cls.textError}>Успешно</span>
+                    <span className={cls.textError}>Ошибка</span>
                     <span className={cls.textError} style={{textDecoration: 'underline', cursor: 'pointer'}}>Сформировать отчет</span>
                 </div>
 
                 <div className={cls.checkError}>
                     <span className={cls.textError}>30.05.24</span>
                     <span className={cls.textError}>17:00</span>
-                    <span className={cls.textError}>Успешно</span>
+                    <span className={cls.textError}>Ошибка</span>
                     <span className={cls.textError} style={{textDecoration: 'underline', cursor: 'pointer'}}>Сформировать отчет</span>
                 </div>
             </div>
