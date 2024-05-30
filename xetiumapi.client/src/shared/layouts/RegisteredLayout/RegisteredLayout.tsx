@@ -13,7 +13,7 @@ export const RegisteredLayout: FC<IRegisteredLayoutProps> = memo((props) => {
     return (
         <div style={{display: "flex"}}>
             <div>{navMenu}</div>
-            <div style={{display: "flex", flexDirection: "column"}} className={Styles.page}>
+            <div style={{display: "flex", flexDirection: "column", width: '100%'}} className={Styles.page}>
                 <div style={{width: '100%'}}>{header}</div>
                 <div>{content}</div>
             </div>

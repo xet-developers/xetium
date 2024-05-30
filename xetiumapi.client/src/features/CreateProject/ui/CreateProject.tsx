@@ -1,10 +1,9 @@
-import {FC, useCallback, useState} from 'react';
+import {FC, useCallback} from 'react';
 import React from 'react';
 import {useAppDispatch} from "@/shared/lib/hooks/useAppDispatch/useAppDispatch.ts";
 import {createProjectActions, createProjectReducer} from "../model/slice/createProject.slice.ts";
-import cls from "@/features/CreateProject/ui/CreateProject.module.scss";
-import {Button, ConfigProvider, Modal, Input, message } from 'antd';
-import { useCreateProjectApi} from "@/features/Header/api/createProject.api.ts";
+import cls from "@/features/CreateProject/styles/CreateProject.module.scss";
+import {Button, ConfigProvider, Modal, Input, message} from 'antd';
 import {useSelector} from "react-redux";
 import {DynamicModuleLoader, ReducersList} from "@/shared/lib/components/DynamicModuleLoader.tsx";
 import {
@@ -12,6 +11,7 @@ import {
     getProjectName,
     getProjectUrl
 } from "@/features/CreateProject/model/selectors/createProject.selectors.ts";
+import {usePostCreateProjectMutation} from "../api/createProject.api.ts";
 
 const reducers: ReducersList = {
     createProject: createProjectReducer,
@@ -22,17 +22,16 @@ export interface ICreateProjectProps {
     setOpen: (value: boolean) => void
 }
 
+const {TextArea} = Input;
+
 export const CreateProject: FC<ICreateProjectProps> = (props): React.JSX.Element => {
     const {open, setOpen}: ICreateProjectProps = props
-    const { TextArea } = Input;
-
-    //const [trigger, result] = useCreateProjectApi();
+    const [trigger, {data: result, isLoading}] = usePostCreateProjectMutation();
     const dispatch = useAppDispatch();
 
     const projectName = useSelector(getProjectName)
     const projectUrl = useSelector(getProjectUrl)
     const projectDesc = useSelector(getProjectLabel)
-
 
     const onChangeProjectName = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(createProjectActions.setProjectName(event.target.value));
@@ -46,14 +45,31 @@ export const CreateProject: FC<ICreateProjectProps> = (props): React.JSX.Element
         dispatch(createProjectActions.setProjectLabel(event.target.value));
     }, [dispatch]);
 
-    const handleOk = () => {
-        if (!projectName ||!projectUrl ||!projectDesc) {
+    const handleOk = async () => {
+        if (!projectName || !projectUrl || !projectDesc) {
             message.info('Заполните все поля');
+        } else {
+            await trigger({
+                url: projectUrl,
+                name: projectName,
+                description: projectDesc,
+            })
+            console.log('dsdsa')
+            if(result){
+                clear()
+                setOpen(false);
+            }
         }
-        else { setOpen(false); }
     };
 
+    const clear = useCallback(() => {
+        dispatch(createProjectActions.setProjectUrl(''));
+        dispatch(createProjectActions.setProjectName(''));
+        dispatch(createProjectActions.setProjectLabel(''));
+    }, [])
+
     const handleCancel = () => {
+        clear()
         setOpen(false);
     };
 
@@ -86,12 +102,15 @@ export const CreateProject: FC<ICreateProjectProps> = (props): React.JSX.Element
                     <div className={cls.data}>
                         <span className={cls.header}>Создание проекта</span>
 
-                        <Input value={projectName} onChange={onChangeProjectName} className={cls.inputName} placeholder={'Название'}/>
+                        <Input value={projectName} onChange={onChangeProjectName} className={cls.inputName}
+                               placeholder={'Название'}/>
 
-                        <Input value={projectUrl} onChange={onChangeProjectUrl} className={cls.inputLink} placeholder={'Ссылка на сайт: HTTPS://EXAMPLE.COM/*'}/>
+                        <Input value={projectUrl} onChange={onChangeProjectUrl} className={cls.inputLink}
+                               placeholder={'Ссылка на сайт: HTTPS://EXAMPLE.COM/*'}/>
 
-                        <TextArea value={projectDesc} rows={5} onChange={onChangeProjectLabel} className={cls.inputDesc} placeholder={'Описание'} autoSize={{
-                            minRows:3,
+                        <TextArea value={projectDesc} rows={5} onChange={onChangeProjectLabel} className={cls.inputDesc}
+                                  placeholder={'Описание'} autoSize={{
+                            minRows: 3,
                             maxRows: 5
                         }}/>
 
@@ -104,6 +123,7 @@ export const CreateProject: FC<ICreateProjectProps> = (props): React.JSX.Element
                         </Button>
                     </div>
 
+                    {isLoading&&<div>Loading</div>}
                 </Modal>
             </ConfigProvider>
         </DynamicModuleLoader>

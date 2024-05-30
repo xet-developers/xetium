@@ -68,6 +68,16 @@ export default ({mode}) => {
                     target: 'https://localhost:5000',
                     changeOrigin: true,
                     secure: false
+                },
+                '/project/create': {
+                    target: 'https://localhost:7233',
+                    changeOrigin: true,
+                    secure: false
+                },
+                '/project': {
+                    target: 'https://localhost:7233',
+                    changeOrigin: true,
+                    secure: false
                 }
             },
             port: 5173,
