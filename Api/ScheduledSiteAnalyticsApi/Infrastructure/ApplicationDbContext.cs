@@ -1,5 +1,6 @@
 ﻿using Domain.Entity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Infrastructure;
 
@@ -14,8 +15,13 @@ public class ApplicationDbContext: DbContext
     {
         Database.EnsureCreated();
     }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
+    }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<ScheduleTask>()
             .HasMany(st => st.Details) 
             .WithOne(std => std.ScheduleTask) 

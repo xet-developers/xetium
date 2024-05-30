@@ -36,7 +36,8 @@ public class ScheduleController: ControllerBase
             Top = scheduleRequest.Top,
             SearchSystem = scheduleRequest.SearchSystem,
             Url = scheduleRequest.Url,
-            Frequency = scheduleRequest.Frequency
+            Frequency = scheduleRequest.Frequency,
+            IsCompleted = false
         });
 
 
