@@ -22,10 +22,11 @@
   align-items: center;
 }
 
-.btn {
+.text {
   border-radius: 10px;
   font-family: "Montserrat", sans-serif;
   font-size: 12px;
+  margin: 1em;
 }
 
 .blockData {
@@ -40,3 +41,8 @@
   margin-left: 1em;
 }
 
+.table {
+  margin-left: 1em;
+  margin-right: 1em;
+  font-size: 12px;
+}
