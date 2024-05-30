@@ -1,13 +1,10 @@
 import React, {useState} from 'react';
-import { Form, Input, Typography, ConfigProvider } from 'antd';
-
-const { Paragraph } = Typography;
+import { Form, Input, ConfigProvider } from 'antd';
+import cls from './UserData.module.scss';
 
 interface FieldData {
     name: string | number | (string | number)[];
-    email: string | number | (string | number)[];
-    date: string | number | (string | number)[];
-    password: string | number | (string | number)[];
+    value?: any;
 }
 
 interface CustomizedFormProps {
@@ -20,40 +17,57 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields }) => 
         name="global_state"
         layout="inline"
         fields={fields}
+        className={cls.form}
         onFieldsChange={(_, allFields) => {
             onChange(allFields);
         }}
     >
-        <Form.Item
-            name="username"
-            label="Username"
-            rules={[{ required: true, message: 'Введите имя пользователя!' }]}
-        >
-            <Input />
-        </Form.Item>
+        <div>
+            <span className={cls.label}>Имя пользователя:</span>
+            <Form.Item
+                name="username"
+                label=""
+                rules={[{required: true, message: 'Введите имя пользователя!'}]}
+                className={cls.item}
+            >
+                <Input className={cls.input}/>
+            </Form.Item>
+            <div className={cls.divider}/>
 
-        <Form.Item
-            name="email"
-            label="Username"
-            rules={[{ required: true, message: 'Введите email!' }]}
-        >
-            <Input />
-        </Form.Item>
+            <span className={cls.label}>Email:</span>
+            <Form.Item
+                name="email"
+                label=""
+                rules={[{required: true, message: 'Введите email!'}]}
+                className={cls.item}
+            >
+                <Input className={cls.input}/>
+            </Form.Item>
+            <div className={cls.divider}/>
+        </div>
 
-        <Form.Item
-            name="date"
-            label="Username"
-        >
-            <Input disabled={true}/>
-        </Form.Item>
+        <div>
+            <span className={cls.label}>Дата регистрации:</span>
+            <Form.Item
+                name="date"
+                label=""
+                className={cls.item}
+            >
+                <Input disabled={true} className={cls.input}/>
+            </Form.Item>
+            <div className={cls.divider}/>
 
-        <Form.Item
-            name="password"
-            label="Username"
-            rules={[{ required: true, message: 'Введите пароль!' }]}
-        >
-            <Input />
-        </Form.Item>
+            <span className={cls.label}>Пароль:</span>
+            <Form.Item
+                name="password"
+                label=""
+                rules={[{required: true, message: 'Введите пароль!'}]}
+                className={cls.item}
+            >
+                <Input className={cls.input}/>
+            </Form.Item>
+            <div className={cls.divider}/>
+        </div>
     </Form>
 );
 
@@ -61,9 +75,9 @@ export const UserData = (): React.JSX.Element => {
 
     const [fields, setFields] = useState<FieldData[]>([
         { name: ['username'], value: 'nenichv' },
-        { email: ['email'], value: 'nenichv' },
-        { date: ['date'], value: 'nenichv' },
-        { password: ['password'], value: 'nenichv' }
+        { name: ['email'], value: 'alena_volkova_2004@mail.ru' },
+        { name: ['date'], value: '12.03.24' },
+        { name: ['password'], value: '********' }
     ]);
     
     return (
@@ -87,9 +101,6 @@ export const UserData = (): React.JSX.Element => {
                             setFields(newFields);
                         }}
                     />
-                    <Paragraph style={{ maxWidth: 440, marginTop: 24 }}>
-                        <pre style={{ border: 'none' }}>{JSON.stringify(fields, null, 2)}</pre>
-                    </Paragraph>
                 </>
             </ConfigProvider>
         </>

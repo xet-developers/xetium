@@ -3,18 +3,12 @@ import React, { useState } from 'react';
 import { Upload } from 'antd';
 import type { GetProp, UploadFile, UploadProps } from 'antd';
 import ImgCrop from 'antd-img-crop';
+import cls from './UserPhoto.module.scss';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
 export const UserPhoto = (): React.JSX.Element => {
-    const [fileList, setFileList] = useState<UploadFile[]>([
-        {
-            uid: '-1',
-            name: 'image.png',
-            status: 'done',
-            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        },
-    ]);
+    const [fileList, setFileList] = useState<UploadFile[]>([]);
 
     const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
         setFileList(newFileList);
@@ -40,11 +34,16 @@ export const UserPhoto = (): React.JSX.Element => {
             <ConfigProvider
                 theme={{
                     token: {
-                        colorPrimary: '#C0CCF7'
+                        colorPrimary: '#C0CCF7',
+                        colorBorder: '#F66450',
+                        controlHeightLG: 140
                     },
                     components: {
                         DatePicker: {
                             activeBorderColor: '#F66450'
+                        },
+                        Upload: {
+                            actionsColor: '#F66450'
                         }
                     }
                 }}
@@ -52,12 +51,13 @@ export const UserPhoto = (): React.JSX.Element => {
                 <ImgCrop rotationSlider>
                     <Upload
                         action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-                        listType="picture-card"
+                        listType="picture-circle"
                         fileList={fileList}
                         onChange={onChange}
                         onPreview={onPreview}
+                        className={cls.upload}
                     >
-                        { fileList.length < 5 && '+ Загрузить свое фото' }
+                        { fileList.length < 1 && '+ Загрузить свое фото' }
                     </Upload>
                 </ImgCrop>
             </ConfigProvider>

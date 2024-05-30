@@ -1,5 +1,5 @@
 import cls from "./PersonalAccount.module.scss";
-import { Button, ConfigProvider } from "antd";
+import { Button, ConfigProvider, Flex } from "antd";
 import { LogoutOutlined } from '@ant-design/icons';
 import {UserPhoto} from "@/features/UserPhoto/UserPhoto.tsx";
 import {UserData} from "@/features/UserData/UserData.tsx";
@@ -14,12 +14,12 @@ export const PersonalAccount = () => {
                     colorText: '#252525'
                 },
                 components: {
-                    DatePicker: {
-                        activeBorderColor: '#F66450'
-                    },
                     Button: {
-                        textHoverBg: '#ba4c3b',
-                        defaultActiveBg: '#ba4c3b'
+                        defaultBorderColor: 'none',
+                        defaultActiveBorderColor: 'none',
+                        textHoverBg: 'none',
+                        defaultActiveBg: '#fff',
+                        defaultHoverBg: '#fff'
                     }
                 }
             }}
@@ -29,13 +29,16 @@ export const PersonalAccount = () => {
                     <UserPhoto/>
                     <UserData/>
                 </div>
-                <Button>
-                    Сохранить изменения
-                </Button>
-                <Button>
-                    <LogoutOutlined />
-                    Выйти
-                </Button>
+                <Flex vertical={false}>
+                    <Button className={cls.btnOk} >
+                        СОХРАНИТЬ ИЗМЕНЕНИЯ
+                    </Button>
+                    <Button className={cls.btnLogout}>
+                        <LogoutOutlined />
+                        ВЫЙТИ
+                    </Button>
+                </Flex>
+
             </div>
         </ConfigProvider>
     );
