@@ -6,15 +6,15 @@ namespace Infrastucture.Data;
 
 public class ProjectStore: IProjectStore
 {
-    private ApplicationDbContex _applicationDbContex;
+    private ApplicationDbContext _applicationDbContext;
 
-    public ProjectStore(ApplicationDbContex applicationDbContex)
+    public ProjectStore(ApplicationDbContext applicationDbContext)
     {
-        _applicationDbContex = applicationDbContex;
+        _applicationDbContext = applicationDbContext;
     }
     public async Task<List<Project>> GetAllAsync(Guid userId)
     {
-       var res = await _applicationDbContex.ProjectDbSet
+       var res = await _applicationDbContext.ProjectDbSet
             .Where(p => p.UserId == userId)
             .ToListAsync();
 

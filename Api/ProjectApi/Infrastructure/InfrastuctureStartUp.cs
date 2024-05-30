@@ -16,12 +16,12 @@ public static class InfrastructureStartUp
         
         var connectionString = configurationManager.GetConnectionString("DefaultConnection");
         
-        serviceCollection.AddDbContext<ApplicationDbContex>(options =>
+        serviceCollection.AddDbContext<ApplicationDbContext>(options =>
         {
             options.UseNpgsql(connectionString);
         });
 
-        serviceCollection.AddScoped<DbContext>(provider => provider.GetService<ApplicationDbContex>());
+        serviceCollection.AddScoped<DbContext>(provider => provider.GetService<ApplicationDbContext>());
         return serviceCollection;
     }
     
