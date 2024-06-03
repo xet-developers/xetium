@@ -12,10 +12,11 @@ interface IScheduleTaskArg {
 
 export const CreateCheckModalApi = rtkApi.injectEndpoints({
     endpoints: (build) => ({
-        getAllCheck: build.query({
-            query: () => ({
-                url: '/scheduletask',
-        })
+        getAllCheck: build.query<[], {id: string,date: string}>({
+            query: (data) => ({
+                url: '/scheduletask?projectId=' + data.id + '&' + data.date,
+        }
+        )
         }),
         postCreateCheck: build.mutation<void, IScheduleTaskArg>({
                 query: (body) => ({

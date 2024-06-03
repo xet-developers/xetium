@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { Form, Input, ConfigProvider } from 'antd';
 import cls from './UserData.module.scss';
+import {useGetUserDataQuery} from "@/entity/User/api/User.api.ts";
 
 interface FieldData {
     name: string | number | (string | number)[];
@@ -13,6 +14,7 @@ interface CustomizedFormProps {
 }
 
 const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields }) => (
+
     <Form
         name="global_state"
         layout="inline"
@@ -72,14 +74,15 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields }) => 
 );
 
 export const UserData = (): React.JSX.Element => {
+    const {data: user} = useGetUserDataQuery()
 
     const [fields, setFields] = useState<FieldData[]>([
-        { name: ['username'], value: 'nenichv' },
-        { name: ['email'], value: 'alena_volkova_2004@mail.ru' },
-        { name: ['date'], value: '12.03.24' },
+        { name: ['username'], value: user?.userName },
+        { name: ['email'], value: user?.email },
+        { name: ['date'], value: '30.05.2024' },
         { name: ['password'], value: '********' }
     ]);
-    
+
     return (
         <>
             <ConfigProvider

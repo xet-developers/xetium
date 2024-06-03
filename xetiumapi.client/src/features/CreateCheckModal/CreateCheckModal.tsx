@@ -81,22 +81,18 @@ export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
 
     const handleSetCheck = async () => {
         const a = await trigger({
-            projectID: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            projectID: currentProject,
             dateTime: "2024-05-30T15:56:00.081Z",
             frequency: 0,
             url: "string",
-            keywords: [],
+            keywords: ['github'],
             searchSystem: 0,
             top: 0
         })
 
-        console.log('dsadsadsadsadasdsadsa')
         console.log(a)
     }
 
-    useEffect(() => {
-        console.log(data)
-    }, [data]);
 
     return (
         <RawModal onSubmint={handleSetCheck} isOpen={modalOpen} onClose={closeModal} className={cls.Modal} textBtn={'Отмена'}>

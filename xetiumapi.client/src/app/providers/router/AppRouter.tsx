@@ -25,7 +25,6 @@ export const AppRouter = () => {
 
 
     const routes = useMemo(() => {
-        console.log(authData)
         if (authData) {
             return (
                 <RegisteredLayout

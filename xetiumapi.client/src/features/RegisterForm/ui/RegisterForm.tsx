@@ -40,10 +40,6 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
     const acceptSpam = useSelector(getAcceptSpam);
     const [updatePost, {isLoading}] = useRegisterFormApi()
 
-    const [spamCheckboxChecked, setSpamCheckboxChecked] = useState<boolean>(false)
-    const [acceptConfPoliticsChecked, setAcceptConfPoliticsChecked] = useState<boolean>(false)
-    const [acceptPersonalDataChecked, setAcceptPersonalDataChecked] = useState<boolean>(false)
-
     const onChangeUsername = useCallback(
         (value: string) => {
             dispatch(registerFormActions.setUsername(value));
@@ -74,26 +70,23 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
 
     const onChangeSpamCheckbox = useCallback(
         () => {
-            setSpamCheckboxChecked(!spamCheckboxChecked)
-            dispatch(registerFormActions.setSpamCheckbox(spamCheckboxChecked));
+            dispatch(registerFormActions.setSpamCheckbox(!acceptSpam));
         },
-        [dispatch, spamCheckboxChecked],
+        [dispatch,],
     );
 
     const onAcceptPersonalDataCheckbox = useCallback(
         () => {
-            setAcceptConfPoliticsChecked(!acceptPersonalDataChecked)
-            dispatch(registerFormActions.setAcceptPersonalDataCheckbox(acceptPersonalDataChecked));
+            dispatch(registerFormActions.setAcceptPersonalDataCheckbox(!acceptPersonalData));
         },
-        [dispatch, acceptPersonalDataChecked],
+        [dispatch],
     );
 
     const onAcceptConfPoliticsCheckbox = useCallback(
         () => {
-            setAcceptPersonalDataChecked(!acceptConfPoliticsChecked)
-            dispatch(registerFormActions.setAcceptConfPoliticsCheckbox(acceptConfPoliticsChecked));
+            dispatch(registerFormActions.setAcceptConfPoliticsCheckbox(!acceptConfPolitics));
         },
-        [dispatch, acceptConfPoliticsChecked],
+        [dispatch],
     );
 
     const onRegisterClick = useCallback(
@@ -200,7 +193,7 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
                                   gap={40}>
                                 <Flex justify={'center'} gap={10}>
                                     <Checkbox
-                                        checked={acceptPersonalData}
+                                        value={acceptPersonalData}
                                         onChange={() => {
                                             onAcceptPersonalDataCheckbox()
                                         }}></Checkbox>
@@ -214,7 +207,7 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
 
                                 <Flex justify={'center'} gap={10}>
                                     <Checkbox
-                                        checked={acceptConfPolitics}
+                                        value={acceptConfPolitics}
                                         onChange={() => {
                                             onAcceptConfPoliticsCheckbox()
                                         }}></Checkbox>
@@ -228,7 +221,7 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
 
                                 <Flex justify={'center'} align={'center'} gap={10}>
                                     <Checkbox
-                                        checked={acceptSpam}
+                                        value={acceptSpam}
                                         onChange={() => {
                                             onChangeSpamCheckbox()
                                         }}></Checkbox>

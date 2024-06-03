@@ -12,8 +12,8 @@ import {currentProjectId} from "@/entity/Project";
 export const CalendarWidget = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const currentProject = useSelector(currentProjectId)
-    const {data: userCheck} = useGetAllCheckQuery(currentProject)
-
+    const {data: userCheck} = useGetAllCheckQuery({id: currentProject, date: 'firstDate=2024-01-01T00:00:00Z&lastDate=2024-12-31T23:59:59Z'})
+    console.log(currentProject)
     useEffect(() => {
     }, [userCheck]);
 
@@ -142,7 +142,7 @@ export const CalendarWidget = () => {
             </div>
 
             <div>
-                {<ViewCheckModal open={true} date={value} time={'20:00'}/>}
+                {<ViewCheckModal open={false} date={value} time={'20:00'}/>}
             </div>
         </div>
 

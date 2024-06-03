@@ -1,8 +1,13 @@
 import cls from "./ResultsLast.module.scss";
 import { ConfigProvider } from "antd";
+import {useGetAllCheckQuery} from "@/features/CreateCheckModal";
+import {useSelector} from "react-redux";
+import {currentProjectId} from "@/entity/Project";
 
 
 export const ResultsLast = () => {
+    const currentProject = useSelector(currentProjectId)
+    const {data: userCheck} = useGetAllCheckQuery({id: currentProject, date: 'firstDate=2024-01-01T00:00:00Z&lastDate=2024-12-31T23:59:59Z'})
 
     return (
         <ConfigProvider
@@ -25,6 +30,7 @@ export const ResultsLast = () => {
             <div className={cls.container}>
                 <span className={cls.header}>Результаты запланированных проверок</span>
                 {/*Все как ты любишь <3*/}
+
                 <div className={cls.check}>
                     <span className={cls.text}>30.05.24</span>
                     <span className={cls.text}>17:00</span>
