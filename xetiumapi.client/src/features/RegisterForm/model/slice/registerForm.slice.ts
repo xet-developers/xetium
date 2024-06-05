@@ -25,9 +25,11 @@ export const registerFormSlice = createSlice({
         },
         setPassword: (state, action: PayloadAction<string>) => {
             state.password = action.payload;
+            console.log(action.payload)
         },
         setSecondPassword: (state, action: PayloadAction<string>) => {
             state.secPassword = action.payload;
+            console.log(action.payload)
         },
         setSpamCheckbox: (state, action: PayloadAction<boolean>) => {
             state.acceptSpam = action.payload;

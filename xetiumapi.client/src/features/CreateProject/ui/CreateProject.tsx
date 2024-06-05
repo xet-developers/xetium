@@ -1,4 +1,4 @@
-import {FC, useCallback} from 'react';
+import {FC, useCallback, useState} from 'react';
 import React from 'react';
 import {useAppDispatch} from "@/shared/lib/hooks/useAppDispatch/useAppDispatch.ts";
 import {createProjectActions, createProjectReducer} from "../model/slice/createProject.slice.ts";
@@ -12,6 +12,7 @@ import {
     getProjectUrl
 } from "@/features/CreateProject/model/selectors/createProject.selectors.ts";
 import {usePostCreateProjectMutation} from "../api/createProject.api.ts";
+import { ProjectValidator} from "@/shared/lib/validator/project/project.ts";
 
 const reducers: ReducersList = {
     createProject: createProjectReducer,
@@ -29,9 +30,13 @@ export const CreateProject: FC<ICreateProjectProps> = (props): React.JSX.Element
     const [trigger, {data: result, isLoading}] = usePostCreateProjectMutation();
     const dispatch = useAppDispatch();
 
-    const projectName = useSelector(getProjectName)
-    const projectUrl = useSelector(getProjectUrl)
-    const projectDesc = useSelector(getProjectLabel)
+    const projectName: string = useSelector(getProjectName);
+    const projectUrl: string = useSelector(getProjectUrl);
+    const projectDesc: string = useSelector(getProjectLabel);
+
+    const [validateNameProject, setValidateNameProject] = useState(false);
+    const [validateUrlProject, setValidateUrlProject] = useState(false);
+    const [validateDescProject, setValidateDescProject] = useState(false);
 
     const onChangeProjectName = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(createProjectActions.setProjectName(event.target.value));
@@ -49,15 +54,17 @@ export const CreateProject: FC<ICreateProjectProps> = (props): React.JSX.Element
         if (!projectName || !projectUrl || !projectDesc) {
             message.info('Заполните все поля');
         } else {
-            await trigger({
-                url: projectUrl,
-                name: projectName,
-                description: projectDesc,
-            })
-            console.log('dsdsa')
-            if(result){
-                clear()
-                setOpen(false);
+            if (validate()) {
+                await trigger({
+                    url: projectUrl,
+                    name: projectName,
+                    description: projectDesc,
+                })
+                console.log('dsdsa')
+                if (result) {
+                    clear()
+                    setOpen(false);
+                }
             }
         }
     };
@@ -105,14 +112,35 @@ export const CreateProject: FC<ICreateProjectProps> = (props): React.JSX.Element
                         <Input value={projectName} onChange={onChangeProjectName} className={cls.inputName}
                                placeholder={'Название'}/>
 
+                        {
+                            validateNameProject &&
+                            <p style={{fontSize:'12px', width: '500px', color:'rgb(246, 100, 80)'}}>
+                                Название проекта должно начинаться с буквы и иметь длину от 1-30 символов!
+                            </p>
+                        }
+
                         <Input value={projectUrl} onChange={onChangeProjectUrl} className={cls.inputLink}
                                placeholder={'Ссылка на сайт: HTTPS://EXAMPLE.COM/*'}/>
+
+                        {
+                            validateUrlProject &&
+                            <p style={{fontSize:'12px', color:'rgb(246, 100, 80)'}}>
+                                Некорректные данные. Введите ссылку по примеру: HTTPS://EXAMPLE.COM/
+                            </p>
+                        }
 
                         <TextArea value={projectDesc} rows={5} onChange={onChangeProjectLabel} className={cls.inputDesc}
                                   placeholder={'Описание'} autoSize={{
                             minRows: 3,
                             maxRows: 5
                         }}/>
+
+                        {
+                            validateDescProject &&
+                            <p style={{fontSize:'12px', color:'rgb(246, 100, 80)'}}>
+                                Описание проекта должно содержать только буквы, цифры и иметь длину не более 150 символов!
+                            </p>
+                        }
 
                         <Button type="text" onClick={handleOk} className={cls.btnCreate}>
                             СОЗДАТЬ ПРОЕКТ
@@ -128,6 +156,20 @@ export const CreateProject: FC<ICreateProjectProps> = (props): React.JSX.Element
             </ConfigProvider>
         </DynamicModuleLoader>
     );
+
+    function validate() {
+        let name = ProjectValidator.validateNameProject(projectName);
+        let url = ProjectValidator.validateUrlProject(projectUrl);
+        let desc = ProjectValidator.validateDescProject(projectDesc.length);
+
+        setValidateNameProject(!name);
+        setValidateUrlProject(!url);
+        setValidateDescProject(!desc);
+
+        return name && url && desc;
+    }
 };
+
+
 
 

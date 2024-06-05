@@ -8,7 +8,7 @@ import {
     getAcceptPersonalData, getAcceptSpam,
     getEmail,
     getName,
-    getPassword,
+    getPassword, getSecondPassword,
 //    getSecondPassword,
 } from "../model/selectors/registerFormSelectors.ts";
 import {useRegisterFormApi} from "../api/registerForm.api.ts";
@@ -18,6 +18,7 @@ import {ConfigProvider, Button, Flex, Input, Typography, Checkbox} from "antd";
 const {Title, Link} = Typography;
 import cls from "@/features/RegisterForm/styles/RegisterForm.module.scss";
 import {initAuthData} from "@/entity/User/model/servises/initAuthData.ts";
+import {UserValidator} from "@/shared/lib/validator/user/userLogin.ts";
 
 const reducers: ReducersList = {
     registerForm: registerFormReducer,
@@ -27,18 +28,24 @@ export interface IRegisterFormProps {
     onSuccess: () => void;
 }
 
-
 export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
-    //const {onSuccess}: IRegisterFormProps = props
+
     const dispatch = useAppDispatch()
-    const username = useSelector(getName);
-    const password = useSelector(getPassword);
-    //const secPassword = useSelector(getSecondPassword);
-    const email = useSelector(getEmail);
+    const username: string = useSelector(getName);
+    const password: string = useSelector(getPassword);
+    const secPassword: string = useSelector(getSecondPassword);
+    const email: string = useSelector(getEmail);
     const acceptPersonalData = useSelector(getAcceptPersonalData);
     const acceptConfPolitics = useSelector(getAcceptConfPolitics);
     const acceptSpam = useSelector(getAcceptSpam);
-    const [updatePost, {isLoading}] = useRegisterFormApi()
+    const [updatePost, {isLoading}] = useRegisterFormApi();
+
+    const [validateUserName, setValidateUserName] = useState(false);
+    const [validateEmail, setValidateEmail] = useState(false);
+    const [validatePassword, setValidatePassword] = useState(false);
+    const [validateRepeatPassword, setValidateRepeatPassword] = useState(false);
+    const [validateCheckboxData, setValidateCheckboxData] = useState(false);
+    const [validateCheckboxConf, setValidateCheckboxConf] = useState(false);
 
     const onChangeUsername = useCallback(
         (value: string) => {
@@ -64,6 +71,7 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
     const onChangeSecondPassword = useCallback(
         (value: string) => {
             dispatch(registerFormActions.setSecondPassword(value));
+            console.log(secPassword)
         },
         [dispatch],
     );
@@ -72,47 +80,67 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
         () => {
             dispatch(registerFormActions.setSpamCheckbox(!acceptSpam));
         },
-        [dispatch,],
+        [dispatch, acceptSpam],
     );
 
     const onAcceptPersonalDataCheckbox = useCallback(
         () => {
             dispatch(registerFormActions.setAcceptPersonalDataCheckbox(!acceptPersonalData));
         },
-        [dispatch],
+        [dispatch, acceptPersonalData],
     );
 
     const onAcceptConfPoliticsCheckbox = useCallback(
         () => {
             dispatch(registerFormActions.setAcceptConfPoliticsCheckbox(!acceptConfPolitics));
         },
-        [dispatch],
+        [dispatch, acceptConfPolitics],
     );
 
     const onRegisterClick = useCallback(
         async (e: FormEvent) => {
             e.preventDefault();
             try {
-                const result = await updatePost({
-                    name: username,
-                    username: username,
-                    email: email,
-                    password: password,
-                    checkboxData: acceptPersonalData,
-                    checkboxConf: acceptConfPolitics,
-                    checkboxSpam: acceptSpam
-                }).unwrap();
+                if (validate()) {
+                    const result = await updatePost({
+                        name: username,
+                        username: username,
+                        email: email,
+                        password: password,
+                        checkboxData: acceptPersonalData,
+                        checkboxConf: acceptConfPolitics,
+                        checkboxSpam: acceptSpam
+                    }).unwrap();
 
-                if (result) {
-                    localStorage.setItem(USER_LOCALSTORAGE_KEY, result.token)
-                    dispatch(initAuthData())
+                    if (result) {
+                        localStorage.setItem(USER_LOCALSTORAGE_KEY, result.token)
+                        dispatch(initAuthData())
+                    }
                 }
             } catch (e) {
-                console.log(e)
+                if (secPassword.length === 0) {
+                    setValidateRepeatPassword(true);
+                }
             }
         },
-        [dispatch, password, username, email, acceptPersonalData, acceptConfPolitics, acceptSpam],
+        [dispatch, password, secPassword, username, email, acceptPersonalData, acceptConfPolitics, acceptSpam],
     );
+
+    function validate() {
+        let un = UserValidator.validateUserName(username);
+        let em = UserValidator.validateEmail(email);
+        let pass = UserValidator.validatePassword(password);
+        let rep = UserValidator.validateRepeatPassword(password, secPassword);
+
+        setValidateUserName(!un);
+        setValidateEmail(!em);
+        setValidatePassword(!pass);
+        setValidateRepeatPassword(!rep);
+        setValidateCheckboxData(!acceptPersonalData);
+        setValidateCheckboxConf(!acceptConfPolitics);
+
+        return un && em && pass && validateRepeatPassword && acceptPersonalData && acceptConfPolitics;
+    }
 
     return (
         <DynamicModuleLoader reducers={reducers}>
@@ -155,12 +183,67 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
                                 <Flex vertical={true} justify={'center'} gap={40}>
                                     <Input onChange={(e) => onChangeUsername(e.target.value)}
                                            placeholder={'Имя пользователя'} className={cls.input}/>
+
+                                    {
+                                        validateUserName &&
+                                        <span style={{
+                                            fontSize: '12px',
+                                            color: 'rgb(246, 100, 80)',
+                                            width: '500px',
+                                            marginTop: '-2em',
+                                            marginBottom: '-2em'
+                                        }}>
+                                            Имя пользователя может содержать только латинские буквы и иметь длину от 5 до 20
+                                            символов!
+                                        </span>
+                                    }
+
                                     <Input onChange={(e) => onChangeEmail(e.target.value)}
                                            placeholder={'Почта'} className={cls.input}/>
+
+                                    {
+                                        validateEmail &&
+                                        <span style={{
+                                            fontSize: '12px',
+                                            color: 'rgb(246, 100, 80)',
+                                            marginTop: '-2em',
+                                            marginBottom: '-2em'
+                                        }}>
+                                            Почта должна содержать домен, например, example@mail.ru!
+                                        </span>
+                                    }
+
                                     <Input onChange={(e) => onChangePassword(e.target.value)}
                                            placeholder={'Пароль'} className={cls.input}/>
+
+                                    {
+                                        validatePassword &&
+                                        <span style={{
+                                            fontSize: '12px',
+                                            color: 'rgb(246, 100, 80)',
+                                            width: '500px',
+                                            marginTop: '-2em',
+                                            marginBottom: '-2em'
+                                        }}>
+                                            Пароль должен состоять содержать заглавную букву, цифру и иметь длину не менее 6
+                                            символов!
+                                        </span>
+                                    }
+
                                     <Input onChange={(e) => onChangeSecondPassword(e.target.value)}
                                            placeholder={'Повторите пароль'} className={cls.input}/>
+
+                                    {
+                                        validateRepeatPassword &&
+                                        <span style={{
+                                            fontSize: '12px',
+                                            color: 'rgb(246, 100, 80)',
+                                            marginTop: '-2em',
+                                            marginBottom: '-2em'
+                                        }}>
+                                            Пароли не совпадают!
+                                        </span>
+                                    }
                                 </Flex>
 
                                 {isLoading ? (
@@ -196,7 +279,9 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
                                         value={acceptPersonalData}
                                         onChange={() => {
                                             onAcceptPersonalDataCheckbox()
-                                        }}></Checkbox>
+                                        }}>
+                                    </Checkbox>
+
                                     <Title level={5} style={{
                                         color: '#252525', fontSize: '13px', fontWeight: '400',
                                         fontFamily: 'Montserrat'
@@ -204,6 +289,18 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
                                         Даю свое согласие на обработку персональных данных
                                     </Title>
                                 </Flex>
+
+                                {
+                                    validateCheckboxData &&
+                                    <span style={{
+                                        fontSize: '12px',
+                                        color: 'rgb(246, 100, 80)',
+                                        marginTop: '-2em',
+                                        marginBottom: '-1em'
+                                    }}>
+                                        Необходимо поставить флажок!
+                                    </span>
+                                }
 
                                 <Flex justify={'center'} gap={10}>
                                     <Checkbox
@@ -218,6 +315,18 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
                                         Согласен с условиями пользования и политикой конфиденциальности
                                     </Title>
                                 </Flex>
+
+                                {
+                                    validateCheckboxConf &&
+                                    <p style={{
+                                        fontSize: '12px',
+                                        color: 'rgb(246, 100, 80)',
+                                        marginTop: '-2em',
+                                        marginBottom: '-1em'
+                                    }}>
+                                        Необходимо поставить флажок!
+                                    </p>
+                                }
 
                                 <Flex justify={'center'} align={'center'} gap={10}>
                                     <Checkbox
@@ -236,7 +345,6 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
                         </Flex>
                     </Flex>
                 </div>
-
             </ConfigProvider>
         </DynamicModuleLoader>
     );

@@ -49,26 +49,6 @@ export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
     useEffect(() => {
     }, [repeat]);
 
-    const items: MenuProps['items'] = [
-        {
-            label: 'Кластер №1',
-            key: '1',
-        },
-        {
-            label: 'Кластер №2',
-            key: '2',
-        },
-        {
-            label: 'Кластер №3',
-            key: '3',
-        },
-    ];
-
-    const onClick: MenuProps['onClick'] = ({ key }) => {
-        message.info(`Вы выбрали кластер №${key}`);
-        handleChangeCluster(key)
-    };
-
     const handleSelect = (date) => {
         setDate(date);
     };
@@ -116,7 +96,7 @@ export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
                         </div>
                         <div style={wrapperStyle}>
                             <Calendar fullscreen={false} value={date} onChange={handleSelect}/>
-                            <span style={{fontSize: '12px'}}>Выбранная дата: {date ? date.format('DD.MM.YYYY') : 'Не выбрана'}</span>
+                            <span style={{fontSize: '14px'}}>Выбранная дата: {date ? date.format('DD.MM.YYYY') : 'Не выбрана'}</span>
                         </div>
                     </div>
 
@@ -137,10 +117,11 @@ export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
 
                             <Space wrap>
                                 <Select
-                                    defaultValue="Каждую неделю"
-                                    style={{ width: 200, marginTop: '1em', colorPrimary: '#252525'}}
+                                    defaultValue="Без повторения"
+                                    style={{ width: 200, marginTop: '1em', colorPrimary: '#252525', fontFamily: 'Montserrat, sans-serif'}}
                                     onChange={handleChangeRepeat}
                                     options={[
+                                        { value: 'Без повторения', label: 'Без повторения' },
                                         { value: 'Каждую неделю', label: 'Каждую неделю' },
                                         { value: 'Каждый месяц', label: 'Каждый месяц' },
                                     ]}
@@ -153,14 +134,18 @@ export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
                                 <ClusterOutlined style={{color: '#454545'}}/>
                                 <span>Кластер ключевых слов</span>
                             </div>
-                            <Dropdown menu={{items, onClick }}>
-                                <a onClick={(e) => e.preventDefault()}>
-                                    <Space style={{marginTop: '1em', fontSize: '12px'}}>
-                                        Выберите кластер
-                                        <DownOutlined/>
-                                    </Space>
-                                </a>
-                            </Dropdown>
+                            <Space wrap>
+                                <Select
+                                    defaultValue="1"
+                                    style={{ width: 200, marginTop: '1em', colorPrimary: '#252525', fontFamily: 'Montserrat, sans-serif'}}
+                                    onChange={handleChangeRepeat}
+                                    options={[
+                                        { value: '1', label: 'Кластер 1' },
+                                        { value: '2', label: 'Кластер 2' },
+                                        { value: '3', label: 'Кластер 3' },
+                                    ]}
+                                />
+                            </Space>
                         </div>
 
                         <div className={cls.blockData}>
@@ -176,7 +161,6 @@ export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
                     </div>
                     {/*<p>Данные проверки: {date.format('DD.MM.YYYY')} в {time}, повторять {repeat}, использовать кластер №{cluster}, искать в {selectedCheckbox}</p>*/}
                 </div>
-
             </ConfigProvider>
         </RawModal>
     );

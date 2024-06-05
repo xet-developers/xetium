@@ -1,4 +1,4 @@
-import {FC, FormEvent, useCallback} from 'react';
+import {FC, FormEvent, useCallback, useState} from 'react';
 import {useAppDispatch} from "@/shared/lib/hooks/useAppDispatch/useAppDispatch.ts";
 import {DynamicModuleLoader, ReducersList} from "@/shared/lib/components/DynamicModuleLoader.tsx";
 import {
@@ -25,8 +25,9 @@ const reducers: ReducersList = {
 export const AuthorizationForm: FC<IAuthorizationFormProps> = () => {
     const dispatch = useAppDispatch()
 
-    const username = useSelector(getUserName)
-    const password = useSelector(getPassword)
+    const username = useSelector(getUserName);
+    const password = useSelector(getPassword);
+    const [error, setError] = useState(false);
 
     const [updatePost, {isLoading}] = useAuthorizationFormApi()
 
@@ -44,23 +45,24 @@ export const AuthorizationForm: FC<IAuthorizationFormProps> = () => {
         [dispatch],
     );
 
-
     const onRegisterClick = useCallback(
         async (e: FormEvent) => {
-            e.preventDefault();
+        e.preventDefault();
+
+        try {
             const result = await updatePost({
                 UserName: username,
                 Password: password,
             }).unwrap();
 
-
             if (result) {
-                localStorage.setItem(USER_LOCALSTORAGE_KEY, result.token)
-                dispatch(initAuthData())
+                localStorage.setItem(USER_LOCALSTORAGE_KEY, result.token);
+                dispatch(initAuthData());
             }
-        },
-        [dispatch, password, username],
-    );
+        } catch (error) {
+            setError(true);
+        }
+    }, [dispatch, password, username]);
 
 
     return (
@@ -94,10 +96,17 @@ export const AuthorizationForm: FC<IAuthorizationFormProps> = () => {
 
                             <Flex vertical={true} justify={'center'} gap={40}>
                                 <Input onChange={(e) => onChangeUsername(e.target.value)}
-                                       placeholder={'Имя пользователя или почта'} className={cls.input}/>
+                                       placeholder={'Имя пользователя'} className={cls.input}/>
                                 <Input onChange={(e) => onChangePassword(e.target.value)}
                                        placeholder={'Пароль'} className={cls.input}/>
                             </Flex>
+
+                            {
+                                error &&
+                                <p style={{fontSize:'14px', color:'rgb(246, 100, 80)', marginTop: '-1em', marginBottom: '-1em'}}>
+                                    Неправильное имя пользователя или пароль!
+                                </p>
+                            }
 
                             {isLoading ? (
                                 <Title level={5} style={{color: '#252525', marginTop: '10px', fontSize: '18px', fontWeight: '400', fontFamily: 'Montserrat'}}>
