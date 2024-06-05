@@ -1,4 +1,5 @@
 using Api;
+using Core.Filter;
 using Hangfire;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -9,11 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<UserIdFilter>();
+});
 builder.Services.TryAddServices();
 builder.Services.TryAddInfrastucture(builder.Configuration);
 builder.Services.AddBroker();
-
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
