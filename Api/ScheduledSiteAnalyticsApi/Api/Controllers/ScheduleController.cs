@@ -24,8 +24,7 @@ public class ScheduleController: ControllerBase
     [HttpPost("create")]
     public async Task<IActionResult> CreateTask([FromBody] ScheduleRequest scheduleRequest)
     {
-        var token = Request.Headers["Authorization"].FirstOrDefault().ParseJWT();
-        var userID = Guid.Parse(token.Claims.FirstOrDefault(c => c.Type == "id").Value);
+        var userID = (Guid)HttpContext.Items["UserId"];
 
         await _scheduleService.ScheduleTaskAsync(new TaskDetails()
         {
@@ -65,8 +64,7 @@ public class ScheduleController: ControllerBase
     [HttpGet]
     public async Task<ActionResult<UserSearchesRequestDto>> GetAllTask([FromQuery] Guid projectId, DateTime firstDate, DateTime lastDate)
     {
-        var token = Request.Headers["Authorization"].FirstOrDefault().ParseJWT();
-        var userID = Guid.Parse(token.Claims.FirstOrDefault(c => c.Type == "id").Value);
+        var userID = (Guid)HttpContext.Items["UserId"];
 
         var res = await _scheduleService.GetAllTasksInfoAsync(new UserSearchInfo
         {
