@@ -20,7 +20,7 @@ public static class ProfileLibStartUp
         {
             x.UsingRabbitMq((context, cfg) =>
             {
-                cfg.Host("localhost", "/", h =>
+                cfg.Host("xetium-rabbitmq-service", "/", h =>
                 {
                     h.Username("guest");
                     h.Password("guest");

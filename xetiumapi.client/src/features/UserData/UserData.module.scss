@@ -1,0 +1,31 @@
+.label {
+  font-family: "Montserrat", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #717171;
+}
+
+.item {
+  margin-top: 2em;
+  margin-bottom: 4em;
+}
+
+.form {
+  display: flex;
+  flex-direction: row;
+  gap: 4em;
+}
+
+.input {
+  width: 340px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+}
+
+.divider {
+  width: 340px;
+  border-top: 1px solid #717171;
+  margin-bottom: 6em;
+}

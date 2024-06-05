@@ -55,7 +55,7 @@ export const AuthorizationForm: FC<IAuthorizationFormProps> = () => {
 
 
             if (result) {
-                localStorage.setItem(USER_LOCALSTORAGE_KEY, result)
+                localStorage.setItem(USER_LOCALSTORAGE_KEY, result.token)
                 dispatch(initAuthData())
             }
         },

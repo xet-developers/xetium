@@ -1,0 +1,184 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: analytics-service
+  namespace: xetdev
+spec:
+  selector:
+    project: analytics
+  ports:
+    - name: analytics-listener
+      protocol: TCP
+      port: 80
+      targetPort: 7133
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+  namespace: xetdev
+spec:
+  selector:
+    project: frontend
+  ports:
+    - name: frontend-listener
+      protocol: TCP
+      port: 80
+      targetPort: 5173
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway-service
+  namespace: xetdev
+spec:
+  selector:
+    project: gateway
+  ports:
+    - name: gateway-listener
+      protocol: TCP
+      port: 80
+      targetPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: generation-service
+  namespace: xetdev
+spec:
+  selector:
+    project: generation
+  ports:
+    - name: generation-listener
+      protocol: TCP
+      port: 80
+      targetPort: 7088
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: identity-service
+  namespace: xetdev
+spec:
+  selector:
+    project: identity
+  ports:
+    - name: identity-listener
+      protocol: TCP
+      port: 80
+      targetPort: 7254
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: project-service
+  namespace: xetdev
+spec:
+  selector:
+    project: project
+  ports:
+    - name: project-listener
+      protocol: TCP
+      port: 80
+      targetPort: 7110
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: schedule-service
+  namespace: xetdev
+spec:
+  selector:
+    project: schedule
+  ports:
+    - name: schedule-listener
+      protocol: TCP
+      port: 80
+      targetPort: 7252
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: xetium-rabbitmq-service
+  namespace: xetdev
+spec:
+  selector:
+    app: xetium-rabbitmq
+  ports:
+    - protocol: TCP
+      port: 5672
+      targetPort: 5672
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: xetium-postgres-service
+  namespace: xetdev
+spec:
+  selector:
+    app: xetium-postgres
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: xetium-ingress
+  namespace: xetdev
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: "xetdev.stk8s.66bit.ru"
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: frontend-service
+                port:
+                  number: 80 
+          - pathType: Prefix
+            path: /account
+            backend:
+              service:
+                name: gateway-service
+                port:
+                  number: 80 
+          - pathType: Prefix
+            path: /analytics
+            backend:
+              service:
+                name: gateway-service
+                port:
+                  number: 80 
+          - pathType: Prefix
+            path: /project
+            backend:
+              service:
+                name: gateway-service
+                port:
+                  number: 80 
+          - pathType: Prefix
+            path: /scheduletask
+            backend:
+              service:
+                name: gateway-service
+                port:
+                  number: 80 
+          - pathType: Prefix
+            path: /generation
+            backend:
+              service:
+                name: gateway-service
+                port:
+                  number: 80 
+          - pathType: Prefix
+            path: /swagger
+            backend:
+              service:
+                name: gateway-service
+                port:
+                  number: 80

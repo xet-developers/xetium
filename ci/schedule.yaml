@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: schedule
+  namespace: xetdev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: schedule
+  template:
+    metadata:
+      labels:
+        project: schedule
+    spec:
+      containers:
+        - name: schedule
+          image: hub.66bit.ru/urfu-2023-rtf/xetdevelopment/xetdev/schedule:latest
+          ports:
+            - containerPort: 7252
+      imagePullSecrets:
+        - name: xetium-secret

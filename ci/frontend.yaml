@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: xetdev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: frontend
+  template:
+    metadata:
+      labels:
+        project: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: hub.66bit.ru/urfu-2023-rtf/xetdevelopment/xetdev/frontend:latest
+          ports:
+            - containerPort: 5173
+      imagePullSecrets:
+        - name: xetium-secret

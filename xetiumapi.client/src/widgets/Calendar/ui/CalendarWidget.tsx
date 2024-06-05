@@ -2,12 +2,20 @@ import cls from "./CalendarWidget.module.scss";
 import type {Dayjs} from 'dayjs';
 import dayjs from 'dayjs';
 import {Calendar, Badge, BadgeProps, CalendarProps, Alert} from "antd";
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {CreateCheckModal} from "@/features/CreateCheckModal/CreateCheckModal.tsx";
 import {ViewCheckModal} from "@/features/ViewCheckModal/ViewCheckModal.tsx";
+import {useGetAllCheckQuery} from "@/features/CreateCheckModal";
+import {useSelector} from "react-redux";
+import {currentProjectId} from "@/entity/Project";
 
 export const CalendarWidget = () => {
     const [modalOpen, setModalOpen] = useState(false);
+    const currentProject = useSelector(currentProjectId)
+    const {data: userCheck} = useGetAllCheckQuery({id: currentProject, date: 'firstDate=2024-01-01T00:00:00Z&lastDate=2024-12-31T23:59:59Z'})
+    console.log(currentProject)
+    useEffect(() => {
+    }, [userCheck]);
 
     const closeModal = () => {
         setModalOpen(false);
@@ -134,7 +142,7 @@ export const CalendarWidget = () => {
             </div>
 
             <div>
-                {<ViewCheckModal open={true} date={value} time={'20:00'}/>}
+                {<ViewCheckModal open={false} date={value} time={'20:00'}/>}
             </div>
         </div>
 

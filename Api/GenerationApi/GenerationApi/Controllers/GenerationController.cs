@@ -8,6 +8,7 @@ using Api.Controllers.PositionReport;
 namespace Api.Controllers
 {
     [Route("generation")]
+    [ApiController]
     public class GenerationController : ControllerBase
     {
         private IPositionReportService _positionReportService;

@@ -1,20 +1,20 @@
 {
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:5000/"
+    "BaseUrl": "https://xetdev.stk8s.66bit.ru/"
   },
-
   "Routes": [
     {
       "DownstreamPathTemplate": "/account/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7254
+          "Host": "identity-service",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/account/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST" ],
+      "SwaggerKey": "v1-account",
       "AuthenticationOptions": {
         "JwtBearer": {
           "Issuer": "XetApi",
@@ -24,51 +24,107 @@
     },
     {
       "DownstreamPathTemplate": "/analytics/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7133
+          "Host": "analytics-service",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/analytics/{everything}",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [ "POST" ],
+      "SwaggerKey": "v1-analytics"
     },
     {
       "DownstreamPathTemplate": "/project/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7110
+          "Host": "project-service",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/project/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "DELETE" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "DELETE" ],
+      "SwaggerKey": "v1-project"
     },
     {
       "DownstreamPathTemplate": "/scheduletask/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7252
+          "Host": "schedule-service",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/scheduletask/{everything}",
-      "UpstreamHttpMethod": [ "POST", "DELETE", "PATCH", "GET" ]
+      "UpstreamHttpMethod": [ "POST", "DELETE", "PATCH", "GET" ],
+      "SwaggerKey": "v1-scheduletask"
     },
     {
       "DownstreamPathTemplate": "/generation/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7088
+          "Host": "generation-service",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/generation/{everything}",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [ "POST" ],
+      "SwaggerKey": "v1-generation"
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "v1-account",
+      "Config": [
+        {
+          "Name": "Account API",
+          "Version": "v1",
+          "Url": "http://identity-service/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "v1-analytics",
+      "Config": [
+        {
+          "Name": "Analytics API",
+          "Version": "v1",
+          "Url": "http://analytics-service/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "v1-project",
+      "Config": [
+        {
+          "Name": "Project API",
+          "Version": "v1",
+          "Url": "http://project-service/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "v1-scheduletask",
+      "Config": [
+        {
+          "Name": "ScheduleTask API",
+          "Version": "v1",
+          "Url": "http://schedule-service/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "v1-generation",
+      "Config": [
+        {
+          "Name": "Generation API",
+          "Version": "v1",
+          "Url": "http://generation-service/swagger/v1/swagger.json"
+        }
+      ]
     }
   ]
 }

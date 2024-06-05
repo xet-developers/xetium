@@ -25,9 +25,9 @@ export const AppRouter = () => {
 
 
     const routes = useMemo(() => {
-        console.log(authData)
         if (authData) {
-            return (<RegisteredLayout
+            return (
+                <RegisteredLayout
                 header={<Header/>}
                 navMenu={<Sidebar/>}
                 content={<Routes>{b}</Routes>}>

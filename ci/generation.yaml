@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: generation
+  namespace: xetdev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: generation
+  template:
+    metadata:
+      labels:
+        project: generation
+    spec:
+      containers:
+        - name: generation
+          image: hub.66bit.ru/urfu-2023-rtf/xetdevelopment/xetdev/generation:latest
+          ports:
+            - containerPort: 7088
+      imagePullSecrets:
+        - name: xetium-secret

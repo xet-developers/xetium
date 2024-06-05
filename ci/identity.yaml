@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: identity
+  namespace: xetdev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: identity
+  template:
+    metadata:
+      labels:
+        project: identity
+    spec:
+      containers:
+        - name: identity
+          image: hub.66bit.ru/urfu-2023-rtf/xetdevelopment/xetdev/identity:latest
+          ports:
+            - containerPort: 7254
+      imagePullSecrets:
+        - name: xetium-secret

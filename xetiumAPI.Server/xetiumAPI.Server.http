@@ -1,6 +1,0 @@
-@xetiumAPI.Server_HostAddress = http://localhost:5231
-
-GET {{xetiumAPI.Server_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

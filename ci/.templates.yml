@@ -1,0 +1,28 @@
+.before script docker registry login: &before-script-docker-registry-login
+  - mkdir ~/.docker
+  - cat $CR_CONFIG > ~/.docker/config.json
+
+.make_docker_image:
+  stage: make_docker_images
+  image: docker:latest
+  before_script:
+    - *before-script-docker-registry-login
+  script:
+    - docker build -t $IMAGE -f $DOCKERFILE .
+    - docker push $IMAGE
+  when: manual
+
+.deploy:
+  stage: deploy
+  image: hub.66bit.ru/shared/stk8s:1.26.2
+  script:
+    - kubectl delete -f $MANIFEST
+    - kubectl apply -f $MANIFEST
+  when: manual
+
+.logs: 
+  stage: logs
+  image: hub.66bit.ru/shared/stk8s:1.26.2
+  script:
+    - kubectl logs -n xetdev deploy/$DEPLOYMENT --timestamps --since=1h
+  when: manual

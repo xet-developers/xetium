@@ -1,6 +1,8 @@
 using IdentityServerApi.Controllers.User;
+using Infrastucture;
 using MassTransit;
 using MassTransit.MultiBus;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +19,7 @@ builder.Services.AddMassTransit(x =>
     x.AddConsumer<CheckUserExistConsumer>();
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host("localhost", "/", h =>
+        cfg.Host("xetium-rabbitmq-service", "/", h =>
         {
             h.Username("guest");
             h.Password("guest");
@@ -27,18 +29,20 @@ builder.Services.AddMassTransit(x =>
 });
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+using (var scope = app.Services.CreateScope())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContex>();
+    await context.Database.MigrateAsync();
 }
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseHttpsRedirection();
 app.MapControllers();
 
-app.MapControllers();
 
 app.Run();

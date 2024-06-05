@@ -7,8 +7,9 @@ import type {MenuProps} from 'antd';
 import {useNavigate} from 'react-router-dom';
 import {StyleProvider} from '@ant-design/cssinjs';
 import {CreateProject} from "@/features/CreateProject";
-import {useGetProjectQuery} from "@/entity/Project";
+import {ProjectSliceActions, useGetProjectQuery} from "@/entity/Project";
 import {RightOutlined} from "@ant-design/icons";
+import {useAppDispatch} from "@/shared/lib/hooks/useAppDispatch/useAppDispatch.ts";
 
 interface ISidebarProps {
 }
@@ -19,6 +20,7 @@ export const Sidebar: FC<ISidebarProps> = memo(() => {
     const navigate = useNavigate();
     const {data, isLoading} = useGetProjectQuery()
     const [items, setItems] = useState(MenuItems)
+    const dispatch = useAppDispatch()
 
     const openModal = () => {
         setIsModalVisible(true);
@@ -29,6 +31,10 @@ export const Sidebar: FC<ISidebarProps> = memo(() => {
             openModal();
         } else {
             const item = MenuItems.find(item => item.key === key);
+
+            if(key.length > 3){
+                dispatch(ProjectSliceActions.setCurrentProjectId(key))
+            }
             if (item && item.link) {
                 navigate(item.link);
             }

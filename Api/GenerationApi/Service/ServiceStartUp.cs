@@ -9,6 +9,7 @@ public static class ServiceStartUp
     {
         serviceCollection.TryAddScoped<IClusteringService, ClusteringService>();
         serviceCollection.TryAddScoped<IPositionReportService, PositionReportService>();
+        serviceCollection.AddHttpClient();
         return serviceCollection;
     }
 }

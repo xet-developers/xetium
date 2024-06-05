@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: xetium-rabbitmq
+  namespace: xetdev
+spec:
+  selector:
+    matchLabels:
+      app: xetium-rabbitmq
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: xetium-rabbitmq
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:        
+      - name: xetium-rabbitmq
+        image: hub.66bit.ru/s17v3r/kubernetes/rabbitmq
+        ports:
+          - name: amqp
+            protocol: TCP
+            containerPort: 5672
+        volumeMounts:
+          - name: xetium-rabbitmq-volume
+            mountPath: /var/lib/rabbitmq/mnesia
+        env:
+          - name: RABBITMQ_DEFAULT_USER
+            value: guest
+          - name: RABBITMQ_DEFAULT_PASS
+            value: guest
+      imagePullSecrets:
+        - name: registry-secret
+  volumeClaimTemplates:
+    - metadata:
+        name: xetium-rabbitmq-volume
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "rook-ceph-block"
+        resources:
+          requests:
+            storage: 2Gi
+  
