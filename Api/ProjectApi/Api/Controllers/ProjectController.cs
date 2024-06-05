@@ -40,6 +40,22 @@ public class ProjectController: ControllerBase
         return Ok(result);
     }
 
+    [HttpPatch("update")]
+    public async Task<IActionResult> UpdateProjectAsync([FromBody] ProjectUpdateRequest request)
+    {
+        var userId = GetUserId();
+        
+        var res = await _projectService.UpdateAsync(new Domain.Entity.Project()
+        {
+            Description = request.Description,
+            Id = request.ProjectId,
+            Name = request.Name,
+            Url = request.Url,
+            UserId = userId
+        });
+        
+        return res is null ? BadRequest("it's not your project") : Ok(res);
+    }
     private Guid GetUserId()
     {
         var token = Request.Headers["Authorization"].FirstOrDefault().ParseJWT();

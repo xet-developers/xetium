@@ -37,12 +37,14 @@ public class BaseRepository: IStandartStore
         return entityId;
     }
 
-    public async Task UpdateAsync<T>(T entity)
+    public async Task<T> UpdateAsync<T>(T entity)
         where T : BaseEntity<Guid>
     {
         _applicationDbContext.Set<T>().Update(entity);
 
         await _applicationDbContext.SaveChangesAsync();
+
+        return entity;
     }
     
 
