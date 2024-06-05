@@ -22,19 +22,19 @@ if (!certificateName) {
 const certFilePath = path.join(baseFolder, `${certificateName}.pem`);
 const keyFilePath = path.join(baseFolder, `${certificateName}.key`);
 
-// if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
-//     if (0 !== child_process.spawnSync('dotnet', [
-//         'dev-certs',
-//         'https',
-//         '--export-path',
-//         certFilePath,
-//         '--format',
-//         'Pem',
-//         '--no-password',
-//     ], {stdio: 'inherit',}).status) {
-//         throw new Error("Could not create certificate.");
-//     }
-// }
+if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
+    if (0 !== child_process.spawnSync('dotnet', [
+        'dev-certs',
+        'https',
+        '--export-path',
+        certFilePath,
+        '--format',
+        'Pem',
+        '--no-password',
+    ], {stdio: 'inherit',}).status) {
+        throw new Error("Could not create certificate.");
+    }
+}
 
 // https://vitejs.dev/config/
 
@@ -53,49 +53,38 @@ export default ({mode}) => {
             }
         },
         server: {
-            host: true,
             proxy: {
                 '/account/register': {
-                    target: 'https://xetdev.stk8s.66bit.ru',
+                    target: 'https://localhost:5000',
                     changeOrigin: true,
                     secure: false
                 },
                 '/account/login': {
-                    target: 'https://xetdev.stk8s.66bit.ru',
+                    target: 'https://localhost:5000',
                     changeOrigin: true,
                     secure: false
                 },
                 '/account/info': {
-                    target: 'https://xetdev.stk8s.66bit.ru',
+                    target: 'https://localhost:5000',
                     changeOrigin: true,
                     secure: false
                 },
                 '/project/create': {
-                    target: 'https://xetdev.stk8s.66bit.ru',
+                    target: 'https://localhost:7233',
                     changeOrigin: true,
                     secure: false
                 },
                 '/project': {
-                    target: 'https://xetdev.stk8s.66bit.ru',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/scheduletask': {
-                    target: 'https://xetdev.stk8s.66bit.ru',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/scheduletask/create': {
-                    target: 'https://xetdev.stk8s.66bit.ru',
+                    target: 'https://localhost:7233',
                     changeOrigin: true,
                     secure: false
                 }
             },
             port: 5173,
-            // https: {
-            //     key: fs.readFileSync(keyFilePath),
-            //     cert: fs.readFileSync(certFilePath),
-            // }
+            https: {
+                key: fs.readFileSync(keyFilePath),
+                cert: fs.readFileSync(certFilePath),
+            }
         }
     })
 }
