@@ -1,6 +1,7 @@
 ﻿namespace IdentityServerApi.Controllers.User.Request;
 
-public class UserInfoRequest
+
+public class UserInfoResponse
 {
     public string UserName { get; set; }
     

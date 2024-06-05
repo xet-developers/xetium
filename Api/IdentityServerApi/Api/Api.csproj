@@ -20,10 +20,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\User\Response\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\..\..\Libs\ProfileConnectionLib\ProfileConnectionLib.csproj" />
       <ProjectReference Include="..\Infrastucture\Infrastucture.csproj" />
       <ProjectReference Include="..\Services\Services.csproj" />
