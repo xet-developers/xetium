@@ -22,7 +22,7 @@ export const ResultClusterTable = () => {
 
     const columns: TableColumnsType<DataType> = [
         {
-            title: 'Ключевые фразы',
+            title: 'Дата',
             dataIndex: 'name',
             key: 'name',
             width: 250,
@@ -30,113 +30,30 @@ export const ResultClusterTable = () => {
             onFilter: (value, record) => record.name.indexOf(value as string) === 0,
         },
         {
-            title: 'Дата и время',
-            children: [
-                {
-                    title: '30.05.24 в 06:00',
-                    children: [
-                        {
-                            title: 'Яндекс',
-                            dataIndex: 'building',
-                            key: 'building',
-                            width: 100,
-                        },
-                        {
-                            title: 'Google',
-                            dataIndex: 'number',
-                            key: 'number',
-                            width: 100,
-                        },
-                    ],
+            title: 'Количество запросов',
+            dataIndex: 'name',
+            key: 'name',
+            width: 250,
+            fixed: 'left',
+            onFilter: (value, record) => record.name.indexOf(value as string) === 0,
+        },
+        {
+            title: 'Количество кластеризованных запросов',
+            dataIndex: 'name',
+            key: 'name',
+            width: 250,
+            fixed: 'left',
+            onFilter: (value, record) => record.name.indexOf(value as string) === 0,
+        },
+        {
+            title: 'Ссылка для скачивания',
+            dataIndex: 'name',
+            key: 'name',
+            width: 250,
+            fixed: 'left',
+            onFilter: (value, record) => record.name.indexOf(value as string) === 0,
+        },
 
-                },
-                {
-                    title: '30.05.24',
-                    children: [
-                        {
-                            title: 'Яндекс',
-                            dataIndex: 'building',
-                            key: 'building',
-                            width: 100,
-                        },
-                        {
-                            title: 'Google',
-                            dataIndex: 'number',
-                            key: 'number',
-                            width: 100,
-                        },
-                    ],
-                },
-                {
-                    title: '30.05.24',
-                    children: [
-                        {
-                            title: 'Яндекс',
-                            dataIndex: 'building',
-                            key: 'building',
-                            width: 100,
-                        },
-                        {
-                            title: 'Google',
-                            dataIndex: 'number',
-                            key: 'number',
-                            width: 100,
-                        },
-                    ],
-                },
-                {
-                    title: '30.05.24 в 17:00',
-                    children: [
-                        {
-                            title: 'Яндекс',
-                            dataIndex: 'building',
-                            key: 'building',
-                            width: 100,
-                        },
-                        {
-                            title: 'Google',
-                            dataIndex: 'number',
-                            key: 'number',
-                            width: 100,
-                        },
-                    ],
-                },
-                {
-                    title: '30.05.24 в 12:00',
-                    children: [
-                        {
-                            title: 'Яндекс',
-                            dataIndex: 'building',
-                            key: 'building',
-                            width: 100,
-                        },
-                        {
-                            title: 'Google',
-                            dataIndex: 'number',
-                            key: 'number',
-                            width: 100,
-                        },
-                    ],
-                },
-                {
-                    title: '30.05.24',
-                    children: [
-                        {
-                            title: 'Яндекс',
-                            dataIndex: 'building',
-                            key: 'building',
-                            width: 100,
-                        },
-                        {
-                            title: 'Google',
-                            dataIndex: 'number',
-                            key: 'number',
-                            width: 100,
-                        },
-                    ],
-                }
-            ],
-        }
     ];
 
     const data: DataType[] = [];
@@ -198,7 +115,7 @@ export const ResultClusterTable = () => {
         >
             <div className={cls.container}>
                 <div className={cls.header}>
-                    <span>Результаты проверок</span>
+                    <span>Результаты кластеризации</span>
                 </div>
 
                 <div className="blockData">
@@ -215,7 +132,6 @@ export const ResultClusterTable = () => {
                         />
                     )}
                 </div>
-                <span className={cls.text}>{'>'}100 - позиция в поисковой системе не входит в топ-100</span>
             </div>
         </ConfigProvider>
     );

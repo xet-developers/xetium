@@ -1,6 +1,6 @@
 .container {
   width: 755px;
-  height: 335px;
+  height: 325px;
   border-radius: 8px;
   font-family: "Montserrat", sans-serif;
   background-color: #fff;
@@ -17,14 +17,8 @@
   margin: 1em;
 }
 
-.radio {
-  font-family: "Montserrat", sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  margin-left: 1.5em;
-}
 
-.keyWords {
+.block {
   margin-top: 1.5em;
   margin-left: 1em;
 }
@@ -33,6 +27,23 @@
   font-size: 13px;
   color: #F66450;
   font-weight: 500;
+}
+
+.blockText {
+  font-size: 15px;
+  font-weight: 500;
+  color: #252525;
+  margin-left: 1.5em;
+  margin-right: 1em;
+  line-height: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.imp {
+  font-size: 15px;
+  font-weight: 600;
+  color: #F66450;
 }
 
 .btn {

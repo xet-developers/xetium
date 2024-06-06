@@ -1,22 +1,32 @@
 import cls from "./CreateClusterRequestResult.module.scss";
-import { useState } from 'react';
-import type { RadioChangeEvent } from 'antd';
-import { Button, Input, Select, Radio, ConfigProvider } from "antd";
-import { FileSyncOutlined } from '@ant-design/icons';
-
-const { TextArea } = Input;
+import { Button, ConfigProvider } from "antd";
+import { DownloadOutlined } from '@ant-design/icons';
+import  { useState } from 'react';
 
 export const CreateClusterRequestResult = () => {
 
-    const [valueRadio, setValueRadio] = useState();
+    const [loadings, setLoadings] = useState<boolean[]>([]);
 
-    const onChange = (e: RadioChangeEvent) => {
-        setValueRadio(e.target.value);
+    const enterLoading = (index: number) => {
+        setLoadings((prevLoadings) => {
+            const newLoadings = [...prevLoadings];
+            newLoadings[index] = true;
+            return newLoadings;
+        });
+
+        setTimeout(() => {
+            setLoadings((prevLoadings) => {
+                const newLoadings = [...prevLoadings];
+                newLoadings[index] = false;
+                return newLoadings;
+            });
+        }, 6000);
     };
 
     const handleGenerate = () => {
 
     }
+
     return (
         <ConfigProvider
             theme={{
@@ -36,50 +46,35 @@ export const CreateClusterRequestResult = () => {
             }}
         >
             <div className={cls.container}>
-                <span className={cls.header}>Создание запроса</span>
+                <span className={cls.header}>Последняя кластеризация</span>
 
-                <Radio.Group onChange={onChange} value={valueRadio}>
-                    <Radio value={1} className={cls.radio}>Выборочная генерация</Radio>
-                    <Radio value={2} className={cls.radio}>Полная генерация</Radio>
-                </Radio.Group>
+                <span className={cls.blockText}>
+                    <span>
+                        После автоматической кластеризации рекомендуется
+                        проводить дополнительную ручную кластеризацию.
+                        Это помогает довести состояние кластеров до нужного
+                        вам состояния и распределить не попавшие в кластеры
+                        запросы самостоятельно.
+                    </span>
 
-                <div className={cls.keyWords}>
-                    <span className={cls.textUp}>Ключевые слова</span>
-                    <TextArea autoSize={{minRows: 4, maxRows: 4}}
-                              placeholder={'Введите ключевые слова, на которые необходимо опираться при генерации запросов'} style={{marginTop: "8px", width: "720px", fontFamily: "Montserrat" }}>
-                    </TextArea>
-                </div>
+                    <span className={cls.imp}>Результат кластеризации сделан с помощью нейросети и может содержать ошибки.</span>
+                </span>
 
-                <div className={cls.footer}>
-                    <div>
-                        <span className={cls.textUp}>Количество генерируемых слов</span>
-                        <Select
-                            defaultValue="10"
-                            style={{ width: 70, fontFamily: "Montserrat" }}
-                            options={[
-                                { value: '5', label: '5' },
-                                { value: '10', label: '10' },
-                                { value: '15', label: '15' },
-                                { value: '20', label: '20' },
-                            ]}
-                        />
-                    </div>
+                <div className={cls.block}>
+                    <span className={cls.textUp}>
+                        Скачать результат можно по ссылке:
+                    </span>
 
-                    <div>
-                        <span className={cls.textUp}>Интент пользователя</span>
-                        <Select
-                            defaultValue="10"
-                            style={{ width: 200, fontFamily: "Montserrat" }}
-                            options={[
-                                { value: '5', label: 'Навигационный' },
-                                { value: '10', label: 'Транзакционный' },
-                                { value: '15', label: 'Информационный' },
-                                { value: '20', label: 'Сравнительный' },
-                            ]}
-                        />
-                    </div>
+                    <Button
+                        type="primary"
+                        icon={<DownloadOutlined/>}
+                        loading={loadings[1]}
+                        onClick={() => enterLoading(1)}
+                        className={cls.btn}
+                    >
+                        Скачать в формате txt
+                    </Button>
 
-                    <Button className={cls.btn} onClick={handleGenerate}><FileSyncOutlined/>СГЕНЕРИРОВАТЬ</Button>
                 </div>
             </div>
         </ConfigProvider>

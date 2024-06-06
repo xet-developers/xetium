@@ -1,6 +1,6 @@
 .container {
   width: 755px;
-  height: 335px;
+  height: 325px;
   border-radius: 8px;
   font-family: "Montserrat", sans-serif;
   background-color: #fff;
@@ -25,6 +25,8 @@
 }
 
 .keyWords {
+  display: flex;
+  flex-direction: column;
   margin-top: 1.5em;
   margin-left: 1em;
 }
@@ -41,7 +43,6 @@
   background-color: #F66450;
   border-radius: 7px;
   color: white;
-  margin-top: 1.5em;
   margin-right: 1.5em;
   font-family: "Montserrat", sans-serif;
   font-weight: 500;
