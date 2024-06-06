@@ -45,7 +45,9 @@ public class TaskInfoRepository: ITasksInfoRepository
     public async Task<List<TaskDetails>> GetPendingTasksAsync(UserSearchInfo userSearchInfo)
     {
         var res = await _applicationDbContext.TaskDetails
-                             .Where(t => t.UserId == userSearchInfo.UserId && t.ProjectID == userSearchInfo.ProjectId && !t.IsCompleted)
+                             .Where(t => t.UserId == userSearchInfo.UserId 
+                                         && t.ProjectID == userSearchInfo.ProjectId 
+                                         && !t.IsCompleted)
                              .ToListAsync();
         return res;
     }

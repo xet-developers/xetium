@@ -1,5 +1,6 @@
 ﻿using Domain.Entity;
 using Domain.Interfaces;
+using Hangfire;
 using Medo;
 using Microsoft.EntityFrameworkCore;
 using ProfileConnectionLib.ConnectionServices.DtoModels.Request;
@@ -11,6 +12,13 @@ public class PositionConnection: IScheduleTask
 {
     private readonly IProjectConnectionService _positionConnection;
     private  readonly IStandartStore _standartStore;
+
+    private readonly Dictionary<Frequency, int> dayDictionary = new ()
+    {
+        { Frequency.Daily, 1 },
+        { Frequency.Weekly, 7 },
+        { Frequency.Monthly, 30 }
+    };
     public PositionConnection(IProjectConnectionService positionConnection, IStandartStore standartStore)
     {
         _standartStore = standartStore;
@@ -27,6 +35,13 @@ public class PositionConnection: IScheduleTask
             Top = taskDetails.Top,
             Url = taskDetails.Url 
         });
+
+
+        if (taskDetails.Frequency is Frequency.None)
+        {
+            taskDetails.IsCompleted = true;
+            await _standartStore.UpdateAsync(taskDetails);
+        }
 
         var scheduleTaskDetails = new ScheduleTaskDetails()
         {
@@ -53,6 +68,14 @@ public class PositionConnection: IScheduleTask
                 ScheduleTaskDetailId = scheduleTaskDetails.Id
             };
             await _standartStore.CreateAsync(pos);
+        }
+        
+        if (taskDetails.Frequency is not Frequency.None)
+        {
+            var scheduleTime = taskDetails.ScheduleTime.AddDays(dayDictionary[taskDetails.Frequency]);
+            BackgroundJob.Schedule<IScheduleTask>(
+                x => x.ScheduleTaskAsync(taskDetails),
+                scheduleTime);
         }
     }
 }

@@ -23,77 +23,49 @@ public class ScheduleService: IScheduleService
     public async Task<TaskDetails> ScheduleTaskAsync(TaskDetails taskDetails)
     {
         // todo сделать кэш, который будет хранить айдишники уже созданных тасок, чтобы если брокер по 100-500 nagadit сообщениями, не делать запросики в бд
-        await taskDetails.AddOrUpdateAsync(_standartStore);
+        await taskDetails.AddAsync(_standartStore);
         await _tasksInfoRepository.AddOrUpdateAsync(taskDetails);
         return taskDetails;
     }
     
-    public Task DeleteTask(Guid taskId)
+    
+    public Task<bool> DeleteTaskAsync(string JobId)
     {
-        RecurringJob.RemoveIfExists(taskId.ToString());
-        return Task.CompletedTask;
+        var state = BackgroundJob.Delete(JobId);
+        
+        return Task.FromResult(state);
     }
 
-    public async Task<UserSearchesResponseDto> GetCompletedTasksInfoAsync(UserSearchInfo request)
+    public async Task<TaskDetails?> UpdateTaskAsync(TaskDetails? taskDetails)
+    {
+        var state =await taskDetails.UpdateAsync(_standartStore);
+        return state ? taskDetails : null;
+    }
+
+    public async Task<List<SitePosition>> GetCompletedTasksInfoAsync(UserSearchInfo request)
     {
         var completedTasks = await _tasksInfoRepository.GetCompletedTaskAsync(request);
-
-        var res = new UserSearchesResponseDto()
-        {
-            PositionAnalysisData = new List<PositionAnalysis>()
-        };
         
-        foreach (var task in completedTasks)
-        {
-            res.PositionAnalysisData.Add(new PositionAnalysis()
-            {
-                Date = task.Date,
-                Keyword = task.Keyword,
-                Position = task.Position,
-                SearchSystem = task.SearchSystem,
-                IsCompleted = true
-            });
-        }
-        
-        return res;
+        return completedTasks;
     }
 
-    public async Task<UserSearchesResponseDto> GetPendingTasksInfoAsync(UserSearchInfo request)
+    public async Task<List<TaskDetails>> GetPendingTasksInfoAsync(UserSearchInfo request)
     {
         var pendingTasks = await _tasksInfoRepository.GetPendingTasksAsync(request);
-
-        var res = new UserSearchesResponseDto()
-        {
-            PositionAnalysisData = new List<PositionAnalysis>()
-        };
-
-        foreach (var task in pendingTasks)
-        {
-            res.PositionAnalysisData.Add(new PositionAnalysis()
-            {
-                Date = task.ScheduleTime,
-                Keyword = task.Keywords.First(),
-                Position = -1,
-                SearchSystem = task.SearchSystem,
-                IsCompleted = false
-            });
-        }
-
-        return res;
+        return pendingTasks;
     }
 
-    public async Task<UserSearchesResponseDto> GetAllTasksInfoAsync(UserSearchInfo request)
+    public async Task<Tasks> GetAllTasksInfoAsync(UserSearchInfo request)
     {
         var pending = await GetPendingTasksInfoAsync(request);
         var completed = await GetCompletedTasksInfoAsync(request);
 
-        pending.PositionAnalysisData.AddRange(completed.PositionAnalysisData);
-
-        var res = new UserSearchesResponseDto()
+        var allUserTasks = new Tasks()
         {
-            PositionAnalysisData = pending.PositionAnalysisData
+            CompletedTask = completed,
+            UncompletedTask = pending
         };
 
-        return res;
+        return allUserTasks;
     }
 }
