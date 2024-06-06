@@ -1,13 +1,24 @@
 import cls from "./AddKeyWords.module.scss";
+import { useState } from 'react';
 import { Button, Input, Checkbox, GetProp, ConfigProvider } from "antd";
 import { FileSyncOutlined } from '@ant-design/icons';
+import {CheckPositionValidator} from "@/shared/lib/validator/checkPosition/checkPosition.ts";
 
 const { TextArea } = Input;
 
 export const AddKeyWords = () => {
 
+    const [inputValue, setInputValue] = useState('');
+    const [validateInputValue, setValidateInputValue] = useState(false);
+    const [validateSystem, setValidateSystem] = useState(false);
+
     const onChange: GetProp<typeof Checkbox.Group, 'onChange'> = (checkedValues) => {
-        console.log('checked = ', checkedValues);
+        const isAnyChecked = checkedValues.length > 0;
+        setValidateSystem(!isAnyChecked);
+    };
+
+    const onInputChange = (e) => {
+        setInputValue(e.target.value);
     };
 
     const options = [
@@ -16,11 +27,22 @@ export const AddKeyWords = () => {
     ];
 
     const handleGenerate = () => {
-
+        if (validate()) {
+            console.log('ok')
+        }
     }
 
     const saveCluster = () => {
+        if (validate()) {
+            console.log('ok')
+        }
+    }
 
+    function validate(): boolean {
+        let inv = CheckPositionValidator.validateInputValue(inputValue);
+        setValidateInputValue(!inv);
+
+        return inv && validateSystem;
     }
 
     return (
@@ -48,6 +70,13 @@ export const AddKeyWords = () => {
                     <span className={cls.textUp} style={{marginTop: "-2em"}}>Выберите поисковую систему:</span>
                     <Checkbox.Group options={options} defaultValue={['Google']} onChange={onChange}
                                     className={cls.textUp} style={{marginTop: "8px"}}/>
+
+                    {
+                        (validateSystem) &&
+                        <span style={{fontSize:'12px', color:'rgb(246, 100, 80)'}}>
+                            Необходимо выбрать систему поиска!
+                        </span>
+                    }
                 </div>
 
 
@@ -55,8 +84,19 @@ export const AddKeyWords = () => {
                     <span className={cls.textUp}>Ключевые слова</span>
                     <TextArea autoSize={{minRows: 4, maxRows: 4}}
                               placeholder={'Введите ключевые слова, например: новости, википедия...'}
-                              style={{marginTop: "8px", width: "720px", fontFamily: "Montserrat"}}>
+                              style={{marginTop: "8px", width: "720px", fontFamily: "Montserrat"}}
+                              value={inputValue}
+                              onChange={onInputChange}
+                    >
                     </TextArea>
+
+                    {
+                        validateInputValue &&
+                        <span style={{fontSize:'13px', marginBottom:'-5px', color:'rgb(246, 100, 80)'}}>
+                            Количество запросов должно быть в диапазоне от 1 до 15!
+                        </span>
+                    }
+
                     <span className={cls.textFooter}>Введите запросы - каждый запрос через запятую. Поиск осуществляется в топ-100.</span>
                 </div>
 
