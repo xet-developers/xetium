@@ -62,7 +62,7 @@ export const CreateClusterRequestResult = () => {
 
                 <div className={cls.block}>
                     <span className={cls.textUp}>
-                        Скачать результат можно по ссылке:
+                        Скачать результат можно по кнопке:
                     </span>
 
                     <Button

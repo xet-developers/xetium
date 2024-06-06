@@ -19,14 +19,16 @@
 
 
 .block {
-  margin-top: 1.5em;
-  margin-left: 1em;
+  margin-top: 3em;
+  margin-left: 1.5em;
+  display: flex;
+  flex-direction: column;
 }
 
 .textUp {
-  font-size: 13px;
-  color: #F66450;
-  font-weight: 500;
+  font-size: 15px;
+  color: #424242;
+  font-weight: 600;
 }
 
 .blockText {
@@ -44,15 +46,16 @@
   font-size: 15px;
   font-weight: 600;
   color: #F66450;
+  margin-top: 1em;
 }
 
 .btn {
-  width: 206px;
+  width: 300px;
   height: 30px;
   background-color: #F66450;
   border-radius: 7px;
   color: white;
-  margin-top: 1.5em;
+  margin-top: 1em;
   margin-right: 1.5em;
   font-family: "Montserrat", sans-serif;
   font-weight: 500;

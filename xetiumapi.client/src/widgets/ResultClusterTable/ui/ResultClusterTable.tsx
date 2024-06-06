@@ -11,13 +11,6 @@ export const ResultClusterTable = () => {
     interface DataType {
         key: React.Key;
         name: string;
-        age: number;
-        street: string;
-        building: string;
-        number: number;
-        companyAddress: string;
-        companyName: string;
-        gender: string;
     }
 
     const columns: TableColumnsType<DataType> = [
@@ -60,14 +53,7 @@ export const ResultClusterTable = () => {
     for (let i = 0; i < 100; i++) {
         data.push({
             key: i,
-            name: 'википедия екатерина 1 ',
-            age: i + 1,
-            street: 'Lake Park',
-            building: '1',
-            number: 4,
-            companyAddress: 'Lake Street 42',
-            companyName: 'SoftLake Co',
-            gender: 'M',
+            name: 'википедия екатерина 1 '
         });
     }
 
