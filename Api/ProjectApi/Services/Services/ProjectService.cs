@@ -39,4 +39,18 @@ public class ProjectService: IProjectService
         
         await _standartStore.DeleteAsync(project);
     }
+
+    public async Task<Project?> UpdateAsync(Project project)
+    {
+        var curProj = await _standartStore.GetByIdAsync<Project>(project.Id);
+
+        if (curProj.UserId != project.UserId)
+        {
+            return null;
+        }
+        
+        var res = await _standartStore.UpdateAsync(project);
+
+        return project;
+    }
 }

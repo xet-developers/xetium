@@ -7,4 +7,5 @@ public interface IProjectService
     public Task<Guid> CreateAsync(Project project);
     public Task<List<Project>> GetAllAsync(Guid userId);
     public Task DeleteAsync(Guid userId, Guid projectId);
+    public Task<Project?> UpdateAsync(Project project);
 }

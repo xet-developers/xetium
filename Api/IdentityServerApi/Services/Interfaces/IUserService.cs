@@ -13,4 +13,6 @@ public interface IUserService
     public Task<User> GetUserInfoAsync(Guid userId);
 
     public Task<Guid> CheckExistAsync(Guid id);
+
+    public Task<User> UpdateAsync(User user);
 }

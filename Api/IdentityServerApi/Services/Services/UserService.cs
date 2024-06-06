@@ -93,6 +93,29 @@ public class UserService : IUserService
         return user.Id;
     }
 
+    public  async Task<User> UpdateAsync(User user)
+    {
+
+        var userFind = await _userManager.FindByIdAsync(user.Id.ToString());
+        
+        if (userFind is null)
+        {
+            return null;
+        }
+
+        userFind.UserName = user.UserName;
+        userFind.Email = user.Email;
+        
+        var result = await _userManager.UpdateAsync(userFind);
+
+        if (!result.Succeeded)
+        {
+            throw new InvalidOperationException("Failed to update user");
+        }
+        
+        return userFind;
+    }
+
 
     private JwtSecurityToken GetToken(List<Claim> authClaims)
     {

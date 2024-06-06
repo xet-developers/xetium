@@ -1,8 +1,8 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using Core.Extensions;
 using IdentityServerApi.Controllers.User.Request;
+using Medo;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 
@@ -79,8 +79,14 @@ public class UserController: ControllerBase
         var userId = GetUserId();
         
         var userInfo = await _userService.GetUserInfoAsync(userId);
-        
-        return Ok(userInfo);
+
+        var userUuid7 = (Uuid7)userInfo.Id;
+        return Ok(new UserInfoResponse()
+        {
+            DateTime =  userUuid7.ToDateTime(),
+            Mail = userInfo.Email,
+            UserName = userInfo.UserName
+        });
     }
         
     private Guid GetUserId()
@@ -88,5 +94,27 @@ public class UserController: ControllerBase
         var token = Request.Headers["Authorization"].FirstOrDefault().ParseJWT();
         var userID = Guid.Parse(token.Claims.FirstOrDefault(c => c.Type == "id").Value);
         return userID;
+    }
+
+    [HttpPatch("update")]
+    [Authorize]
+    public async Task<IActionResult> UpdateUserAsync([FromBody] UserUpdateRequest request)
+    {
+        var id = GetUserId();
+        var res = await _userService.UpdateAsync(new Domain.Entities.User()
+        {
+            Id = id,
+            UserName = request.UserName,
+            Email = request.Mail
+        });
+        
+        return res is null? 
+            BadRequest("User Not Found") : 
+            Ok(new UserUpdateResponse()
+        {
+            DateTime = ((Uuid7)res.Id).ToDateTime(),
+            Mail = res.Email,
+            UserName = res.UserName
+        });
     }
 }
