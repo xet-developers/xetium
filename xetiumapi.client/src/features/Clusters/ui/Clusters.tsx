@@ -19,10 +19,21 @@ export const Clusters = () => {
 
     const cluster = () => {
         return (
-            <div className={cls.clusters} style={{maxWidth: '740px', overflowX: "auto"}}>
-                <div className={cls.blockCluster}>
-                    <span className={cls.text}>Кластер №1</span>
-                    <span className={cls.textCluster} style={{maxHeight: "100px", overflowY: "auto"}}>
+            /*<div className={cls.clusters} style={{maxWidth: '740px', overflowX: "auto"}}>
+                {clusters.map((cluster, index) => (
+                    <div key={index} className={cls.blockCluster}>
+                        <span className={cls.text}>{`Кластер №${index + 1}`}</span>
+                        <span className={cls.textCluster} style={{maxHeight: "200px", overflowY: "auto"}}>
+                        {cluster.join(', ')}
+                    </span>
+                        <Button className={cls.btn}><DeleteOutlined/>Удалить кластер</Button>
+                    </div>
+                ))}
+            </div>*/
+        <div className={cls.clusters} style={{maxWidth: '740px', overflowX: "auto"}}>
+            <div className={cls.blockCluster}>
+                <span className={cls.text}>Кластер №1</span>
+                <span className={cls.textCluster} style={{maxHeight: "100px", overflowY: "auto"}}>
                         слово, слово, слово, слово, слово
                         слово, слово, слово, слово, слово
                         слово, слово, слово, слово, слово
