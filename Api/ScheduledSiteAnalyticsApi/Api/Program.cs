@@ -1,5 +1,6 @@
 using Api;
 using Core.Filter;
+using ExampleCore.Swagger;
 using Hangfire;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -8,8 +9,7 @@ using Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerStartUpBase();
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<UserIdFilter>();

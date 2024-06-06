@@ -43,7 +43,7 @@ public record TaskDetails: BaseEntity<Guid>
             x => x.ScheduleTaskAsync(this),
             ScheduleTime);
         JobId = jobId;
-        await standartStore.CreateAsync(this);
+        await standartStore.CreateAsync(Id, this);
     }
     public  async Task<bool> UpdateAsync(IStandartStore standartStore)
     {
@@ -61,12 +61,12 @@ public record TaskDetails: BaseEntity<Guid>
         var executionTime  = ScheduleTime.AddSeconds(entropy);
         ScheduleTime = executionTime;
         
-        await standartStore.CreateAsync(this); 
         var jobId = BackgroundJob.Schedule<IScheduleTask>(
             x => x.ScheduleTaskAsync(this),
             ScheduleTime);
         JobId = jobId;
-
+        
+        await standartStore.CreateAsync(Id, this);
         return true;
     }
     

@@ -39,8 +39,9 @@ public class PositionConnection: IScheduleTask
 
         if (taskDetails.Frequency is Frequency.None)
         {
-            taskDetails.IsCompleted = true;
-            await _standartStore.UpdateAsync(taskDetails);
+            var task = await _standartStore.GetByIdAsync<TaskDetails>(taskDetails.Id);
+            task.IsCompleted = true;
+            await _standartStore.UpdateAsync(task);
         }
 
         var scheduleTaskDetails = new ScheduleTaskDetails()
