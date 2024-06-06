@@ -8,10 +8,10 @@ public interface IScheduleService
 {
     public Task<TaskDetails> ScheduleTaskAsync(TaskDetails taskDetails);
     
-    public Task DeleteTask(Guid taskId);
-
-    public Task<UserSearchesResponseDto> GetCompletedTasksInfoAsync(UserSearchInfo request);
-    public Task<UserSearchesResponseDto> GetPendingTasksInfoAsync(UserSearchInfo request);
-    public Task<UserSearchesResponseDto> GetAllTasksInfoAsync(UserSearchInfo request);
+    public Task<bool> DeleteTaskAsync(string jobId);
+    public Task<TaskDetails?> UpdateTaskAsync(TaskDetails? taskDetails);
+    public Task<List<SitePosition>> GetCompletedTasksInfoAsync(UserSearchInfo request);
+    public Task<List<TaskDetails>> GetPendingTasksInfoAsync(UserSearchInfo request);
+    public Task<Tasks> GetAllTasksInfoAsync(UserSearchInfo request);
 
 }

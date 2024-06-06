@@ -1,6 +1,7 @@
 export interface User {
     userName: string;
-    email: string;
+    mail: string;
+    dateTime: string;
     avatar?: string;
 }
 

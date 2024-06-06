@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {FC} from 'react';
 import { Form, Input, ConfigProvider } from 'antd';
 import cls from './UserData.module.scss';
-import {useGetUserDataQuery} from "@/entity/User/api/User.api.ts";
+
 
 interface FieldData {
     name: string | number | (string | number)[];
@@ -28,7 +28,6 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields }) => 
             <span className={cls.label}>Имя пользователя:</span>
             <Form.Item
                 name="username"
-                label=""
                 rules={[{required: true, message: 'Введите имя пользователя!'}]}
                 className={cls.item}
             >
@@ -39,7 +38,6 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields }) => 
             <span className={cls.label}>Email:</span>
             <Form.Item
                 name="email"
-                label=""
                 rules={[{required: true, message: 'Введите email!'}]}
                 className={cls.item}
             >
@@ -52,7 +50,6 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields }) => 
             <span className={cls.label}>Дата регистрации:</span>
             <Form.Item
                 name="date"
-                label=""
                 className={cls.item}
             >
                 <Input disabled={true} className={cls.input}/>
@@ -62,26 +59,17 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields }) => 
             <span className={cls.label}>Пароль:</span>
             <Form.Item
                 name="password"
-                label=""
                 rules={[{required: true, message: 'Введите пароль!'}]}
                 className={cls.item}
             >
-                <Input className={cls.input}/>
+                <Input disabled={true} className={cls.input}/>
             </Form.Item>
             <div className={cls.divider}/>
         </div>
     </Form>
 );
 
-export const UserData = (): React.JSX.Element => {
-    const {data: user} = useGetUserDataQuery()
-
-    const [fields, setFields] = useState<FieldData[]>([
-        { name: ['username'], value: user?.userName },
-        { name: ['email'], value: user?.email },
-        { name: ['date'], value: '30.05.2024' },
-        { name: ['password'], value: '********' }
-    ]);
+export const UserData: FC<CustomizedFormProps> = ({fields, onChange}): React.JSX.Element => {
 
     return (
         <>
@@ -101,7 +89,7 @@ export const UserData = (): React.JSX.Element => {
                     <CustomizedForm
                         fields={fields}
                         onChange={(newFields) => {
-                            setFields(newFields);
+                            onChange(newFields);
                         }}
                     />
                 </>
