@@ -1,6 +1,6 @@
 import {rtkApi} from "@/shared/api/rtkApi.ts";
 
-interface IProject{
+interface IProject {
     name: string;
     description: string;
     id: string;
@@ -15,12 +15,34 @@ export const ProjectApi = rtkApi.injectEndpoints({
                     method: 'GET',
                     url: '/project',
                 }),
-            providesTags: ['Project'],
-        }
-    )
+
+                providesTags: ['Project'],
+            }
+        ),
+        deleteProject: build.mutation<void, string>({
+                query: (id) => ({
+                    method: 'DELETE',
+                    url: '/project/' + id,
+                }),
+
+                invalidatesTags: ['Project']
+            }
+        ),
+        updateProject: build.mutation<IProject, IProject>({
+                query: (body) => ({
+                    method: 'PATCH',
+                    body: JSON.stringify(body),
+                    url: '/project/update',
+                }),
+
+                invalidatesTags: ['Project']
+            }
+        )
     })
 })
 //прописать нужный хук
 
 
-export const {useGetProjectQuery} = ProjectApi;
+export const {useGetProjectQuery,
+    useUpdateProjectMutation,
+    useDeleteProjectMutation} = ProjectApi;

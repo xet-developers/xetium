@@ -84,6 +84,16 @@ export default ({mode}) => {
                     changeOrigin: true,
                     secure: false
                 },
+                '/project/update': {
+                    target: 'https://localhost:5000',
+                    changeOrigin: true,
+                    secure: false
+                },
+                '/project/{id}': {
+                    target: 'https://localhost:5000',
+                    changeOrigin: true,
+                    secure: false
+                },
                 '/scheduletask': {
                     target: 'https://localhost:5000',
                     changeOrigin: true,

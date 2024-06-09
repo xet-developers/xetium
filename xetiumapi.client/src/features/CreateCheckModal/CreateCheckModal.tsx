@@ -59,10 +59,13 @@ export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
     useEffect(() => {
     }, [time]);
 
+    //"2024-05-30T15:56:00.081Z",
+
     const handleSetCheck = async () => {
+        console.log(dayjs().format('YYYY-MM-DD') + 'T' + dayjs().add(1,'minutes').format('HH:mm') + ':00.000Z')
         const a = await trigger({
-            projectID: currentProject,
-            dateTime: "2024-05-30T15:56:00.081Z",
+            projectID: currentProject!,
+            dateTime: dayjs().format('YYYY-MM-DD') + 'T' + dayjs().add(1,'minutes').format('hh:mm') + ':00.000Z',
             frequency: 0,
             url: "string",
             keywords: ['github'],
