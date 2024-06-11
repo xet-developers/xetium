@@ -33,8 +33,8 @@ export const ElementFirstFunctionLanding = memo(() => {
                     <span className={cls.service}>Распоряжайтесь своим временем</span>
 
                     <span className={cls.desc}>
-                        Используйте нашу новую систему с календарем для эффективного <br></br>
-                        использования времени.  Выбирайте <span style={{fontWeight: '600', fontStyle: 'italic', color: 'white'}}>время, дату и частоту повторения</span> <br></br>
+                        Используйте нашу новую систему с календарем для эффективного <br/>
+                        использования времени.  Выбирайте <span style={{fontWeight: '600', fontStyle: 'italic', color: 'white'}}>время, дату и частоту повторения</span> <br/>
                          для систематичного отслеживания положения вашего проекта в поисковиках.
                     </span>
 
