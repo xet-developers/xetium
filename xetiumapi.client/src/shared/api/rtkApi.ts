@@ -4,7 +4,7 @@ import {USER_LOCALSTORAGE_KEY} from '@/shared/const/localstorage';
 
 export const rtkApi = createApi({
     reducerPath: 'api',
-    tagTypes: ['User','Project'],
+    tagTypes: ['User','Project', 'UserChecks'],
     baseQuery: fetchBaseQuery({
         baseUrl: __API__,
         mode: 'cors',

@@ -69,16 +69,41 @@ export default ({mode}) => {
                     changeOrigin: true,
                     secure: false
                 },
+                '/account/update': {
+                    target: 'https://localhost:5000',
+                    changeOrigin: true,
+                    secure: false
+                },
                 '/project/create': {
-                    target: 'https://localhost:7233',
+                    target: 'https://localhost:5000',
                     changeOrigin: true,
                     secure: false
                 },
                 '/project': {
-                    target: 'https://localhost:7233',
+                    target: 'https://localhost:5000',
                     changeOrigin: true,
                     secure: false
-                }
+                },
+                '/project/update': {
+                    target: 'https://localhost:5000',
+                    changeOrigin: true,
+                    secure: false
+                },
+                '/project/{id}': {
+                    target: 'https://localhost:5000',
+                    changeOrigin: true,
+                    secure: false
+                },
+                '/scheduletask': {
+                    target: 'https://localhost:5000',
+                    changeOrigin: true,
+                    secure: false
+                },
+                '/scheduletask/create': {
+                    target: 'https://localhost:5000',
+                    changeOrigin: true,
+                    secure: false
+                },
             },
             port: 5173,
             https: {

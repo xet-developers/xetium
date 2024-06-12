@@ -2,7 +2,7 @@ import cls from "./CalendarWidget.module.scss";
 import type {Dayjs} from 'dayjs';
 import dayjs from 'dayjs';
 import {Calendar, Badge, BadgeProps, CalendarProps, Alert} from "antd";
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {CreateCheckModal} from "@/features/CreateCheckModal/CreateCheckModal.tsx";
 import {ViewCheckModal} from "@/features/ViewCheckModal/ViewCheckModal.tsx";
 import {useGetAllCheckQuery} from "@/features/CreateCheckModal";
@@ -12,10 +12,11 @@ import {currentProjectId} from "@/entity/Project";
 export const CalendarWidget = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const currentProject = useSelector(currentProjectId)
-    const {data: userCheck} = useGetAllCheckQuery({id: currentProject, date: 'firstDate=2024-01-01T00:00:00Z&lastDate=2024-12-31T23:59:59Z'})
-    console.log(currentProject)
-    useEffect(() => {
-    }, [userCheck]);
+    const {data: userChecks} = useGetAllCheckQuery({
+        id: currentProject,
+        date: 'firstDate=2024-01-01T00:00:00Z&lastDate=2024-12-31T23:59:59Z'
+    })
+
 
     const closeModal = () => {
         setModalOpen(false);
@@ -26,27 +27,25 @@ export const CalendarWidget = () => {
     };
 
     const getListData = (value: Dayjs) => {
-        let listData;
-        switch (value.date()) {
-            case 8:
-                listData = [
-                    {type: 'warning', content: 'Проверка 1'},
-                    {type: 'success', content: 'Проверка 2'},
-                ];
-                break;
-            case 10:
-                listData = [
-                    {type: 'warning', content: 'Проверка 2'},
-                ];
-                break;
-            case 13:
-                listData = [
-                    {type: 'warning', content: 'Проверка 1'},
-                ];
-                break;
-            default:
+        const listData = [];
+        console.log(userChecks)
+
+        if (userChecks?.UncompletedTask) {
+            console.log(userChecks)
+            for (const uncT of userChecks.UncompletedTask) {
+
+                if (value.format('MM:DD:YYYY') === dayjs(uncT.scheduleTime).format('MM:DD:YYYY')) {
+                    console.log(uncT.keywords)
+                    listData.push(
+                        {
+                            type: 'error',
+                            content: uncT.keywords,
+                        })
+                }
+            }
         }
-        return listData || [];
+
+        return listData;
     };
 
     const getTotalListDataCount = () => {
@@ -96,8 +95,8 @@ export const CalendarWidget = () => {
         return info.originNode;
     };
 
-    const [value, setValue] = useState(() => dayjs('2024-05-21'));
-    const [selectedValue, setSelectedValue] = useState(() => dayjs('2024-05-21'));
+    const [value, setValue] = useState(() => dayjs());
+    const [selectedValue, setSelectedValue] = useState(() => dayjs());
 
     const onSelect = (newValue: Dayjs) => {
         setValue(newValue);

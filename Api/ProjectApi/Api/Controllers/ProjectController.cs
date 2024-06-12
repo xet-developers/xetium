@@ -48,7 +48,7 @@ public class ProjectController: ControllerBase
         var res = await _projectService.UpdateAsync(new Domain.Entity.Project()
         {
             Description = request.Description,
-            Id = request.ProjectId,
+            Id = request.Id,
             Name = request.Name,
             Url = request.Url,
             UserId = userId

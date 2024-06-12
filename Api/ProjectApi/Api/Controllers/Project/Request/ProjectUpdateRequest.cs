@@ -2,5 +2,5 @@
 
 public record ProjectUpdateRequest: ProjectCreateRequest
 {
-    public Guid ProjectId { get; set; }
+    public  required Guid Id { get; set; }
 }

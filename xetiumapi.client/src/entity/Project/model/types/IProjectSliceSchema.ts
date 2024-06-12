@@ -1,3 +1,3 @@
 export interface IProjectSliceSchema {
-    currentProjectId: string;
+    currentProjectId: string | null;
 }

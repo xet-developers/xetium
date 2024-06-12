@@ -2,6 +2,7 @@
 using Core.Extensions;
 using Domain.Entity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using ProfileConnectionLib.ConnectionServices.DtoModels.Request;
 using Services.Interfaces;
 
@@ -23,10 +24,11 @@ public class ScheduleController: ControllerBase
     
     [HttpPost("create")]
     public async Task<IActionResult> CreateTask([FromBody] ScheduleRequest scheduleRequest)
-    {
+    { 
+        
         var userID = (Guid)HttpContext.Items["UserId"];
 
-        await _scheduleService.ScheduleTaskAsync(new TaskDetails()
+       var res = await _scheduleService.ScheduleTaskAsync(new TaskDetails()
         {
             UserId = userID,
             ProjectID = scheduleRequest.ProjectID,
@@ -38,26 +40,43 @@ public class ScheduleController: ControllerBase
             Frequency = scheduleRequest.Frequency,
             IsCompleted = false
         });
-
-
+       
         return Ok("created");
     }
 
 
     [HttpDelete("delete/{id}")]
-    public async Task<IActionResult> DeleteTask([FromQuery] Guid id)
+    public async Task<IActionResult> DeleteTask([FromQuery] string id)
     {
-       await _scheduleService.DeleteTask(id);
+       var res = await _scheduleService.DeleteTaskAsync(id);
 
-       return Ok("deleted");
+       return res
+           ? Ok("deleted")
+           : BadRequest("UwU");
     }
 
     [HttpPatch("update")]
-    public async Task<IActionResult> UpdateTask([FromBody] ScheduleRequest scheduleRequest)
+    public async Task<IActionResult> UpdateTask([FromBody] ScheduleUpdate scheduleRequest)
     {
-        await CreateTask(scheduleRequest);
+        
+        var userID = (Guid)HttpContext.Items["UserId"];
+        
+        var res = await _scheduleService.UpdateTaskAsync(new TaskDetails()
+        {
+            Frequency = scheduleRequest.Frequency,
+            Id = scheduleRequest.Id,
+            ProjectID = scheduleRequest.ProjectID,
+            JobId = scheduleRequest.JobId,
+            Keywords = scheduleRequest.Keywords,
+            ScheduleTime = scheduleRequest.DateTime,
+            SearchSystem = scheduleRequest.SearchSystem,
+            Top = scheduleRequest.Top,
+            Url = scheduleRequest.Url,
+            UserId = userID
+        });
 
-        return Ok("updated");
+        return res is null ? BadRequest("try later or don't exist") : 
+            Ok(res);
     }
 
 
@@ -74,6 +93,6 @@ public class ScheduleController: ControllerBase
             LastDate = lastDate
         });
 
-        return Ok(res);
+        return Ok(JsonConvert.SerializeObject(res));
     }
 }

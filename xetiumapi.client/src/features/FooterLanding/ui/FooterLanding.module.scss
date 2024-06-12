@@ -1,0 +1,65 @@
+.container {
+  width: auto;
+  height: 284px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 7em;
+}
+
+.developers {
+  background-color: #222222;
+  height: 38px;
+  color: #5F5F5F;
+  font-size: 12px;
+  font-family: "Montserrat", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info {
+  height: 284px;
+  background-color: #252525;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10em;
+}
+
+.left {
+  margin-left: 210px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2em;
+  gap: 1em;
+}
+
+.text {
+  color: white;
+  font-size: 14px;
+  font-family: "Montserrat", sans-serif;
+  line-height: 22px;
+  font-weight: 300;
+}
+
+.right {
+  margin-right: 210px;
+  display: flex;
+  flex-direction: row;
+  margin-top: 4em;
+  gap: 10em;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+
+.header {
+  color: white;
+  font-size: 15px;
+  font-family: "Montserrat", sans-serif;
+  line-height: 22px;
+  font-weight: 600;
+}
