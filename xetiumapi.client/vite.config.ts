@@ -38,8 +38,37 @@ if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
 
 // https://vitejs.dev/config/
 
+const routes: string[] = [
+    '/account/register',
+    '/account/login',
+    '/account/info',
+    '/account/update',
+    '/project/create',
+    '/project',
+    '/project/update',
+    '/project/{id}',
+    '/scheduletask',
+    '/scheduletask/create',
+    '/cluster/create',
+    '/cluster/delete/{id}',
+    '/cluster',
+    '/analytics'
+]
+
 export default ({mode}) => {
     process.env = {...process.env, ...loadEnv(mode, process.cwd())};
+
+
+
+    const endPoints = {}
+
+    routes.map((el)=>
+        endPoints[el] = {
+            target: 'https://localhost:5000',
+            changeOrigin: true,
+            secure: false
+        }
+    )
 
     return defineConfig({
         define: {
@@ -53,58 +82,7 @@ export default ({mode}) => {
             }
         },
         server: {
-            proxy: {
-                '/account/register': {
-                    target: 'https://localhost:5000',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/account/login': {
-                    target: 'https://localhost:5000',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/account/info': {
-                    target: 'https://localhost:5000',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/account/update': {
-                    target: 'https://localhost:5000',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/project/create': {
-                    target: 'https://localhost:5000',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/project': {
-                    target: 'https://localhost:5000',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/project/update': {
-                    target: 'https://localhost:5000',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/project/{id}': {
-                    target: 'https://localhost:5000',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/scheduletask': {
-                    target: 'https://localhost:5000',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/scheduletask/create': {
-                    target: 'https://localhost:5000',
-                    changeOrigin: true,
-                    secure: false
-                },
-            },
+            proxy: endPoints,
             port: 5173,
             https: {
                 key: fs.readFileSync(keyFilePath),

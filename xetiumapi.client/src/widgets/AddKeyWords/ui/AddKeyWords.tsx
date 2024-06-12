@@ -1,13 +1,14 @@
 import cls from "./AddKeyWords.module.scss";
-import { useState } from 'react';
-import { Button, Input, Checkbox, GetProp, ConfigProvider } from "antd";
-import { FileSyncOutlined } from '@ant-design/icons';
+import {useState} from 'react';
+import {Button, Input, Checkbox, GetProp, ConfigProvider} from "antd";
+import {FileSyncOutlined} from '@ant-design/icons';
 import {CheckPositionValidator} from "@/shared/lib/validator/checkPosition/checkPosition.ts";
+import {useCreateWordClusterMutation} from "@/entity/WordsCluster";
+import {useGetSitePositionMutation} from "../api/addKeyWords.api.ts";
 
-const { TextArea } = Input;
+const {TextArea} = Input;
 
 export const AddKeyWords = () => {
-
     const [inputValue, setInputValue] = useState('');
     const [validateInputValue, setValidateInputValue] = useState(false);
     const [validateSystem, setValidateSystem] = useState(false);
@@ -17,28 +18,35 @@ export const AddKeyWords = () => {
         setValidateSystem(!isAnyChecked);
     };
 
+
+    const [createCluster, {isLoading: isLoadingCluster}] = useCreateWordClusterMutation()
+    const [getSitePosition, {isLoading: isLoadingSitePosition}] = useGetSitePositionMutation()
+
+
     const onInputChange = (e) => {
         setInputValue(e.target.value);
     };
 
     const options = [
-        { label: 'Yandex', value: 'Yandex' },
-        { label: 'Google', value: 'Google' },
+        {label: 'Yandex', value: 'Yandex'},
+        {label: 'Google', value: 'Google'},
     ];
 
     const handleGenerate = () => {
         if (validate()) {
-            console.log('ok')
+
         }
     }
 
     const saveCluster = () => {
         if (validate()) {
-            console.log('ok')
+            createCluster({
+                keywords: inputValue.split(', ')
+            })
         }
     }
 
-    function validate(): boolean {
+    const validate = (): boolean => {
         let inv = CheckPositionValidator.validateInputValue(inputValue);
         setValidateInputValue(!inv);
 
@@ -73,7 +81,7 @@ export const AddKeyWords = () => {
 
                     {
                         (validateSystem) &&
-                        <span style={{fontSize:'12px', color:'rgb(246, 100, 80)'}}>
+                        <span style={{fontSize: '12px', color: 'rgb(246, 100, 80)'}}>
                             Необходимо выбрать систему поиска!
                         </span>
                     }
@@ -92,7 +100,7 @@ export const AddKeyWords = () => {
 
                     {
                         validateInputValue &&
-                        <span style={{fontSize:'13px', marginBottom:'-5px', color:'rgb(246, 100, 80)'}}>
+                        <span style={{fontSize: '13px', marginBottom: '-5px', color: 'rgb(246, 100, 80)'}}>
                             Количество запросов должно быть в диапазоне от 1 до 15!
                         </span>
                     }
@@ -102,8 +110,12 @@ export const AddKeyWords = () => {
 
 
                 <div className={cls.footer}>
-                    <Button className={cls.btn} onClick={saveCluster}><FileSyncOutlined/>Сохранить как кластер</Button>
-                    <Button className={cls.btn} onClick={handleGenerate}><FileSyncOutlined/>Отправить слова</Button>
+                    <Button className={cls.btn}
+                            onClick={saveCluster}><FileSyncOutlined/>{isLoadingCluster ? 'отправка' : 'Сохранить как кластер'}
+                    </Button>
+                    <Button className={cls.btn}
+                            onClick={handleGenerate}><FileSyncOutlined/>{isLoadingSitePosition ? 'отправка' : 'Отправить слова'}
+                    </Button>
                 </div>
             </div>
         </ConfigProvider>
