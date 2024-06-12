@@ -1,11 +1,12 @@
+using ExampleCore.Swagger;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.TryAddInfrastucture();
 builder.Services.TryAddServices();
 builder.Services.AddAuthorization();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerStartUpBase();
 
 var app = builder.Build();
 

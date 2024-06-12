@@ -14,8 +14,8 @@ namespace Infrastructure
     public class SiteInfo : ISiteInfo
     {
         private const string ApiUrl = "https://yandex.ru/search/xml/";
-        private const string YandexApiKey = "AQVN2WKYnCn8f-vhljFQjlOU1vo-_4AMDfp3JItn";
-        private const string FolderId = "b1gnogno2l3gvm4bj8cg";
+        private const string YandexApiKey = "AQVN3CAag7T1wBhY38O-7ctH1ex5-_pjybJVOHQm";
+        private const string FolderId = "b1g0d2ifbbaarf6mkn2m";
 
         private HttpClient _httpClient;
         public SiteInfo(HttpClient httpClient)

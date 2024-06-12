@@ -1,5 +1,6 @@
 using Api;
 using Core.Filter;
+using ExampleCore.AuthOptions;
 using ExampleCore.Swagger;
 using Hangfire;
 using Infrastructure;
@@ -17,6 +18,7 @@ builder.Services.AddControllers(options =>
 builder.Services.TryAddServices();
 builder.Services.TryAddInfrastucture(builder.Configuration);
 builder.Services.AddBroker();
+builder.Services.AddAuth();
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -31,6 +33,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseHttpsRedirection();
 app.MapControllers();
 app.UseHangfireDashboard();

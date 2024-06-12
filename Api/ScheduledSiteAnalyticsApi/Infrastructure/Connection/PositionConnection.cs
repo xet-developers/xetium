@@ -1,6 +1,7 @@
 ﻿using Domain.Entity;
 using Domain.Interfaces;
 using Hangfire;
+using Infrastructure.Filters;
 using Medo;
 using Microsoft.EntityFrameworkCore;
 using ProfileConnectionLib.ConnectionServices.DtoModels.Request;
@@ -26,6 +27,7 @@ public class PositionConnection: IScheduleTask
 
     }
     
+
     public async Task ScheduleTaskAsync(TaskDetails taskDetails)
     {
         var res = await _positionConnection.GetSitePosition(new PositionAnalysisRequestDto()
@@ -36,10 +38,9 @@ public class PositionConnection: IScheduleTask
             Url = taskDetails.Url 
         });
 
-
+        var task = await _standartStore.GetByIdAsync<TaskDetails>(taskDetails.Id);
         if (taskDetails.Frequency is Frequency.None)
         {
-            var task = await _standartStore.GetByIdAsync<TaskDetails>(taskDetails.Id);
             task.IsCompleted = true;
             await _standartStore.UpdateAsync(task);
         }
@@ -70,13 +71,25 @@ public class PositionConnection: IScheduleTask
             };
             await _standartStore.CreateAsync(pos);
         }
+
+        var taskInfo = new TaskInfo()
+        {
+            UserId = taskDetails.UserId,
+            CompletionTime = scheduleTaskDetails.DateTime,
+            IsCompleted = true,
+            ProjectId = taskDetails.ProjectID
+        };
+        
+        await _standartStore.CreateAsync(taskInfo);
         
         if (taskDetails.Frequency is not Frequency.None)
         {
             var scheduleTime = taskDetails.ScheduleTime.AddDays(dayDictionary[taskDetails.Frequency]);
-            BackgroundJob.Schedule<IScheduleTask>(
+            var jobId = BackgroundJob.Schedule<IScheduleTask>(
                 x => x.ScheduleTaskAsync(taskDetails),
                 scheduleTime);
+            task.JobId = jobId;
+            await _standartStore.UpdateAsync(task);
         }
     }
 }

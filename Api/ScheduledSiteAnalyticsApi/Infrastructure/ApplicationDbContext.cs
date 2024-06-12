@@ -11,6 +11,7 @@ public class ApplicationDbContext: DbContext
     public DbSet<SitePosition> SitePositions { get; set; }
     public DbSet<TaskDetails> TaskDetails { get; set; }
     public DbSet<Cluster> Clusters { get; set; }
+    public DbSet<TaskInfo> TaskInfos { get; set; }
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
        : base(options)
     {
