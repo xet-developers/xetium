@@ -5,6 +5,7 @@ using Hangfire.PostgreSql;
 using Infrastructure;
 using Infrastructure.Connection;
 using Infrastructure.Data;
+using Infrastructure.Filters;
 using Infrastucture.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -32,8 +33,10 @@ public static class InfrastuctureStartUp
         serviceCollection.AddHangfire(config =>
             config.UsePostgreSqlStorage(connectionString));
         serviceCollection.AddScoped<DbContext>(provider => provider.GetService<ApplicationDbContext>());
-
+    
         serviceCollection.AddHangfireServer();
+        
+        GlobalJobFilters.Filters.Add(new ConditionalRetryJobAttribute(serviceCollection.BuildServiceProvider().GetRequiredService<IStandartStore>()));
         
         return serviceCollection;
     }
