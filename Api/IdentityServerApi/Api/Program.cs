@@ -1,3 +1,4 @@
+using ExampleCore.Swagger;
 using IdentityServerApi.Controllers.User;
 using Infrastucture;
 using MassTransit;
@@ -10,8 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerStartUpBase();
 builder.Services.TryAddServices();
 builder.Services.TryAddInfrastucture(builder.Configuration);
 builder.Services.AddMassTransit(x =>

@@ -1,5 +1,7 @@
 using Api;
 using Core.Filter;
+using ExampleCore.AuthOptions;
+using ExampleCore.Swagger;
 using Hangfire;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -8,8 +10,7 @@ using Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerStartUpBase();
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<UserIdFilter>();
@@ -17,6 +18,7 @@ builder.Services.AddControllers(options =>
 builder.Services.TryAddServices();
 builder.Services.TryAddInfrastucture(builder.Configuration);
 builder.Services.AddBroker();
+builder.Services.AddAuth();
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -31,6 +33,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseHttpsRedirection();
 app.MapControllers();
 app.UseHangfireDashboard();

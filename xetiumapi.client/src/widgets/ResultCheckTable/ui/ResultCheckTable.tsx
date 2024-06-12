@@ -1,158 +1,104 @@
 import cls from "./ResultCheckTable.module.scss";
-import  { useState, useEffect } from 'react';
-import { ConfigProvider, Table, TableColumnsType, Skeleton } from "antd";
+import {useState, useEffect} from 'react';
+import {ConfigProvider, Table, TableColumnsType, Skeleton} from "antd";
+import {useSelector} from "react-redux";
+import {currentProjectId} from "@/entity/Project";
+import {useGetAllCheckQuery} from "@/features/CreateCheckModal";
+import dayjs from "dayjs";
 
+
+// interface IShTaskTable {
+//     dateTime: string;
+//     keyword: string;
+//     searchSystem: number;
+//     top: number
+// }
+
+const dateFormat = 'DD.MM.YY:HH'
 
 export const ResultCheckTable = () => {
+    const currentProject = useSelector(currentProjectId)
+    const {data: userCheck} = useGetAllCheckQuery({
+        id: currentProject,
+        date: 'firstDate=2024-01-01T00:00:00Z&lastDate=2024-12-31T23:59:59Z'
+    })
 
     const [loadings, setLoadings] = useState<boolean[]>([]);
     const [generation, setGeneration] = useState(true);
 
-    interface DataType {
-        key: React.Key;
-        name: string;
-        age: number;
-        street: string;
-        building: string;
-        number: number;
-        companyAddress: string;
-        companyName: string;
-        gender: string;
-    }
+    const [tableColumns, setTableColumns] = useState<TableColumnsType>()
+    const [tableData, setTableData] = useState()
 
-    const columns: TableColumnsType<DataType> = [
-        {
-            title: 'Ключевые фразы',
-            dataIndex: 'name',
-            key: 'name',
-            width: 250,
-            fixed: 'left',
-            onFilter: (value, record) => record.name.indexOf(value as string) === 0,
-        },
-        {
-            title: 'Дата и время',
-            children: [
-                {
-                    title: '30.05.24 в 06:00',
-                    children: [
-                        {
-                            title: 'Яндекс',
-                            dataIndex: 'building',
-                            key: 'building',
-                            width: 100,
-                        },
-                        {
-                            title: 'Google',
-                            dataIndex: 'number',
-                            key: 'number',
-                            width: 100,
-                        },
-                    ],
 
-                },
-                {
-                    title: '30.05.24',
+    useEffect(() => {
+        if (userCheck) {
+            const a: Set<string> = new Set()
+            for (let tasks of userCheck.CompletedTask) {
+                a.add(dayjs(tasks.Date).format(dateFormat))
+            }
+
+            const res = Array.from(a).map((el) => {
+                return {
+                    title: el,
+                    dataIndex: el,
+                    key: el,
                     children: [
                         {
                             title: 'Яндекс',
-                            dataIndex: 'building',
-                            key: 'building',
+                            dataIndex: '1',
+                            key: '1',
                             width: 100,
                         },
                         {
                             title: 'Google',
-                            dataIndex: 'number',
-                            key: 'number',
-                            width: 100,
-                        },
-                    ],
-                },
-                {
-                    title: '30.05.24',
-                    children: [
-                        {
-                            title: 'Яндекс',
-                            dataIndex: 'building',
-                            key: 'building',
-                            width: 100,
-                        },
-                        {
-                            title: 'Google',
-                            dataIndex: 'number',
-                            key: 'number',
-                            width: 100,
-                        },
-                    ],
-                },
-                {
-                    title: '30.05.24 в 17:00',
-                    children: [
-                        {
-                            title: 'Яндекс',
-                            dataIndex: 'building',
-                            key: 'building',
-                            width: 100,
-                        },
-                        {
-                            title: 'Google',
-                            dataIndex: 'number',
-                            key: 'number',
-                            width: 100,
-                        },
-                    ],
-                },
-                {
-                    title: '30.05.24 в 12:00',
-                    children: [
-                        {
-                            title: 'Яндекс',
-                            dataIndex: 'building',
-                            key: 'building',
-                            width: 100,
-                        },
-                        {
-                            title: 'Google',
-                            dataIndex: 'number',
-                            key: 'number',
-                            width: 100,
-                        },
-                    ],
-                },
-                {
-                    title: '30.05.24',
-                    children: [
-                        {
-                            title: 'Яндекс',
-                            dataIndex: 'building',
-                            key: 'building',
-                            width: 100,
-                        },
-                        {
-                            title: 'Google',
-                            dataIndex: 'number',
-                            key: 'number',
+                            dataIndex: '0',
+                            key: '0',
                             width: 100,
                         },
                     ],
                 }
-            ],
-        }
-    ];
+            })
 
-    const data: DataType[] = [];
-    for (let i = 0; i < 100; i++) {
-        data.push({
-            key: i,
-            name: 'википедия екатерина 1 ',
-            age: i + 1,
-            street: 'Lake Park',
-            building: '1',
-            number: 4,
-            companyAddress: 'Lake Street 42',
-            companyName: 'SoftLake Co',
-            gender: 'M',
-        });
-    }
+            setTableColumns(
+                [{
+                    title: 'Ключевые фразы',
+                    dataIndex: 'keyword',
+                    key: 'keyword',
+                    width: 250,
+                    fixed: 'left',
+                },
+                    {
+                        title: 'Дата и время',
+                        children: res
+                    }]
+            )
+
+            const data: any[] = [];
+            const keywords = new Set()
+
+            for (const task of userCheck.CompletedTask) {
+
+                let prSize = keywords.size
+                let nextSize = keywords.add(task.Keyword).size
+
+                if (prSize !== nextSize) {
+                    const res = {
+                        keyword: task.Keyword,
+                    }
+
+                    // @ts-ignore
+                    res[dayjs(task.Date).format(dateFormat)] = true
+                    // @ts-ignore
+                    res[task.SearchSystem] = task.Position
+
+                    data.push(res)
+                }
+
+            }
+            setTableData(data)
+        }
+    }, [userCheck]);
+
 
     useEffect(() => {
         setTimeout(() => {
@@ -160,21 +106,21 @@ export const ResultCheckTable = () => {
         }, 3000);
     }, []);
 
-    const enterLoading = (index: number) => {
-        setLoadings((prevLoadings) => {
-            const newLoadings = [...prevLoadings];
-            newLoadings[index] = true;
-            return newLoadings;
-        });
-
-        setTimeout(() => {
-            setLoadings((prevLoadings) => {
-                const newLoadings = [...prevLoadings];
-                newLoadings[index] = false;
-                return newLoadings;
-            });
-        }, 6000);
-    };
+    // const enterLoading = (index: number) => {
+    //     setLoadings((prevLoadings) => {
+    //         const newLoadings = [...prevLoadings];
+    //         newLoadings[index] = true;
+    //         return newLoadings;
+    //     });
+    //
+    //     setTimeout(() => {
+    //         setLoadings((prevLoadings) => {
+    //             const newLoadings = [...prevLoadings];
+    //             newLoadings[index] = false;
+    //             return newLoadings;
+    //         });
+    //     }, 6000);
+    // };
 
     return (
         <ConfigProvider
@@ -206,11 +152,11 @@ export const ResultCheckTable = () => {
                         <Skeleton active className={cls.skeleton}/>
                     ) : (
                         <Table
-                            columns={columns}
-                            dataSource={data}
+                            columns={tableColumns}
                             bordered
+                            dataSource={tableData}
                             size="middle"
-                            scroll={{ x: 'calc(700px + 50%)', y: 280 }}
+                            scroll={{x: 'calc(700px + 50%)', y: 280}}
                             className={cls.table}
                         />
                     )}

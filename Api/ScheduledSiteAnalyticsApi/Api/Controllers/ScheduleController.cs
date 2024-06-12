@@ -2,6 +2,7 @@
 using Core.Extensions;
 using Domain.Entity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using ProfileConnectionLib.ConnectionServices.DtoModels.Request;
 using Services.Interfaces;
 
@@ -92,6 +93,6 @@ public class ScheduleController: ControllerBase
             LastDate = lastDate
         });
 
-        return Ok(res);
+        return Ok(JsonConvert.SerializeObject(res));
     }
 }

@@ -4,15 +4,15 @@ import {USER_CURRENT_PROJECT_ID} from "@/shared/const/localstorage.ts";
 
 
 const initialState: IProjectSliceSchema = {
-    currentProjectId: ' ' || localStorage.getItem(USER_CURRENT_PROJECT_ID)
+    currentProjectId: localStorage.getItem(USER_CURRENT_PROJECT_ID)
 };
 
 export const ProjectSlice = createSlice({
     name: 'Project',
     initialState,
     reducers: {
-        setCurrentProjectId: (state, action: PayloadAction<string>) => {
-            localStorage.setItem(USER_CURRENT_PROJECT_ID, action.payload)
+        setCurrentProjectId: (state, action: PayloadAction<string | null>) => {
+            localStorage.setItem(USER_CURRENT_PROJECT_ID, action.payload || ' ')
             state.currentProjectId = action.payload;
         },
     },

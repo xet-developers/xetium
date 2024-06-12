@@ -1,12 +1,12 @@
 using Api;
 using Api.Controllers.Response.Consumer;
+using ExampleCore.Swagger;
 using MassTransit;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerStartUpBase();
 builder.Services.TryAddServices();
 builder.Services.TryAddInfrastructure();
 builder.Services.AddControllers();
