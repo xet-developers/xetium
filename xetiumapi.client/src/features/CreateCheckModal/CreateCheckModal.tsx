@@ -125,6 +125,7 @@ export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
                                     onChange={handleChangeRepeat}
                                     options={[
                                         { value: 'Без повторения', label: 'Без повторения' },
+                                        { value: 'Каждый день', label: 'Каждый день' },
                                         { value: 'Каждую неделю', label: 'Каждую неделю' },
                                         { value: 'Каждый месяц', label: 'Каждый месяц' },
                                     ]}
