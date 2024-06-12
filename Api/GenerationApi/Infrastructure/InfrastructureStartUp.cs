@@ -13,6 +13,7 @@ public static class InfrastuctureStartup
     {
         serviceCollection.TryAddScoped<IReportConnection, ReportConnection>();
         serviceCollection.TryAddScoped<IProjectConnectionService, ProjectConnectionService>();
+        serviceCollection.TryAddScoped<IYandexGptConnection, YandexGptConnection>();
         return serviceCollection;
     }
 }
