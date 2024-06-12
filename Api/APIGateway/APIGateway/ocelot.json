@@ -23,6 +23,25 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/cluster/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "schedule-service",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/cluster/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST","Delete" ],
+      "SwaggerKey": "v1-scheduletask",
+      "AuthenticationOptions": {
+        "JwtBearer": {
+          "Issuer": "XetApi",
+          "Audience": "XetUser"
+        }
+      }
+    },
+    {
       "DownstreamPathTemplate": "/analytics/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [

@@ -55,15 +55,22 @@ public class ScheduleService: IScheduleService
         return pendingTasks;
     }
 
+    public async Task<List<TaskInfo>> GetTaskInfo(UserSearchInfo request)
+    {
+        var taskInfo = await _tasksInfoRepository.GetTopFiveTasks(request);
+        return taskInfo;
+    }
     public async Task<Tasks> GetAllTasksInfoAsync(UserSearchInfo request)
     {
         var pending = await GetPendingTasksInfoAsync(request);
         var completed = await GetCompletedTasksInfoAsync(request);
-
+        var topFiveInfo = await GetTaskInfo(request);
+        
         var allUserTasks = new Tasks()
         {
             CompletedTask = completed,
-            UncompletedTask = pending
+            UncompletedTask = pending,
+            TaskInfos = topFiveInfo
         };
 
         return allUserTasks;

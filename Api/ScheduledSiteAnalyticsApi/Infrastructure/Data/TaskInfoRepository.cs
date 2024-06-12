@@ -42,6 +42,18 @@ public class TaskInfoRepository: ITasksInfoRepository
         await _applicationDbContext.SaveChangesAsync();
     }
 
+    public async Task<List<TaskInfo>> GetTopFiveTasks(UserSearchInfo userSearchInfo)
+    {
+        var tasks = await _applicationDbContext.TaskInfos
+            .Where(t => t.UserId == userSearchInfo.UserId 
+                        && t.ProjectId == userSearchInfo.ProjectId)
+            .OrderByDescending(p => p.CompletionTime)
+            .Take(5)
+            .ToListAsync();
+
+        return tasks;
+    }
+
     public async Task<List<TaskDetails>> GetPendingTasksAsync(UserSearchInfo userSearchInfo)
     {
         var res = await _applicationDbContext.TaskDetails
