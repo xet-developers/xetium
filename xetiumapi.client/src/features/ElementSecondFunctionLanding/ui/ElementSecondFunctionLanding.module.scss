@@ -1,0 +1,62 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5em;
+  margin-left: 385px;
+  margin-right: 385px;
+  background: linear-gradient(#ffbfb7, #C0CCF7);
+  width: 1500px;
+  height: 346px;
+  border-radius: 38px;
+  box-shadow: 0 5px 15px rgba(46, 46, 46, 0.4);
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  margin-left: 185px;
+  text-align: left;
+}
+
+.header {
+  font-family: "Montserrat", sans-serif;
+  font-size: 48px;
+  color: #252525;
+  font-weight: 600;
+  text-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+.desc {
+  font-family: "Montserrat", sans-serif;
+  font-size: 20px;
+  color: #ffffff;
+  font-weight: 500;
+  line-height: 30px;
+}
+
+.textBtn {
+  color: white;
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 20px;
+  font-family: "Montserrat", sans-serif;
+  text-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+.btn {
+  background-color: #F66450;
+  border-radius: 54px;
+  width: 361px;
+  height: 43px;
+  box-shadow: 0 5px 15px rgba(46, 46, 46, 0.4);
+}
+
+.service {
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 28px;
+  font-family: "Montserrat", sans-serif;
+}

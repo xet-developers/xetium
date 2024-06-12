@@ -48,9 +48,12 @@ public class ProjectService: IProjectService
         {
             return null;
         }
-        
-        var res = await _standartStore.UpdateAsync(project);
 
-        return project;
+        curProj.Name = project.Name;
+        curProj.Description = project.Description;
+        curProj.Url = project.Url;
+        
+        var res = await _standartStore.UpdateAsync(curProj);
+        return res;
     }
 }

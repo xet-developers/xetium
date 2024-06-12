@@ -21,7 +21,8 @@ public static class InfrastuctureStartUp
         serviceCollection.TryAddPositionLib(configurationManager);
         serviceCollection.AddHttpRequestService();
         serviceCollection.TryAddScoped<ITasksInfoRepository, TaskInfoRepository>();
-        
+        serviceCollection.TryAddScoped<IClusterRepository, ClusterRepository>();
+
         var connectionString = configurationManager.GetConnectionString("DefaultConnection");
         serviceCollection.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(connectionString).LogTo(Console.WriteLine, LogLevel.Information));

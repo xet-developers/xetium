@@ -12,6 +12,7 @@ public static class ServiceStartUp
 {
     public static IServiceCollection TryAddServices(this IServiceCollection serviceCollection)
     {
+        serviceCollection.TryAddScoped<IClusterService, ClusterService>();
         serviceCollection.TryAddScoped<IScheduleService, ScheduleService>();
         return serviceCollection;
     }

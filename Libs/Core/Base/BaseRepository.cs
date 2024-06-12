@@ -36,7 +36,16 @@ public class BaseRepository: IStandartStore
         
         return entityId;
     }
-
+    
+    public async Task<Guid> CreateAsync<T>(Guid id, T entity)
+        where T : BaseEntity<Guid>
+    {
+        entity.Id = id;
+        await _applicationDbContext.Set<T>().AddAsync(entity);
+        await _applicationDbContext.SaveChangesAsync();
+        
+        return id;
+    }
     public async Task<T> UpdateAsync<T>(T entity)
         where T : BaseEntity<Guid>
     {

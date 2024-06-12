@@ -1,10 +1,7 @@
 ﻿using ExampleCore.Dal.Base;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
+
 
 namespace Domain.Entity
 {
@@ -18,6 +15,8 @@ namespace Domain.Entity
         public required int Position { get; set; }
         public required int SearchSystem { get; set; }
         public required Guid ScheduleTaskDetailId { get; set; }
+        
+        [JsonIgnore]
         public ScheduleTaskDetails ScheduleTaskDetails { get; set; }
     }
 }

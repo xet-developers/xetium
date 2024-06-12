@@ -2,8 +2,8 @@ import {ComponentType, PropsWithChildren} from 'react';
 
 export enum UnregisterRouteName {
     EMPTY='*',
-    AUTH_PAGE = '/authorization',
     LANDING_PAGE = '/landing',
+    AUTH_PAGE = '/authorization',
     REGISTER_PAGE = '/registration',
 }
 
