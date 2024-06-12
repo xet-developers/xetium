@@ -1,13 +1,26 @@
 import cls from "./CreateReport.module.scss";
 import { Button, Select, DatePicker, ConfigProvider } from "antd";
 import { FileSyncOutlined } from '@ant-design/icons';
+import { useState } from 'react';
 
 const { RangePicker } = DatePicker;
 
 export const CreateReport = () => {
 
-    const handleGenerate = () => {
+    const [dateRange, setDateRange] = useState(null);
+    const [validateDateRange, validateSetDateRange] = useState(false);
 
+    const [error, setError] = useState('');
+
+    const handleGenerate = () => {
+        if (!dateRange) {
+            validateSetDateRange(true);
+            setError('error');
+            return;
+        }
+        setDateRange(null);
+        validateSetDateRange(false);
+        setError('');
     }
 
     return (
@@ -33,8 +46,18 @@ export const CreateReport = () => {
 
                 <div className={cls.block}>
                     <span className={cls.textUp}>Выберите интервал</span>
-                    <RangePicker className={cls.date}/>
+                    <RangePicker
+                        className={cls.date}
+                        onChange={(dates) => setDateRange(dates)}
+                        value={dateRange}
+                        status={error}
+                    />
                 </div>
+
+                {!dateRange && validateDateRange &&
+                    <span style={{fontSize:'12px', marginLeft: '2em', marginTop: '0.5em', marginBottom: '-1em', color:'rgb(246, 100, 80)'}}>
+                        Выберите начало и конец интервала!
+                    </span>}
 
                 <div className={cls.block} style={{marginTop: '15px'}}>
                     <span className={cls.textUp}>Выберите шаблон отчёта</span>
