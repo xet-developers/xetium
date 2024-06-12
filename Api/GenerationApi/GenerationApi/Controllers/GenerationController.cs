@@ -12,12 +12,12 @@ namespace Api.Controllers
     public class GenerationController : ControllerBase
     {
         private IPositionReportService _positionReportService;
-        private IClusteringService _clusteringService;
+        private IAiGenerationService _iaiGenerationService;
 
-        public GenerationController(IPositionReportService positionReportService, IClusteringService clusteringService)
+        public GenerationController(IPositionReportService positionReportService, IAiGenerationService iaiGenerationService)
         { 
             _positionReportService = positionReportService;
-            _clusteringService = clusteringService;
+            _iaiGenerationService = iaiGenerationService;
         }
 
         [HttpPost("positionreport")]
@@ -48,7 +48,7 @@ namespace Api.Controllers
         [HttpPost("clusteringreport")]
         public async Task<IActionResult> CreateClusteringReport([FromBody] ClusteringRequest clusteringRequest)
         {
-            var clustering = await _clusteringService.GetClusterQueriesUsingAiAsync(clusteringRequest.Query);
+            var clustering = await _iaiGenerationService.GetClusterQueriesUsingAiAsync(clusteringRequest.Query);
 
             if (clustering is null)
             {
@@ -58,6 +58,19 @@ namespace Api.Controllers
             {
                 FileDownloadName = "Clustering.txt"
             };
+        }
+
+        [HttpPost("auto")]
+        public async Task<IActionResult> CreateQuerry([FromBody] QueryRequest queryRequest)
+        {
+            var test = await _iaiGenerationService.GetAutoQueryGeneration(new Query()
+            {
+                Intent = queryRequest.Intents,
+                Keywords = queryRequest.Keywords,
+                NumberOfGeneratedWords = 10
+            });
+
+            return Ok(test);
         }
     }
 }

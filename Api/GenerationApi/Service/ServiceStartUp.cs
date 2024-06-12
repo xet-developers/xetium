@@ -7,7 +7,7 @@ public static class ServiceStartUp
 {
     public static IServiceCollection TryAddServices(this IServiceCollection serviceCollection)
     {
-        serviceCollection.TryAddScoped<IClusteringService, ClusteringService>();
+        serviceCollection.TryAddScoped<IAiGenerationService, AiGenerationService>();
         serviceCollection.TryAddScoped<IPositionReportService, PositionReportService>();
         serviceCollection.AddHttpClient();
         return serviceCollection;

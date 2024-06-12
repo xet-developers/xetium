@@ -35,7 +35,7 @@ namespace Api.Controllers
         }
 
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("delete")]
         public async Task<IActionResult> DeleteTask([FromQuery] Guid id)
         {
             var res = await _clusterService.DeleteClusterAsync(id);

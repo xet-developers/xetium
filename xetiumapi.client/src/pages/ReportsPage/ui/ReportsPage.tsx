@@ -1,14 +1,16 @@
 import cls from "@/pages/ReportsPage/ui/ReportsPage.module.scss";
-import catImage from '../../../shared/ui/assets/cat.jpg';
+import {CreateReport} from "@/widgets/CreateReport/ui/CreateReport.tsx";
+import {InfoReport} from "@/entity/InfoReport/ui/InfoReport.tsx";
+import {ResultReportTable} from "@/widgets/ResultReportTable/ui/ResultReportTable.tsx";
 
 export const ReportsPage = () => {
     return (
         <div className={cls.page}>
-            <img src={catImage} width={'600px'}/>
-
-            <span className={cls.text}>
-                На данный момент раздел "Отчеты" находится в разработке, совсем скоро он появится :)
-            </span>
+            <div className={cls.up}>
+                <CreateReport/>
+                <InfoReport/>
+            </div>
+            <ResultReportTable/>
         </div>
     );
 };
