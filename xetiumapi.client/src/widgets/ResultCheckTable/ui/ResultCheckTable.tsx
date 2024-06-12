@@ -26,7 +26,7 @@ export const ResultCheckTable = () => {
     const [loadings, setLoadings] = useState<boolean[]>([]);
     const [generation, setGeneration] = useState(true);
 
-    const [tableColumns, setTableColumns] = useState<TableColumnsType<IShTaskTable>>()
+    const [tableColumns, setTableColumns] = useState<TableColumnsType>()
     const [tableData, setTableData] = useState()
 
 
