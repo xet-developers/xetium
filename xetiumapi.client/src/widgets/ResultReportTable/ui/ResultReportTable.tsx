@@ -46,12 +46,16 @@ export const ResultReportTable = () => {
             filters: [
                 {
                     text: 'Динамика позиций сайта за интервал времени',
-                    value: '1',
+                    value: 'Динамика позиций сайта за интервал времени',
+                },
+                {
+                    text: 'test',
+                    value: 'test',
                 },
             ],
             filterMode: 'tree',
             filterSearch: true,
-            onFilter: (value, record) => record.type.startsWith(value as string),
+            onFilter: (value, record) => record.type.includes(value as string),
             width: '30%',
         },
         {
@@ -61,6 +65,7 @@ export const ResultReportTable = () => {
         {
             title: 'Ссылка для скачивания',
             dataIndex: 'link',
+            render: (text: string) => <a href={text} download className={cls.link}>Скачать</a>,
         },
     ];
 
@@ -74,8 +79,8 @@ export const ResultReportTable = () => {
         },
         {
             key: '2',
-            date: format(new Date()),
-            type: "Динамика позиций сайта за интервал времени",
+            date: '10/05/24',
+            type: "test",
             interval: '11.04.24 - 09.05.24',
             link: 'https://post-images.org/photo-page.php?photo=8YPKfLzi',
         },
