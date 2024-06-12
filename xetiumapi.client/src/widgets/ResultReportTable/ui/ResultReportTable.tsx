@@ -135,7 +135,7 @@ export const ResultReportTable = () => {
         >
             <div className={cls.container}>
                 <div className={cls.header}>
-                    <span>Результаты проверок</span>
+                    <span>Сформированные отчёты</span>
                 </div>
 
                 <div className="blockData">
