@@ -7,10 +7,9 @@ import {RegisteredLayout} from "@/shared/layouts/RegisteredLayout/RegisteredLayo
 import {Header} from "@/features/Header";
 import {Sidebar} from "@/widgets/Sidebar/ui/Sidebar.tsx";
 
-const {unregisteredRoutes, registeredRoutes} = allRoutes
-const {UnregisteredRoutes} = unregisteredRoutes
-const {RegisteredRoutes} = registeredRoutes
-
+const {unregisteredRoutes, registeredRoutes} = allRoutes;
+const {UnregisteredRoutes} = unregisteredRoutes;
+const {RegisteredRoutes} = registeredRoutes;
 
 const a = UnregisteredRoutes.map(({path, component: Component}) => (
     <Route key={path} path={path} element={<Component/>}/>
@@ -21,20 +20,23 @@ const b = RegisteredRoutes.map(({path, component: Component}) => (
 ))
 
 export const AppRouter = () => {
-    const authData = useSelector(getUserAuthData)
-
+    const authData = useSelector(getUserAuthData);
 
     const routes = useMemo(() => {
         if (authData) {
             return (
                 <RegisteredLayout
-                header={<Header/>}
-                navMenu={<Sidebar/>}
-                content={<Routes>{b}</Routes>}>
-            </RegisteredLayout>)
+                    header={<Header/>}
+                    navMenu={<Sidebar/>}
+                    content={<Routes>{b}</Routes>}>
+                </RegisteredLayout>
+            )
         }
 
-        return (<Routes>{a}</Routes>)
+        return (
+            <Routes>
+                {a}
+            </Routes>)
     }, [authData]);
 
 
