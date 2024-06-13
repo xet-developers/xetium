@@ -73,7 +73,8 @@ namespace Service.Services
                     intents.Navigational = navigationalValue;
                 if (parsedIntents.TryGetValue(IntentType.Transactional, out List<string>? transactionalValue))
                     intents.Transactional = transactionalValue;
-
+                
+                intents.Status = true;
                 return intents;
             }
 
@@ -99,7 +100,8 @@ namespace Service.Services
                 default:
                     return intents;
             }
-
+            
+            intents.Status = true;
             return intents;
         }
         private Dictionary<IntentType, List<string>> ParseIntents(string input)
@@ -129,5 +131,7 @@ public class Intents
     public List<string> Informational { get; set; } = new List<string>();
     public List<string> Navigational { get; set; } = new List<string>();
     public List<string> Transactional { get; set; } = new List<string>();
+    
+    public bool Status { get; set; }
     
 }

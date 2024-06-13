@@ -70,9 +70,9 @@ namespace Api.Controllers
                 NumberOfGeneratedWords = 10
             });
 
-            if (res is null)
+            if (res is null || res.Status is false)
             {
-                return BadRequest("На данный момент сервис не доступен");
+                return BadRequest("Некоректный запрос, попробуйте ещё раз");
             }
             
             return Ok(res);
