@@ -46,7 +46,7 @@ export const CreateClusterRequestResult = () => {
             }}
         >
             <div className={cls.container}>
-                <span className={cls.header}>Последняя кластеризация</span>
+                <span className={cls.header}>Информация</span>
 
                 <span className={cls.blockText}>
                     <span>
@@ -60,22 +60,6 @@ export const CreateClusterRequestResult = () => {
                     <span className={cls.imp}>Результат кластеризации сделан с помощью нейросети и может содержать ошибки.</span>
                 </span>
 
-                <div className={cls.block}>
-                    <span className={cls.textUp}>
-                        Скачать результат можно по кнопке:
-                    </span>
-
-                    <Button
-                        type="primary"
-                        icon={<DownloadOutlined/>}
-                        loading={loadings[1]}
-                        onClick={() => enterLoading(1)}
-                        className={cls.btn}
-                    >
-                        Скачать в формате txt
-                    </Button>
-
-                </div>
             </div>
         </ConfigProvider>
     );
