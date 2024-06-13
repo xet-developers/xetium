@@ -1,5 +1,5 @@
 .container {
-  width: 1525px;
+  width: 1565px;
   height: 666px;
   border-radius: 8px;
   font-family: "Montserrat", sans-serif;
@@ -19,31 +19,31 @@
   height: 52px;
   border-radius: 35px;
   font-family: "Montserrat", sans-serif;
-  font-size: 13px;
+  font-size: 15px;
   color: #ffffff;
   display: flex;
   align-items: center;
   background: linear-gradient(to right, #FF8A7A, #F66450);
   justify-content: center;
-  font-weight: 500;
+  font-weight: 400;
   margin-top: -2em;
-  left: 30%;
+  left: 24%;
   box-shadow: 0 5px 15px rgba(195, 77, 60, 0.67);
 }
 
 .btnLogout {
-  width: 270px;
+  width: 367px;
   height: 52px;
   border-radius: 35px;
   font-family: "Montserrat", sans-serif;
-  font-size: 13px;
+  font-size: 15px;
   color: #ffffff;
   display: flex;
   align-items: center;
-  background: linear-gradient(to right, #424242, #5c5c5c);
+  background: linear-gradient(to right, #ffa699, #ff7a67);
   justify-content: center;
-  font-weight: 500;
+  font-weight: 400;
   margin-top: -2em;
-  left: 35%;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+  left: 29%;
+  box-shadow: 0 5px 15px rgba(213, 99, 84, 0.67);
 }

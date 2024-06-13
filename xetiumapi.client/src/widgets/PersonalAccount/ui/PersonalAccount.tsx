@@ -3,7 +3,7 @@ import {Button, ConfigProvider, Flex} from "antd";
 import {LogoutOutlined} from '@ant-design/icons';
 import {UserPhoto} from "@/features/UserPhoto/UserPhoto.tsx";
 import {UserData} from "@/features/UserData/UserData.tsx";
-import {useGetUserDataQuery, useUpdateUserMutation} from "@/entity/User";
+import {useGetUserDataQuery, useLogoutUserMutation, useUpdateUserMutation} from "@/entity/User";
 import {useState} from "react";
 import dayjs from "dayjs";
 
@@ -16,6 +16,7 @@ interface FieldData {
 export const PersonalAccount = () => {
     const {data: user} = useGetUserDataQuery()
     const [trigger] = useUpdateUserMutation()
+    const [logoutUser] = useLogoutUserMutation();
 
     const [fields, setFields] = useState<FieldData[]>([
         {name: ['username'], value: user?.userName},
@@ -24,8 +25,12 @@ export const PersonalAccount = () => {
         {name: ['password'], value: '********'}
     ]);
 
-    const logout = () => {
-
+    const logout = async () => {
+        try {
+            await logoutUser();
+            console.log('q')
+        } catch (error) {
+        }
     }
 
     const updateUser = async () => {
@@ -45,16 +50,17 @@ export const PersonalAccount = () => {
         <ConfigProvider
             theme={{
                 token: {
-                    colorPrimary: '#F66450',
+                    colorPrimary: '#ffffff',
                     colorText: '#252525'
                 },
                 components: {
                     Button: {
                         defaultBorderColor: 'none',
                         defaultActiveBorderColor: 'none',
+                        defaultHoverBorderColor: 'none',
                         textHoverBg: 'none',
-                        defaultActiveBg: '#fff',
-                        defaultHoverBg: '#fff'
+                        defaultActiveBg: '#ff664e',
+                        defaultHoverBg: '#ff664e'
                     }
                 }
             }}
@@ -66,11 +72,11 @@ export const PersonalAccount = () => {
                 </div>
                 <Flex vertical={false}>
                     <Button className={cls.btnOk} onClick={updateUser}>
-                        СОХРАНИТЬ ИЗМЕНЕНИЯ
+                        Сохранить изменения
                     </Button>
-                    <Button className={cls.btnLogout}>
+                    <Button className={cls.btnLogout} onClick={logout}>
                         <LogoutOutlined/>
-                        ВЫЙТИ
+                        Выйти
                     </Button>
                 </Flex>
 

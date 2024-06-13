@@ -120,7 +120,7 @@ export const CreateRequest = () => {
                         />
                     </div>
 
-                    <Button className={cls.btn} onClick={handleGenerate}><FileSyncOutlined/>СГЕНЕИРОВАТЬ</Button>
+                    <Button className={cls.btn} onClick={handleGenerate}><FileSyncOutlined/>Сгенерировать</Button>
                 </div>
             </div>
         </ConfigProvider>
