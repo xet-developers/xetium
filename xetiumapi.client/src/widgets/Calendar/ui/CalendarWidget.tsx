@@ -1,7 +1,7 @@
 import cls from "./CalendarWidget.module.scss";
 import type {Dayjs} from 'dayjs';
 import dayjs from 'dayjs';
-import {Calendar, Badge, BadgeProps, CalendarProps, Alert} from "antd";
+import {Calendar, Badge, BadgeProps, CalendarProps, ConfigProvider} from "antd";
 import {useState} from 'react';
 import {CreateCheckModal} from "@/features/CreateCheckModal/CreateCheckModal.tsx";
 import {ViewCheckModal} from "@/features/ViewCheckModal/ViewCheckModal.tsx";
@@ -50,34 +50,6 @@ export const CalendarWidget = () => {
         return listData;
     };
 
-    const getTotalListDataCount = () => {
-        const daysInMonth = value.daysInMonth();
-        const daysArray = Array.from({length: daysInMonth}, (_, i) => i + 1); // Создаем массив чисел от 1 до количества дней в месяце
-
-        const totalListDataCount = daysArray.reduce((acc, day) => {
-            const currentDate = value.clone().date(day);
-            const listData = getListData(currentDate);
-            return acc + listData.length; // Суммируем длины listData
-        }, 0);
-
-        return totalListDataCount;
-    };
-
-    const getMonthData = (value: Dayjs) => {
-        if (value.month() === 4) {
-            return `В этом месяце ${getTotalListDataCount()} проверки`;
-        }
-    };
-
-    const monthCellRender = (value: Dayjs) => {
-        const str = getMonthData(value);
-        return str ? (
-            <div className={cls.notesMonth}>
-                <section>{str}</section>
-            </div>
-        ) : null;
-    };
-
     const openCurrentProjectModal = (task: any) => {
         setCurrentTask(task)
         setViewCurrentTask(true)
@@ -98,7 +70,7 @@ export const CalendarWidget = () => {
 
     const cellRender: CalendarProps<Dayjs>['cellRender'] = (current, info) => {
         if (info.type === 'date') return dateCellRender(current);
-        if (info.type === 'month') return monthCellRender(current);
+        if (info.type === 'month') return;
         return info.originNode;
     };
 
@@ -121,37 +93,45 @@ export const CalendarWidget = () => {
     };
 
     return (
-        <div>
-            <div className={cls.blockCalendar}>
-                <div className={cls.blockHeaderCalendar}>
-                    <div className={cls.headerCalendar}>
-                        <span className={cls.header}>Календарь с запланированными проверками</span>
-                        <button onClick={openModal} className={cls.buttonPlan}>+ Запланировать</button>
+        <ConfigProvider
+            theme={{
+                token: {
+                    colorPrimary: '#F66450',
+                    colorText: '#252525'
+                },
+                components: {
+                    Calendar: {
+                        itemActiveBg: 'rgba(255,147,132,0.3)'
+                    }
+                }
+            }}
+        >
+            <div>
+                <div className={cls.blockCalendar}>
+                    <div className={cls.blockHeaderCalendar}>
+                        <div className={cls.headerCalendar}>
+                            <span className={cls.header}>Календарь с запланированными проверками</span>
+                        </div>
+
                     </div>
 
+                    <button onClick={openModal} className={cls.buttonPlan}>+ Запланировать проверку</button>
+
+                    <div className={cls.calendar}>
+                        <Calendar cellRender={cellRender} value={value} onSelect={onSelect}
+                                  onPanelChange={onPanelChange}/>
+                    </div>
                 </div>
 
-                {getListData(value).length > 0 ? (
-                    <Alert
-                        message={`${selectedValue?.format('DD.MM.YYYY')} запланировано следующее количество проверок: ${getListData(value).length}`}
-                        className={cls.alert}/>
-                ) : <Alert message={`${selectedValue?.format('DD.MM.YYYY')} проверки не запланированы`}
-                           className={cls.alertNull}/>}
+                <div>
+                    {<CreateCheckModal modalOpen={modalOpen} closeModal={closeModal}/>}
+                </div>
 
-                <div className={cls.calendar}>
-                    <Calendar cellRender={cellRender} value={value} onSelect={onSelect} onPanelChange={onPanelChange}/>
+                <div>
+                    {<ViewCheckModal open={viewCurrentTask} setOpen={setViewCurrentTask} task={currentTask}/>}
                 </div>
             </div>
-
-            <div>
-                {<CreateCheckModal modalOpen={modalOpen} closeModal={closeModal}/>}
-            </div>
-
-            <div>
-                {<ViewCheckModal open={viewCurrentTask} setOpen={setViewCurrentTask} task={currentTask}/>}
-            </div>
-        </div>
-
+        </ConfigProvider>
     );
 };
 

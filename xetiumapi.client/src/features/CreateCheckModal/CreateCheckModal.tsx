@@ -16,7 +16,7 @@ export const CreateCheckModal = ({modalOpen, closeModal}): React.JSX.Element => 
     const [selectedCheckbox, setSelectedCheckbox] = useState([]);
     const [curCluster, setCluster] = useState(null);
     const [repeat, setRepeat] = useState(null);
-    const [date, setDate] = useState(() => dayjs('2024-05-21'));
+    const [date, setDate] = useState(() => dayjs());
     const [trigger, {isLoading, data}] = usePostCreateCheckMutation()
     const {data: cluster} = useGetAllWordClusterQuery()
 
@@ -144,22 +144,23 @@ export const CreateCheckModal = ({modalOpen, closeModal}): React.JSX.Element => 
                             <Space wrap>
                                 {cluster &&
                                     <Select
+                                        defaultValue={'-1'}
                                         style={{width: 200, marginTop: '1em', colorPrimary: '#252525', fontFamily: 'Montserrat, sans-serif'}}
                                         onChange={handleChangeCluster}
-                                        options={
+                                        options={[
                                             cluster.map((el, index) => {
                                                 return {
                                                     value: el.id,
                                                     label: 'Кластер ' + (index + 1)
                                                 }
+                                            }),
+                                            { value: '-1', label: (
+                                                <span>
+                                                    <Link to={'/checksitepositions'} style={{color: '#F66450'}}>+ Создать кластер</Link>
+                                                </span>
+                                                )
                                             },
-                                                { value: -1, label: (
-                                                    <span>
-                                                        <Link to={'/checksitepositions'} style={{color: '#F66450'}}>+ Создать кластер</Link>
-                                                    </span>
-                                                    )
-                                                },
-                                            )}
+                                        ]}
                                     />}
                                     </Space>
                                     </div>

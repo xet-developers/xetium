@@ -115,7 +115,7 @@ export const AddKeyWords = () => {
                         <span className={cls.textUp}>Ключевые слова</span>
                         <TextArea autoSize={{minRows: 4, maxRows: 4}}
                                   placeholder={'Введите ключевые слова, например: новости, википедия...'}
-                                  style={{marginTop: "8px", width: "720px", fontFamily: "Montserrat"}}
+                                  style={{marginTop: "8px", width: "740px", fontFamily: "Montserrat"}}
                                   value={inputValue}
                                   onChange={onInputChange}
                         >
@@ -137,7 +137,7 @@ export const AddKeyWords = () => {
                                 onClick={saveCluster}><FileSyncOutlined/>{isLoadingCluster ? 'отправка' : 'Сохранить как кластер'}
                         </Button>
                         <Button className={cls.btn}
-                                onClick={handleGenerate}><FileSyncOutlined/>{isLoadingSitePosition ? 'отправка' : 'Отправить слова'}
+                                onClick={handleGenerate}><FileSyncOutlined/>{isLoadingSitePosition ? 'отправка' : 'Отправить'}
                         </Button>
                     </div>
                 </div>
