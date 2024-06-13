@@ -63,14 +63,19 @@ namespace Api.Controllers
         [HttpPost("auto")]
         public async Task<IActionResult> CreateQuerry([FromBody] QueryRequest queryRequest)
         {
-            var test = await _iaiGenerationService.GetAutoQueryGeneration(new Query()
+            var res = await _iaiGenerationService.GetAutoQueryGeneration(new Query()
             {
                 Intent = queryRequest.Intents,
                 Keywords = queryRequest.Keywords,
                 NumberOfGeneratedWords = 10
             });
 
-            return Ok(test);
+            if (res is null)
+            {
+                return BadRequest("На данный момент сервис не доступен");
+            }
+            
+            return Ok(res);
         }
     }
 }

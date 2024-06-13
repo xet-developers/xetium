@@ -1,6 +1,9 @@
+using System.Net;
+using System.Net.Security;
 using ExampleCore.BrokerLogic;
 using ExampleCore.HttpLogic;
 using ExampleCore.Swagger;
+using Infrastructure.Connection;
 using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +14,9 @@ builder.Services.TryAddServices();
 builder.Services.AddAuthorization();
 builder.Services.AddSwaggerStartUpBase();
 builder.Services.AddHttpRequestService();
+
+
+
 builder.Services.AddMassTransit(x =>
 {
     x.UsingRabbitMq((context, cfg) =>

@@ -7,6 +7,6 @@ namespace Service.Interfaces
     {
         public Task<FileStream> GetClusterQueriesUsingAiAsync(string query);
 
-        public Task<string> GetAutoQueryGeneration(Query query);
+        public Task<Intents> GetAutoQueryGeneration(Query query);
     }
 }
