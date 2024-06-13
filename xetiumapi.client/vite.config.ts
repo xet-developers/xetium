@@ -52,7 +52,9 @@ const routes: string[] = [
     '/cluster/create',
     '/cluster/delete/{id}',
     '/cluster',
-    '/analytics'
+    '/analytics',
+    '/scheduletask/delete/',
+    '/generation/auto'
 ]
 
 export default ({mode}) => {

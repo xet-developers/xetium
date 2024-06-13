@@ -11,6 +11,7 @@ import {IUserSliceSchema} from "@/entity/User";
 import {ICreateProjectSliceSchema} from "@/features/CreateProject";
 import {IProjectSliceSchema} from "@/entity/Project";
 import {IAddKeyWordsSliceSchema} from "@/widgets/AddKeyWords/model/types/IAddKeyWordsSliceSchema.ts";
+import {ICreateRequest1SliceSchema} from "@/widgets/CreateRequest1";
 
 export interface StateSchema {
     [rtkApi.reducerPath]: ReturnType<typeof rtkApi.reducer>;
@@ -20,7 +21,8 @@ export interface StateSchema {
     project: IProjectSliceSchema
     registerForm?: IRegisterFormSchema;
     authorizationForm?: IAuthorizationFormSliceSchema;
-    createProject?: ICreateProjectSliceSchema
+    createProject?: ICreateProjectSliceSchema;
+    intends: ICreateRequest1SliceSchema
 }
 
 export type StateSchemaKeys = keyof StateSchema;

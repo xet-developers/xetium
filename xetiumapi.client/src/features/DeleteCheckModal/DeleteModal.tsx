@@ -2,11 +2,12 @@ import cls from "./DeleteCheckModal.module.scss";
 import {useState} from 'react';
 import React from 'react';
 import {ConfigProvider, Modal, Button} from 'antd';
+import { useDeleteCheckModalMutation } from "./api/deleteCheckModal.api";
 
-export const DeleteModal = ({ open }: any): React.JSX.Element => {
+export const DeleteModal = ({ open, jobId, taskId }: any): React.JSX.Element => {
 
     const [isModalOpen, setIsModalOpen] = useState(open || false);
-
+    const [trigger] = useDeleteCheckModalMutation()
     const handleOk = () => {
         setIsModalOpen(false);
     };
@@ -15,8 +16,11 @@ export const DeleteModal = ({ open }: any): React.JSX.Element => {
         setIsModalOpen(false);
     };
 
-    const deleteCheck = () => {
-
+    const deleteCheck = async () => {
+        await trigger({
+            jobId: jobId,
+            taskId: taskId
+        })
     };
 
     return (

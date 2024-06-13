@@ -1,7 +1,9 @@
 import cls from "./ResultGeneration.module.scss";
-import  { useState, useEffect } from 'react';
-import { Button, ConfigProvider, Table, TableProps, Skeleton } from "antd";
-import { DownloadOutlined } from '@ant-design/icons';
+import {useState, useEffect, useMemo} from 'react';
+import {Button, ConfigProvider, Table, TableProps, Skeleton} from "antd";
+import {DownloadOutlined} from '@ant-design/icons';
+import {getIntends, IntentType} from "@/widgets/CreateRequest1";
+import {useSelector} from "react-redux";
 
 
 export const ResultGeneration = () => {
@@ -9,6 +11,8 @@ export const ResultGeneration = () => {
     const [loadings, setLoadings] = useState<boolean[]>([]);
     const [generation, setGeneration] = useState(true);
     const [downloadDisabled, setDownloadDisabled] = useState(false);
+    const intends = useSelector(getIntends)
+
 
     useEffect(() => {
         setTimeout(() => {
@@ -32,67 +36,55 @@ export const ResultGeneration = () => {
         }, 6000);
     };
 
-    interface DataType {
-        key: string;
-        navigate: string;
-        info: string;
-    }
 
-    const columns: TableProps<DataType>['columns'] = [
+    const columns: TableProps['columns'] = [
         {
             title: 'Навигационный',
-            dataIndex: 'navigate',
-            key: 'navigate',
+            dataIndex: IntentType.Navigation,
         },
         {
             title: 'Информационный',
-            dataIndex: 'info',
-            key: 'info',
+            dataIndex: IntentType.Informational,
+        },
+        {
+            title: 'Сравнительный',
+            dataIndex: IntentType.Comparison,
+        },
+        {
+            title: 'Транзакционный',
+            dataIndex: IntentType.Transactional,
         }
     ];
 
-    const data: DataType[] = [
-        {
-            key: '1',
-            navigate: 'Какой магазин предлагает утюги с техническими характеристиками?',
-            info: 'Какой магазин предлагает утюги с техническими характеристиками?'
-        },
-        {
-            key: '1',
-            navigate: 'Какой магазин предлагает утюги с техническими характеристиками?',
-            info: 'Какой магазин предлагает утюги с техническими характеристиками?'
-        },
-        {
-            key: '1',
-            navigate: 'Какой магазин предлагает утюги с техническими характеристиками?',
-            info: 'Какой магазин предлагает утюги с техническими характеристиками?'
-        },
-        {
-            key: '1',
-            navigate: 'Какой магазин предлагает утюги с техническими характеристиками?',
-            info: 'Какой магазин предлагает утюги с техническими характеристиками?'
-        },
-        {
-            key: '1',
-            navigate: 'Какой магазин предлагает утюги с техническими характеристиками?',
-            info: 'Какой магазин предлагает утюги с техническими характеристиками?'
-        },
-        {
-            key: '1',
-            navigate: 'Какой магазин предлагает утюги с техническими характеристиками?',
-            info: 'Какой магазин предлагает утюги с техническими характеристиками?'
-        },
-        {
-            key: '1',
-            navigate: 'Какой магазин предлагает утюги с техническими характеристиками?',
-            info: 'Какой магазин предлагает утюги с техническими характеристиками?'
-        },
-        {
-            key: '1',
-            navigate: 'Какой магазин предлагает утюги с техническими характеристиками?',
-            info: 'Какой магазин предлагает утюги с техническими характеристиками?'
-        },
-    ];
+    const data = useMemo(() => {
+        if (intends) {
+            console.log(intends)
+            let tableElements = []
+
+            for(let i = 0; i < intends.comparison.length; i++) {
+                tableElements.push({})
+            }
+
+            for(let i = 0; i < intends.comparison.length; i++){
+                tableElements[i][IntentType.Comparison] = intends.comparison[i]
+            }
+            for(let i = 0; i < intends.navigational.length;i++){
+                tableElements[i][IntentType.Navigation] = intends.navigational[i]
+            }
+            for(let i = 0; i < intends.informational.length;i++){
+                tableElements[i][IntentType.Informational] = intends.informational[i]
+            }
+            for(let i = 0; i < intends.transactional.length;i++){
+                tableElements[i][IntentType.Transactional] = intends.transactional[i]
+            }
+
+            console.log(tableElements)
+            return tableElements
+        }
+
+        return []
+    }, [intends])
+
 
     return (
         <ConfigProvider
@@ -130,7 +122,7 @@ export const ResultGeneration = () => {
                 </div>
 
                 <div className="blockData">
-                    {generation? (
+                    {generation ? (
                         <Skeleton active className={cls.skeleton}/>
                     ) : (
                         <Table columns={columns} dataSource={data} className="blockData"/>
