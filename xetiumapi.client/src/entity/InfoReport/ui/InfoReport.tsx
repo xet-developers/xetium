@@ -4,7 +4,7 @@ export const InfoReport = () => {
 
     return (
         <div className={cls.container}>
-            <span className={cls.header}>Информационный блок</span>
+            <span className={cls.header}>Информация</span>
 
             <span className={cls.text}>
                 <span style={{color: '#F66450', fontWeight: 600}}>Отчёты</span> - это вся информация о проверках по выбранным критериям.
