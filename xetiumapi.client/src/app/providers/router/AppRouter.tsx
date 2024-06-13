@@ -23,7 +23,7 @@ export const AppRouter = () => {
     const authData = useSelector(getUserAuthData);
 
     const routes = useMemo(() => {
-        if (authData) {
+        if (true) {
             return (
                 <RegisteredLayout
                     header={<Header/>}

@@ -11,6 +11,7 @@ import {
 import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {useAppDispatch} from "@/shared/lib/hooks/useAppDispatch/useAppDispatch.ts";
+import {CreateProject} from "@/features/CreateProject";
 
 const {TextArea} = Input;
 
@@ -23,6 +24,7 @@ export const ProjectInformation = () => {
     const [name, setName] = useState('')
     const [disk, setDisk] = useState('')
     const [url, setUrl] = useState('')
+    const [showModal, setShowModal] = useState(false);
     const [isEditing, setIsEditing] = useState(false)
     const dispatch = useAppDispatch()
 
@@ -36,9 +38,15 @@ export const ProjectInformation = () => {
             setName(proj.name)
             setDisk(proj.description)
             setUrl(proj.url)
+        } else {
+            setShowModal(true);
         }
 
     }, [currentProjId, projects]);
+
+    const closeModal = () => {
+        setShowModal(false);
+    };
 
     const handleUpdate = async () => {
         if (projects) {
@@ -85,7 +93,8 @@ export const ProjectInformation = () => {
                 <Input disabled={!isEditing} className={cls.inputName} value={!name ? 'Название проекта' : name}
                        onChange={(e) => setName(e.target.value)}
                 />
-                <Input disabled={!isEditing} className={cls.inputUrl}
+
+                <Input disabled className={cls.inputUrl}
                        value={!url ? 'https://www.figma.com/file/Текущие' : url}
                        onChange={(e) => setUrl(e.target.value)}
                 />
@@ -97,6 +106,7 @@ export const ProjectInformation = () => {
                                   marginTop: "-1em", width: "720px", fontFamily: "Montserrat", border: 'none',
                                   fontSize: '15px', fontWeight: '500', letterSpacing: '0.7px', color: '#5F5F5F'
                               }}
+                              className={cls.disabled}
                               value={!disk ? 'Figma — онлайн-редактор, в котором удобно проектировать интерфейсы, ' +
                                   'создавать макеты сайтов, мобильных приложений, презентации, иллюстрации, ' +
                                   'логотипы и анимацию. В основном инструментом пользуются дизайнеры, но ' +
@@ -114,6 +124,8 @@ export const ProjectInformation = () => {
                     </Button>
                     <Button onClick={handleDelete} className={cls.btn}><DeleteOutlined/>Удалить проект</Button>
                 </div>
+
+                {showModal && <CreateProject onClose={closeModal} />}
             </div>
         </ConfigProvider>
     );

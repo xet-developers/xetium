@@ -4,7 +4,7 @@ export const InfoBlock = () => {
 
     return (
         <div className={cls.container}>
-            <span className={cls.header}>Информационный блок</span>
+            <span className={cls.header}>Информация</span>
 
             <span className={cls.text}>
                 <span style={{color: '#F66450', fontWeight: 600}}>Интент пользователя</span> - цель поискового запроса пользователя.

@@ -27,13 +27,13 @@ export const FooterLanding = memo(() => {
                 <div className={cls.info}>
                     <div className={cls.left}>
                         <img src={logo} style={{width: '200px', height: '56px'}}/>
-                        <span className={cls.text}>
+                        <a href="#!" className={cls.text}>
                             Политика конфиденциальности
-                        </span>
-                        <span className={cls.text}>
+                        </a>
+                        <a href="#!" className={cls.text}>
                             Соглашение на обработку<br/>
                             персональных данных
-                        </span>
+                        </a>
                     </div>
 
                     <div className={cls.right}>
