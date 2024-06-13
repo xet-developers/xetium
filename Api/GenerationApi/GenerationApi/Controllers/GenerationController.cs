@@ -63,14 +63,26 @@ namespace Api.Controllers
         [HttpPost("auto")]
         public async Task<IActionResult> CreateQuerry([FromBody] QueryRequest queryRequest)
         {
-            var test = await _iaiGenerationService.GetAutoQueryGeneration(new Query()
+            var res = await _iaiGenerationService.GetAutoQueryGeneration(new Query()
             {
                 Intent = queryRequest.Intents,
                 Keywords = queryRequest.Keywords,
-                NumberOfGeneratedWords = 10
+                NumberOfGeneratedWords = queryRequest.NumberOfGeneratedWords
             });
 
-            return Ok(test);
+            if (!res.Status)
+            {
+                return BadRequest("Некоректный запрос, попробуйте ещё раз");
+            }
+            
+            return Ok(new QueryResponse()
+            {
+                Comparison = res.Comparison,
+                Informational = res.Informational,
+                Navigational = res.Navigational,
+                Transactional = res.Transactional
+            });
+            
         }
     }
 }
