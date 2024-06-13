@@ -3,7 +3,7 @@ import React from 'react';
 import {useAppDispatch} from "@/shared/lib/hooks/useAppDispatch/useAppDispatch.ts";
 import {createProjectActions, createProjectReducer} from "../model/slice/createProject.slice.ts";
 import cls from "@/features/CreateProject/styles/CreateProject.module.scss";
-import {Button, ConfigProvider, Modal, Input, message} from 'antd';
+import {Button, ConfigProvider, Modal, Input} from 'antd';
 import {useSelector} from "react-redux";
 import {DynamicModuleLoader, ReducersList} from "@/shared/lib/components/DynamicModuleLoader.tsx";
 import {
@@ -51,20 +51,16 @@ export const CreateProject: FC<ICreateProjectProps> = (props): React.JSX.Element
     }, [dispatch]);
 
     const handleOk = async () => {
-        if (!projectName || !projectUrl || !projectDesc) {
-            message.info('Заполните все поля');
-        } else {
-            if (validate()) {
-                await trigger({
-                    url: projectUrl,
-                    name: projectName,
-                    description: projectDesc,
-                })
-                console.log('dsdsa')
-                if (result) {
-                    clear()
-                    setOpen(false);
-                }
+        if (validate()) {
+            await trigger({
+                url: projectUrl,
+                name: projectName,
+                description: projectDesc,
+            })
+            console.log('dsdsa')
+            if (result) {
+                clear()
+                setOpen(false);
             }
         }
     };
@@ -78,6 +74,9 @@ export const CreateProject: FC<ICreateProjectProps> = (props): React.JSX.Element
     const handleCancel = () => {
         clear()
         setOpen(false);
+        setValidateNameProject(false);
+        setValidateUrlProject(false);
+        setValidateDescProject(false);
     };
 
     return (
@@ -142,13 +141,17 @@ export const CreateProject: FC<ICreateProjectProps> = (props): React.JSX.Element
                             </p>
                         }
 
-                        <Button type="text" onClick={handleOk} className={cls.btnCreate}>
-                            СОЗДАТЬ ПРОЕКТ
-                        </Button>
+                        <div style={{display: 'flex', flexDirection: 'row', gap: '2em'}}>
+                            <Button type="text" onClick={handleOk} className={cls.btnCreate}>
+                                Создать проект
+                            </Button>
 
-                        <Button type="text" onClick={handleCancel} className={cls.btnCancel}>
-                            ОТМЕНА
-                        </Button>
+                            <Button type="text" onClick={handleCancel} className={cls.btnCancel}>
+                                Отмена
+                            </Button>
+                        </div>
+
+
                     </div>
 
                     {isLoading&&<div>Loading</div>}
