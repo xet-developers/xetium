@@ -88,7 +88,7 @@ export const Clusters = () => {
                     <Button className={cls.btn}><DeleteOutlined/>Удалить кластер</Button>
                 </div>
 
-                { deleteAction && <DeleteModal open={true}/> }
+                { deleteAction && <DeleteModal open={true} cluster={true}/> }
             </div>
         )
     }

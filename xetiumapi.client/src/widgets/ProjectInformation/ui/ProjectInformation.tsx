@@ -3,15 +3,13 @@ import {Button, Input, ConfigProvider} from "antd";
 import {EditOutlined, DeleteOutlined} from '@ant-design/icons';
 import {
     currentProjectId,
-    ProjectSliceActions,
-    useDeleteProjectMutation,
     useGetProjectQuery,
     useUpdateProjectMutation
 } from "@/entity/Project";
 import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
-import {useAppDispatch} from "@/shared/lib/hooks/useAppDispatch/useAppDispatch.ts";
 import {CreateProject} from "@/features/CreateProject";
+import {DeleteModal} from "@/features/DeleteCheckModal/DeleteModal.tsx";
 
 const {TextArea} = Input;
 
@@ -19,14 +17,15 @@ const {TextArea} = Input;
 export const ProjectInformation = () => {
     const {data: projects} = useGetProjectQuery()
     const [triggerUpdate] = useUpdateProjectMutation()
-    const [triggerDelete] = useDeleteProjectMutation()
+
     const currentProjId = useSelector(currentProjectId)
     const [name, setName] = useState('')
     const [disk, setDisk] = useState('')
     const [url, setUrl] = useState('')
     const [showModal, setShowModal] = useState(false);
     const [isEditing, setIsEditing] = useState(false)
-    const dispatch = useAppDispatch()
+
+    const [deleteAction, setDeleteAction] = useState(false);
 
     useEffect(() => {
         if (projects) {
@@ -62,10 +61,8 @@ export const ProjectInformation = () => {
         setIsEditing(!isEditing)
     }
 
-    const handleDelete = async () => {
-        let a = await triggerDelete(currentProjId!)
-        dispatch(ProjectSliceActions.setCurrentProjectId(null))
-        console.log(a)
+    const warning = () => {
+        setDeleteAction(true);
     }
 
     return (
@@ -122,10 +119,12 @@ export const ProjectInformation = () => {
                     <Button onClick={handleUpdate}
                             className={isEditing ? cls.btnEdit : cls.btn}><EditOutlined/>{isEditing ? 'Сохранить' : 'Редактировать'}
                     </Button>
-                    <Button onClick={handleDelete} className={cls.btn}><DeleteOutlined/>Удалить проект</Button>
+                    <Button onClick={warning} className={cls.btn} ><DeleteOutlined/>Удалить проект</Button>
                 </div>
 
                 {showModal && <CreateProject onClose={closeModal} />}
+                { deleteAction && <DeleteModal open={true} flag={true}/> }
+
             </div>
         </ConfigProvider>
     );
