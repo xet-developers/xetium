@@ -67,15 +67,22 @@ namespace Api.Controllers
             {
                 Intent = queryRequest.Intents,
                 Keywords = queryRequest.Keywords,
-                NumberOfGeneratedWords = 10
+                NumberOfGeneratedWords = queryRequest.NumberOfGeneratedWords
             });
 
-            if (res is null || res.Status is false)
+            if (!res.Status)
             {
                 return BadRequest("Некоректный запрос, попробуйте ещё раз");
             }
             
-            return Ok(res);
+            return Ok(new QueryResponse()
+            {
+                Comparison = res.Comparison,
+                Informational = res.Informational,
+                Navigational = res.Navigational,
+                Transactional = res.Transactional
+            });
+            
         }
     }
 }

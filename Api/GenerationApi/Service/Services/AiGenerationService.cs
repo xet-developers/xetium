@@ -46,11 +46,7 @@ namespace Service.Services
         public async Task<Intents> GetAutoQueryGeneration(Query query)
         {
             var res = await _yandexGptConnection.GetAutoQueryGeneration(query);
-
-            if (res is null)
-            {
-                return null;
-            }
+            
             var parsedIntents = ParseIntents(res);
             var generatedIntets = GenerateIntets(parsedIntents, query.Intent);
             
@@ -107,6 +103,7 @@ namespace Service.Services
         private Dictionary<IntentType, List<string>> ParseIntents(string input)
         {
             var intents = new Dictionary<IntentType, List<string>>();
+            
             var segments = input.Split('|');
 
             foreach (var segment in segments)
@@ -123,15 +120,4 @@ namespace Service.Services
             return intents;
         }
     }
-}
-
-public class Intents
-{
-    public List<string> Comparison { get; set; } = new List<string>();
-    public List<string> Informational { get; set; } = new List<string>();
-    public List<string> Navigational { get; set; } = new List<string>();
-    public List<string> Transactional { get; set; } = new List<string>();
-    
-    public bool Status { get; set; }
-    
 }

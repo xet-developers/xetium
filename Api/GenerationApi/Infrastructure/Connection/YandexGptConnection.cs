@@ -127,9 +127,6 @@ public class YandexGptConnection: IYandexGptConnection
                 _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {AccesToken}");
             });
         
-        var aboba = await _httpClient.PostAsync("https://gigachat.devices.sberbank.ru/api/v1/chat/completions", content);
-        
-        
         var response = await retryPolicy.ExecuteAsync(async () =>
         {
             return await _httpClient.PostAsync("https://gigachat.devices.sberbank.ru/api/v1/chat/completions", content);
@@ -140,7 +137,7 @@ public class YandexGptConnection: IYandexGptConnection
 
         if (token is null)
         {
-            return null;
+            return "";
         }
 
         var res = token.ToString();
