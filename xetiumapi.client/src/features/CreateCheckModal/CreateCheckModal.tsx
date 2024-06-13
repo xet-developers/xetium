@@ -8,6 +8,8 @@ import dayjs from 'dayjs';
 import {usePostCreateCheckMutation} from "./api/CreateCheckModal.api.ts";
 import {useSelector} from "react-redux";
 import {currentProjectId} from "@/entity/Project";
+import { Link } from 'react-router-dom';
+
 
 export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
     const [time, setTime] = React.useState(null);
@@ -98,7 +100,7 @@ export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
                             <span>Дата</span>
                         </div>
                         <div style={wrapperStyle}>
-                            <Calendar fullscreen={false} value={date} onChange={handleSelect}/>
+                            <Calendar fullscreen={false} value={date} onChange={handleSelect} style={{marginBottom: '2em'}}/>
                             <span style={{fontSize: '14px'}}>Выбранная дата: {date ? date.format('DD.MM.YYYY') : 'Не выбрана'}</span>
                         </div>
                     </div>
@@ -140,13 +142,19 @@ export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
                             </div>
                             <Space wrap>
                                 <Select
-                                    defaultValue="1"
+                                    defaultValue="0"
                                     style={{ width: 200, marginTop: '1em', colorPrimary: '#252525', fontFamily: 'Montserrat, sans-serif'}}
                                     onChange={handleChangeRepeat}
                                     options={[
                                         { value: '1', label: 'Кластер 1' },
                                         { value: '2', label: 'Кластер 2' },
                                         { value: '3', label: 'Кластер 3' },
+                                        { value: '0', label: (
+                                            <span>
+                                                 <Link to={'/checksitepositions'} style={{color: '#F66450'}}>+ Создать кластер</Link>
+                                            </span>
+                                            )
+                                        },
                                     ]}
                                 />
                             </Space>
