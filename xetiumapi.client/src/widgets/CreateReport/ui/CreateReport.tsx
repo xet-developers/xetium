@@ -77,7 +77,7 @@ export const CreateReport = () => {
                         defaultValue="1"
                         style={{width: 200, fontFamily: "Montserrat", marginTop: '-5px'}}
                         options={[
-                            {value: '1', label: 'Без кластера'},
+                            {value: '1', label: 'Все кластеры'},
                             {value: '2', label: 'Кластер 1'},
                             {value: '3', label: 'Кластер 2'},
                             {value: '4', label: 'Кластер 3'},
@@ -85,7 +85,7 @@ export const CreateReport = () => {
                     />
                 </div>
 
-                <Button className={cls.btn} onClick={handleGenerate}><FileSyncOutlined/>СГЕНЕРИРОВАТЬ ОТЧЕТ</Button>
+                <Button className={cls.btn} onClick={handleGenerate}><FileSyncOutlined/>Сгенерировать</Button>
             </div>
         </ConfigProvider>
     );

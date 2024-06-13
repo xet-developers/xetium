@@ -60,12 +60,12 @@ export const ResultsLast = () => {
 
                     {userChecks}
 
-                    {/*<div className={cls.check}>*/}
-                    {/*    <span className={cls.text}>30.05.24</span>*/}
-                    {/*    <span className={cls.text}>17:00</span>*/}
-                    {/*    <span className={cls.text}>Успешно</span>*/}
-                    {/*    <span className={cls.text} style={{textDecoration: 'underline', cursor: 'pointer'}}>Сформировать отчет</span>*/}
-                    {/*</div>*/}
+                    {/*<div className={cls.check}>
+                        <span className={cls.text}>30.05.24</span>
+                        <span className={cls.text}>17:00</span>
+                        <span className={cls.text}>Успешно</span>
+                        <span className={cls.text} style={{textDecoration: 'underline', cursor: 'pointer'}}>Сформировать отчет</span>
+                    </div>*/}
 
                     {/*<div className={cls.check}>*/}
                     {/*    <span className={cls.text}>30.05.24</span>*/}

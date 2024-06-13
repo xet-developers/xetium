@@ -10,50 +10,54 @@ export const ResultClusterTable = () => {
 
     interface DataType {
         key: React.Key;
-        name: string;
+        date: string;
+        count: number;
+        countGood: number;
+        link: string;
     }
 
     const columns: TableColumnsType<DataType> = [
         {
             title: 'Дата',
-            dataIndex: 'name',
+            dataIndex: 'date',
             key: 'name',
             width: 250,
             fixed: 'left',
-            onFilter: (value, record) => record.name.indexOf(value as string) === 0,
+            onFilter: (value, record) => record.date.indexOf(value as string) === 0,
         },
         {
             title: 'Количество запросов',
-            dataIndex: 'name',
+            dataIndex: 'count',
             key: 'name',
             width: 250,
             fixed: 'left',
-            onFilter: (value, record) => record.name.indexOf(value as string) === 0,
         },
         {
             title: 'Количество кластеризованных запросов',
-            dataIndex: 'name',
+            dataIndex: 'countGood',
             key: 'name',
             width: 250,
             fixed: 'left',
-            onFilter: (value, record) => record.name.indexOf(value as string) === 0,
         },
         {
             title: 'Ссылка для скачивания',
-            dataIndex: 'name',
+            dataIndex: 'link',
             key: 'name',
             width: 250,
             fixed: 'left',
-            onFilter: (value, record) => record.name.indexOf(value as string) === 0,
+            render: (text: string) => <a href={text} download className={cls.link}>Скачать</a>,
         },
 
     ];
 
     const data: DataType[] = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 1; i++) {
         data.push({
             key: i,
-            name: 'википедия екатерина 1 '
+            date: '13/06/2024',
+            count: 10,
+            countGood: 7,
+            link: 'https://post-images.org/photo-page.php?photo=8YPKfLzi'
         });
     }
 
