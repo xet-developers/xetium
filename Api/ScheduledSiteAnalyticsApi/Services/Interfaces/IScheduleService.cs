@@ -8,7 +8,7 @@ public interface IScheduleService
 {
     public Task<TaskDetails> ScheduleTaskAsync(TaskDetails taskDetails);
     
-    public Task<bool> DeleteTaskAsync(string jobId);
+    public Task<bool> DeleteTaskAsync(string jobId, Guid taskId);
     public Task<TaskDetails?> UpdateTaskAsync(TaskDetails? taskDetails);
     public Task<List<SitePosition>> GetCompletedTasksInfoAsync(UserSearchInfo request);
     public Task<List<TaskDetails>> GetPendingTasksInfoAsync(UserSearchInfo request);

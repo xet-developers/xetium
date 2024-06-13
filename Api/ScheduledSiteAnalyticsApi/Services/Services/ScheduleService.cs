@@ -29,11 +29,15 @@ public class ScheduleService: IScheduleService
     }
     
     
-    public Task<bool> DeleteTaskAsync(string JobId)
+    public async Task<bool> DeleteTaskAsync(string jobId, Guid taskId)
     {
-        var state = BackgroundJob.Delete(JobId);
+        var task = await _standartStore.GetByIdAsync<TaskDetails>(taskId);
+
+        await _standartStore.DeleteAsync(task);
         
-        return Task.FromResult(state);
+        var state = BackgroundJob.Delete(jobId);
+        
+        return state;
     }
 
     public async Task<TaskDetails?> UpdateTaskAsync(TaskDetails? taskDetails)

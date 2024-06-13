@@ -44,17 +44,15 @@ public class ScheduleController: ControllerBase
         return Ok("created");
     }
 
-
-    [HttpDelete("delete/{id}")]
-    public async Task<IActionResult> DeleteTask([FromQuery] string id)
+    [HttpDelete("delete")]
+    public async Task<IActionResult> DeleteTask([FromQuery] string jobId, Guid taskId )
     {
-       var res = await _scheduleService.DeleteTaskAsync(id);
+        var res = await _scheduleService.DeleteTaskAsync(jobId, taskId);
 
-       return res
-           ? Ok("deleted")
-           : BadRequest("UwU");
+        return res
+            ? Ok("deleted")
+            : BadRequest("UwU");
     }
-
     [HttpPatch("update")]
     public async Task<IActionResult> UpdateTask([FromBody] ScheduleUpdate scheduleRequest)
     {
