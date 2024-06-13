@@ -2,10 +2,16 @@ import cls from "./DeleteCheckModal.module.scss";
 import {useState} from 'react';
 import React from 'react';
 import {ConfigProvider, Modal, Button} from 'antd';
+import {currentProjectId, ProjectSliceActions, useDeleteProjectMutation} from "@/entity/Project";
+import {useAppDispatch} from "@/shared/lib/hooks/useAppDispatch/useAppDispatch.ts";
+import {useSelector} from "react-redux";
 
-export const DeleteModal = ({ open }: any): React.JSX.Element => {
+export const DeleteModal = ({ open, check, cluster, project }: any): React.JSX.Element => {
 
     const [isModalOpen, setIsModalOpen] = useState(open || false);
+    const [triggerDelete] = useDeleteProjectMutation()
+    const dispatch = useAppDispatch()
+    const currentProjId = useSelector(currentProjectId)
 
     const handleOk = () => {
         setIsModalOpen(false);
@@ -16,8 +22,17 @@ export const DeleteModal = ({ open }: any): React.JSX.Element => {
     };
 
     const deleteCheck = () => {
-
+        if (project) {
+            handleDelete();
+            setTimeout(() => setIsModalOpen(false), 500);
+        }
     };
+
+    const handleDelete = async () => {
+        let a = await triggerDelete(currentProjId!)
+        dispatch(ProjectSliceActions.setCurrentProjectId(null))
+        console.log(a)
+    }
 
     return (
         <>
