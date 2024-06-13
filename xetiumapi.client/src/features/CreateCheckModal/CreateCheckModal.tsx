@@ -9,6 +9,7 @@ import {usePostCreateCheckMutation} from "./api/CreateCheckModal.api.ts";
 import {useSelector} from "react-redux";
 import {currentProjectId} from "@/entity/Project";
 import {useGetAllWordClusterQuery} from "@/entity/WordsCluster";
+import { Link } from "react-router-dom";
 
 export const CreateCheckModal = ({modalOpen, closeModal}): React.JSX.Element => {
     const [time, setTime] = useState(null);
@@ -97,7 +98,7 @@ export const CreateCheckModal = ({modalOpen, closeModal}): React.JSX.Element => 
                             <span>Дата</span>
                         </div>
                         <div style={wrapperStyle}>
-                            <Calendar fullscreen={false} value={date} onChange={handleSelect}/>
+                            <Calendar fullscreen={false} value={date} onChange={handleSelect} style={{marginBottom: '2em'}}/>
                             <span
                                 style={{fontSize: '14px'}}>Выбранная дата: {date ? date.format('DD.MM.YYYY') : 'Не выбрана'}</span>
                         </div>
@@ -151,7 +152,13 @@ export const CreateCheckModal = ({modalOpen, closeModal}): React.JSX.Element => 
                                                     value: el.id,
                                                     label: 'Кластер ' + (index + 1)
                                                 }
-                                            }
+                                            },
+                                                { value: -1, label: (
+                                                    <span>
+                                                        <Link to={'/checksitepositions'} style={{color: '#F66450'}}>+ Создать кластер</Link>
+                                                    </span>
+                                                    )
+                                                },
                                             )}
                                     />}
                                     </Space>
