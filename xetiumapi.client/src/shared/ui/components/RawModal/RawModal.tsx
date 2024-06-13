@@ -11,7 +11,7 @@ export const RawModal = ({onSubmint, isOpen, onClose, className, children, textB
             <div className={cls.blockData}>
                 {children}
                 <div className={cls.btn}>
-                    <button className={cls.completeBtn} onClick={onSubmint}>OK</button>
+                    <button className={cls.completeBtn} onClick={onSubmint}>Запланировать</button>
                     <button  className={cls.cancelBtn} onClick={onClose}>{textBtn}</button>
                 </div>
             </div>

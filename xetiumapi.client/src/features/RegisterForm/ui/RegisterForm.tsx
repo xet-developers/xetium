@@ -276,6 +276,7 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
                                   gap={40}>
                                 <Flex justify={'center'} gap={10}>
                                     <Checkbox
+                                        style={{marginLeft: '1em'}}
                                         value={acceptPersonalData}
                                         onChange={() => {
                                             onAcceptPersonalDataCheckbox()
@@ -284,7 +285,7 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
 
                                     <Title level={5} style={{
                                         color: '#252525', fontSize: '13px', fontWeight: '400',
-                                        fontFamily: 'Montserrat'
+                                        fontFamily: 'Montserrat', marginRight: '2em'
                                     }}>
                                         Даю свое согласие на обработку персональных данных
                                     </Title>
@@ -304,13 +305,14 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
 
                                 <Flex justify={'center'} gap={10}>
                                     <Checkbox
+                                        style={{marginLeft: '1em'}}
                                         value={acceptConfPolitics}
                                         onChange={() => {
                                             onAcceptConfPoliticsCheckbox()
                                         }}></Checkbox>
                                     <Title level={5} style={{
                                         color: '#252525', fontSize: '13px', fontWeight: '400',
-                                        fontFamily: 'Montserrat'
+                                        fontFamily: 'Montserrat', marginRight: '1.5em'
                                     }}>
                                         Согласен с условиями пользования и политикой конфиденциальности
                                     </Title>
@@ -330,6 +332,7 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
 
                                 <Flex justify={'center'} align={'center'} gap={10}>
                                     <Checkbox
+                                        style={{marginLeft: '1em'}}
                                         value={acceptSpam}
                                         onChange={() => {
                                             onChangeSpamCheckbox()

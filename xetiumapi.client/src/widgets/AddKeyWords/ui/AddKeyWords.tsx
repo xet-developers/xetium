@@ -103,7 +103,7 @@ export const AddKeyWords = () => {
 
                 <div className={cls.footer}>
                     <Button className={cls.btn} onClick={saveCluster}><FileSyncOutlined/>Сохранить как кластер</Button>
-                    <Button className={cls.btn} onClick={handleGenerate}><FileSyncOutlined/>Отправить слова</Button>
+                    <Button className={cls.btn} onClick={handleGenerate}><FileSyncOutlined/>Отправить</Button>
                 </div>
             </div>
         </ConfigProvider>

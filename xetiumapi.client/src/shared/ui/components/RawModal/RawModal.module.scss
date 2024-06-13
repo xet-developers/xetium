@@ -9,33 +9,44 @@
   display: flex;
   flex-direction: row;
   gap: 4em;
-  margin-top: -1em;
+  margin-top: -0.5em;
 }
 
 .cancelBtn {
-  width: 144px;
-  height: 31px;
   border-radius: 25px;
-  background-color: rgb(0,0,0,0);
+  background-color: rgba(255, 255, 255, 0);
   border: 1px solid #F66450;
   color: #F66450;
-  font-family: "Montserrat Alternates", sans-serif;
+  font-size: 16px;
+  font-family: "Montserrat", sans-serif;
+  width: 170px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
 }
 
 .cancelBtn:hover {
-  box-shadow: 1px 5px 20px rgba(246, 100, 80, 0.55);
+  background-color: #ff806c;
+  color: white;
 }
 
 .completeBtn {
-  width: 144px;
-  height: 31px;
-  border-radius: 25px;
   background-color: #F66450;
   border: 1px solid #F66450;
   color: #fff;
-  font-family: "Montserrat Alternates", sans-serif;
+  font-size: 16px;
+  font-family: "Montserrat", sans-serif;
+  width: 185px;
+  height: 40px;
+  border-radius: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
 }
 
 .completeBtn:hover {
-  box-shadow: 1px 5px 20px #F66450;
+  background-color: #ff806c;
 }

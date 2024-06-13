@@ -1,6 +1,6 @@
 .container {
-  width: 755px;
-  height: 325px;
+  width: 775px;
+  height: 335px;
   border-radius: 8px;
   font-family: "Montserrat", sans-serif;
   background-color: #fff;
@@ -38,14 +38,15 @@
 }
 
 .btn {
-  width: 206px;
-  height: 30px;
   background-color: #F66450;
-  border-radius: 7px;
   color: white;
   margin-right: 1.5em;
   font-family: "Montserrat", sans-serif;
-  font-weight: 500;
+  width: 210px;
+  height: 33px;
+  border-radius: 10px;
+  font-weight: 400;
+  font-size: 13px;
 }
 
 .footer {
