@@ -102,7 +102,6 @@ export const CreateProject: FC<ICreateProjectProps> = (props): React.JSX.Element
                     open={open}
                     className={cls.modal}
                     footer={null}
-                    width={'567px'}
                     closeIcon={null}
                 >
                     <div className={cls.data}>
