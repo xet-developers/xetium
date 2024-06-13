@@ -1,24 +1,27 @@
 import cls from "./CreateCheckModule.module.scss";
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import React from 'react';
 import {RawModal} from "@/shared/ui/components/RawModal/RawModal.tsx";
-import { DownOutlined, CalendarOutlined, FieldTimeOutlined, RetweetOutlined, ClusterOutlined, SearchOutlined } from '@ant-design/icons';
-import { ConfigProvider, Calendar, theme, TimePicker, MenuProps, Dropdown, message, Space, Checkbox, Select } from 'antd';
+import {CalendarOutlined, FieldTimeOutlined, RetweetOutlined, ClusterOutlined, SearchOutlined} from '@ant-design/icons';
+import {ConfigProvider, Calendar, theme, TimePicker, Space, Checkbox, Select} from 'antd';
 import dayjs from 'dayjs';
 import {usePostCreateCheckMutation} from "./api/CreateCheckModal.api.ts";
 import {useSelector} from "react-redux";
 import {currentProjectId} from "@/entity/Project";
+import {useGetAllWordClusterQuery} from "@/entity/WordsCluster";
 
-export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
-    const [time, setTime] = React.useState(null);
+export const CreateCheckModal = ({modalOpen, closeModal}): React.JSX.Element => {
+    const [time, setTime] = useState(null);
     const [selectedCheckbox, setSelectedCheckbox] = useState([]);
-    const [cluster, setCluster] = React.useState(null);
-    const [repeat, setRepeat] = React.useState(null);
+    const [curCluster, setCluster] = useState(null);
+    const [repeat, setRepeat] = useState(null);
     const [date, setDate] = useState(() => dayjs('2024-05-21'));
     const [trigger, {isLoading, data}] = usePostCreateCheckMutation()
+    const {data: cluster} = useGetAllWordClusterQuery()
+
     const currentProject = useSelector(currentProjectId)
 
-    const { token } = theme.useToken();
+    const {token} = theme.useToken();
     const format = 'HH:mm';
 
     const wrapperStyle: React.CSSProperties = {
@@ -28,26 +31,22 @@ export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
     };
 
     const handleCheckboxChange = (e: { target: { checked: any; value: any; }; }) => {
-        const { checked, value } = e.target;
+        const {checked, value} = e.target;
         if (checked) {
             setSelectedCheckbox([...selectedCheckbox, value]);
         } else {
-            setSelectedCheckbox(selectedCheckbox.filter((item) => item!== value));
+            setSelectedCheckbox(selectedCheckbox.filter((item) => item !== value));
         }
     };
 
     const handleChangeCluster = (value: string | React.SetStateAction<null>) => {
         setCluster(value);
     };
-    useEffect(() => {
-    }, [cluster]);
+
 
     const handleChangeRepeat = (value: React.SetStateAction<null>) => {
         setRepeat(value);
     };
-
-    useEffect(() => {
-    }, [repeat]);
 
     const handleSelect = (date) => {
         setDate(date);
@@ -56,19 +55,18 @@ export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
     const handleTimeChange = (value) => {
         setTime(value.format('HH:mm'));
     };
-    useEffect(() => {
-    }, [time]);
-
-    //"2024-05-30T15:56:00.081Z",
 
     const handleSetCheck = async () => {
-        console.log(dayjs().format('YYYY-MM-DD') + 'T' + dayjs().add(1,'minutes').format('HH:mm') + ':00.000Z')
+        console.log(dayjs().format('YYYY-MM-DD') + 'T' + dayjs().add(1, 'minutes').format('HH:mm') + ':00.000Z')
+
+        const currentCluster = cluster.find(el => el.id === curCluster)
+        console.log(currentCluster!.keywords)
         const a = await trigger({
             projectID: currentProject!,
-            dateTime: dayjs().format('YYYY-MM-DD') + 'T' + dayjs().add(1,'minutes').format('hh:mm') + ':00.000Z',
+            dateTime: dayjs().format('YYYY-MM-DD') + 'T' + dayjs().add(1, 'minutes').format('hh:mm') + ':00.000Z',
             frequency: 0,
             url: "string",
-            keywords: ['github'],
+            keywords: currentCluster!.keywords,
             searchSystem: 0,
             top: 0
         })
@@ -78,7 +76,8 @@ export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
 
 
     return (
-        <RawModal onSubmint={handleSetCheck} isOpen={modalOpen} onClose={closeModal} className={cls.Modal} textBtn={'Отмена'}>
+        <RawModal onSubmint={handleSetCheck} isOpen={modalOpen} onClose={closeModal} className={cls.Modal}
+                  textBtn={'Отмена'}>
             <ConfigProvider
                 theme={{
                     token: {
@@ -99,7 +98,8 @@ export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
                         </div>
                         <div style={wrapperStyle}>
                             <Calendar fullscreen={false} value={date} onChange={handleSelect}/>
-                            <span style={{fontSize: '14px'}}>Выбранная дата: {date ? date.format('DD.MM.YYYY') : 'Не выбрана'}</span>
+                            <span
+                                style={{fontSize: '14px'}}>Выбранная дата: {date ? date.format('DD.MM.YYYY') : 'Не выбрана'}</span>
                         </div>
                     </div>
 
@@ -109,7 +109,9 @@ export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
                                 <FieldTimeOutlined style={{color: '#454545'}}/>
                                 <span>Время</span>
                             </div>
-                            <TimePicker minuteStep={15} hourStep={1} format={format} style={{colorPrimary: '#252525', marginTop: '1em'}} onChange={handleTimeChange}/>
+                            <TimePicker minuteStep={15} hourStep={1} format={format}
+                                        style={{colorPrimary: '#252525', marginTop: '1em'}}
+                                        onChange={handleTimeChange}/>
                         </div>
 
                         <div className={cls.blockData}>
@@ -121,13 +123,13 @@ export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
                             <Space wrap>
                                 <Select
                                     defaultValue="Без повторения"
-                                    style={{ width: 200, marginTop: '1em', colorPrimary: '#252525', fontFamily: 'Montserrat, sans-serif'}}
+                                    style={{width: 200, marginTop: '1em', colorPrimary: '#252525', fontFamily: 'Montserrat, sans-serif'}}
                                     onChange={handleChangeRepeat}
                                     options={[
-                                        { value: 'Без повторения', label: 'Без повторения' },
-                                        { value: 'Каждый день', label: 'Каждый день' },
-                                        { value: 'Каждую неделю', label: 'Каждую неделю' },
-                                        { value: 'Каждый месяц', label: 'Каждый месяц' },
+                                        {value: 'Без повторения', label: 'Без повторения'},
+                                        {value: 'Каждый день', label: 'Каждый день'},
+                                        {value: 'Каждую неделю', label: 'Каждую неделю'},
+                                        {value: 'Каждый месяц', label: 'Каждый месяц'},
                                     ]}
                                 />
                             </Space>
@@ -139,28 +141,31 @@ export const CreateCheckModal = ({modalOpen, closeModal}):React.JSX.Element => {
                                 <span>Кластер ключевых слов</span>
                             </div>
                             <Space wrap>
-                                <Select
-                                    defaultValue="1"
-                                    style={{ width: 200, marginTop: '1em', colorPrimary: '#252525', fontFamily: 'Montserrat, sans-serif'}}
-                                    onChange={handleChangeRepeat}
-                                    options={[
-                                        { value: '1', label: 'Кластер 1' },
-                                        { value: '2', label: 'Кластер 2' },
-                                        { value: '3', label: 'Кластер 3' },
-                                    ]}
-                                />
-                            </Space>
-                        </div>
+                                {cluster &&
+                                    <Select
+                                        style={{width: 200, marginTop: '1em', colorPrimary: '#252525', fontFamily: 'Montserrat, sans-serif'}}
+                                        onChange={handleChangeCluster}
+                                        options={
+                                            cluster.map((el, index) => {
+                                                return {
+                                                    value: el.id,
+                                                    label: 'Кластер ' + (index + 1)
+                                                }
+                                            }
+                                            )}
+                                    />}
+                                    </Space>
+                                    </div>
 
-                        <div className={cls.blockData}>
-                            <div className={cls.headerData}>
-                                <SearchOutlined style={{color: '#454545'}}/>
-                                <span>Поисковая система</span>
-                            </div>
-                            <div className={cls.checkbox}>
-                                <Checkbox onChange={handleCheckboxChange} value="Yandex">Yandex</Checkbox>
-                                <Checkbox onChange={handleCheckboxChange} value="Google">Google</Checkbox>
-                            </div>
+                                    <div className={cls.blockData}>
+                                <div className={cls.headerData}>
+                                    <SearchOutlined style={{color: '#454545'}}/>
+                                    <span>Поисковая система</span>
+                                </div>
+                                <div className={cls.checkbox}>
+                                    <Checkbox onChange={handleCheckboxChange} value="Yandex">Yandex</Checkbox>
+                                    <Checkbox onChange={handleCheckboxChange} value="Google">Google</Checkbox>
+                                </div>
                         </div>
                     </div>
                     {/*<p>Данные проверки: {date.format('DD.MM.YYYY')} в {time}, повторять {repeat}, использовать кластер №{cluster}, искать в {selectedCheckbox}</p>*/}

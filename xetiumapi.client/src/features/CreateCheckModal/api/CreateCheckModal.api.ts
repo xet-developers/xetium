@@ -28,12 +28,11 @@ interface IUncompletedTask {
     url: string,
     top: number,
     frequency: number,
-    keywords: string[],
+    Keywords: string[],
     searchSystem: number,
     isCompleted: boolean,
     id: string
 }
-
 
 interface IScheduleTaskResp {
     CompletedTask: ICompT[]

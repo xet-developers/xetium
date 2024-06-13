@@ -1,7 +1,7 @@
 import cls from "@/pages/AutoQueryGenerationPage/ui/AutoQueryGenerationPage.module.scss";
 import { AddKeyWords } from "@/widgets/AddKeyWords/ui/AddKeyWords.tsx";
 import {Clusters} from "@/features/Clusters/ui/Clusters.tsx";
-import {ResultCheckTable} from "@/widgets/ResultCheckTable/ui/ResultCheckTable.tsx";
+import {SitePositionTable} from "@/widgets/SitePositionTable";
 
 export const CheckSitePositionsPage = () => {
     return (
@@ -10,7 +10,7 @@ export const CheckSitePositionsPage = () => {
                 <AddKeyWords/>
                 <Clusters/>
             </div>
-            <ResultCheckTable/>
+            <SitePositionTable/>
         </div>
     );
 };

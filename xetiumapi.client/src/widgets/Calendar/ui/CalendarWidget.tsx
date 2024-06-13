@@ -11,7 +11,10 @@ import {currentProjectId} from "@/entity/Project";
 
 export const CalendarWidget = () => {
     const [modalOpen, setModalOpen] = useState(false);
+    const [viewCurrentTask, setViewCurrentTask] = useState(false)
+    const [currentTask, setCurrentTask] = useState()
     const currentProject = useSelector(currentProjectId)
+
     const {data: userChecks} = useGetAllCheckQuery({
         id: currentProject,
         date: 'firstDate=2024-01-01T00:00:00Z&lastDate=2024-12-31T23:59:59Z'
@@ -28,18 +31,17 @@ export const CalendarWidget = () => {
 
     const getListData = (value: Dayjs) => {
         const listData = [];
-        console.log(userChecks)
 
         if (userChecks?.UncompletedTask) {
-            console.log(userChecks)
             for (const uncT of userChecks.UncompletedTask) {
 
                 if (value.format('MM:DD:YYYY') === dayjs(uncT.scheduleTime).format('MM:DD:YYYY')) {
-                    console.log(uncT.keywords)
+                    console.log(uncT.Keywords)
                     listData.push(
                         {
+                            task: uncT,
                             type: 'error',
-                            content: uncT.keywords,
+                            content: uncT.Keywords,
                         })
                 }
             }
@@ -76,12 +78,17 @@ export const CalendarWidget = () => {
         ) : null;
     };
 
+    const openCurrentProjectModal = (task: any) => {
+        setCurrentTask(task)
+        setViewCurrentTask(true)
+    }
+
     const dateCellRender = (value: Dayjs) => {
         const listData = getListData(value);
         return (
             <ul className={cls.events}>
                 {listData.map((item) => (
-                    <li key={item.content}>
+                    <li key={item.content} onClick={()=>openCurrentProjectModal(item.task)}>
                         <Badge status={item.type as BadgeProps['status']} text={item.content}/>
                     </li>
                 ))}
@@ -137,11 +144,11 @@ export const CalendarWidget = () => {
             </div>
 
             <div>
-                {modalOpen && <CreateCheckModal modalOpen={modalOpen} closeModal={closeModal}/>}
+                {<CreateCheckModal modalOpen={modalOpen} closeModal={closeModal}/>}
             </div>
 
             <div>
-                {<ViewCheckModal open={false} date={value} time={'20:00'}/>}
+                {<ViewCheckModal open={viewCurrentTask} setOpen={setViewCurrentTask} task={currentTask}/>}
             </div>
         </div>
 

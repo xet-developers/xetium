@@ -1,18 +1,13 @@
 import {rtkApi} from "@/shared/api/rtkApi.ts";
+import {ISitePosition} from "../model/types/IAddKeyWordsSliceSchema.ts";
 
 interface ISitePositionArg {
     uri: string;
     keyWords: string[];
-    Top: number;
-    SearchSystem: 0 | 1;
+    top: number;
+    searchSystem: 0 | 1;
 }
 
-interface ISitePosition {
-    Date: string;
-    Keyword: string;
-    Position: number;
-    SearchSystem: 0 | 1
-}
 
 interface ISitePositionResponse {
     sitePositions: ISitePosition[]

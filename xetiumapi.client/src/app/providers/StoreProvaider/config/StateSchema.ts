@@ -10,11 +10,13 @@ import {IAuthorizationFormSliceSchema} from "@/features/AuthorizationForm/model/
 import {IUserSliceSchema} from "@/entity/User";
 import {ICreateProjectSliceSchema} from "@/features/CreateProject";
 import {IProjectSliceSchema} from "@/entity/Project";
+import {IAddKeyWordsSliceSchema} from "@/widgets/AddKeyWords/model/types/IAddKeyWordsSliceSchema.ts";
 
 export interface StateSchema {
     [rtkApi.reducerPath]: ReturnType<typeof rtkApi.reducer>;
     user: IUserSliceSchema;
     //async
+    sitePosition: IAddKeyWordsSliceSchema
     project: IProjectSliceSchema
     registerForm?: IRegisterFormSchema;
     authorizationForm?: IAuthorizationFormSliceSchema;

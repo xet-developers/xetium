@@ -1,14 +1,12 @@
 import cls from "./Clusters.module.scss";
-import { Button, ConfigProvider } from 'antd';
-import { DeleteOutlined } from '@ant-design/icons';
-import { useState } from 'react';
-import {DeleteModal} from "@/features/DeleteCheckModal/DeleteModal.tsx";
+import {Button, ConfigProvider} from 'antd';
+import {DeleteOutlined} from '@ant-design/icons';
+import {useDeleteWordClusterMutation, useGetAllWordClusterQuery} from "@/entity/WordsCluster";
 
 export const Clusters = () => {
 
-    const clusters: string[] = [];
-    const [deleteAction, setDeleteAction] = useState(false);
-
+    const {data: cluster, isLoading} = useGetAllWordClusterQuery()
+    const [trigger, {isLoading: isLoadingDelete}] = useDeleteWordClusterMutation()
     const empty = () => {
         return (
             <div className={cls.blockEmpty}>
@@ -16,81 +14,11 @@ export const Clusters = () => {
                     Вы еще не сохранили ни одного кластера!
                 </span>
             </div>
-
         )
     }
 
-    const warning = () => {
-        setDeleteAction(true);
-        setTimeout(costil, 5000)
-    }
-
-    const costil = () => {
-        setDeleteAction(false);
-    }
-
-    const cluster = () => {
-        return (
-            /*<div className={cls.clusters} style={{maxWidth: '740px', overflowX: "auto"}}>
-                {clusters.map((cluster, index) => (
-                    <div key={index} className={cls.blockCluster}>
-                        <span className={cls.text}>{`Кластер №${index + 1}`}</span>
-                        <span className={cls.textCluster} style={{maxHeight: "200px", overflowY: "auto"}}>
-                        {cluster.join(', ')}
-                    </span>
-                        <Button className={cls.btn}><DeleteOutlined/>Удалить кластер</Button>
-                    </div>
-                ))}
-            </div>*/
-        <div className={cls.clusters} style={{maxWidth: '740px', overflowX: "auto"}}>
-            <div className={cls.blockCluster}>
-                <span className={cls.text}>Кластер №1</span>
-                <span className={cls.textCluster} style={{maxHeight: "100px", overflowY: "auto"}}>
-                        слово, слово, слово, слово, слово
-                        слово, слово, слово, слово, слово
-                        слово, слово, слово, слово, слово
-                        слово, слово, слово, слово, слово
-                        слово, слово, слово, слово, словослово,
-                        слово, слово, слово, словослово, слово,
-                        слово, слово, словослово, слово, слово, слово,
-                        слово
-                    </span>
-                    <Button className={cls.btn} onClick={warning}><DeleteOutlined/>Удалить кластер</Button>
-                </div>
-
-                <div className={cls.blockCluster}>
-                    <span className={cls.text}>Кластер №1</span>
-                    <span className={cls.textCluster} style={{maxHeight: "200px", overflowY: "auto"}}>
-                        слово, слово, слово, слово, слово
-                        слово, слово, слово, слово, слово
-                        слово, слово, слово, слово, слово
-                        слово, слово, слово, слово, слово
-                        слово, слово, слово, слово, словослово,
-                        слово, слово, слово, словослово, слово,
-                        слово, слово, словослово, слово, слово, слово,
-                        слово
-                    </span>
-                    <Button className={cls.btn}><DeleteOutlined/>Удалить кластер</Button>
-                </div>
-
-                <div className={cls.blockCluster}>
-                    <span className={cls.text}>Кластер №1</span>
-                    <span className={cls.textCluster} style={{maxHeight: "200px", overflowY: "auto"}}>
-                        слово, слово, слово, слово, слово
-                        слово, слово, слово, слово, слово
-                        слово, слово, слово, слово, слово
-                        слово, слово, слово, слово, слово
-                        слово, слово, слово, слово, словослово,
-                        слово, слово, слово, словослово, слово,
-                        слово, слово, словослово, слово, слово, слово,
-                        слово
-                    </span>
-                    <Button className={cls.btn}><DeleteOutlined/>Удалить кластер</Button>
-                </div>
-
-                { deleteAction && <DeleteModal open={true}/> }
-            </div>
-        )
+    const deleteCluster = (id: string) => {
+        trigger(id)
     }
 
     return (
@@ -113,11 +41,24 @@ export const Clusters = () => {
         >
             <div className={cls.container}>
                 <span className={cls.header}>Сохраненные кластеры</span>
-                {!clusters ? (
-                    empty()
-                ) : (
-                    cluster()
-                )}
+                {!cluster || isLoading ? empty() :
+                    <div className={cls.clusters} style={{maxWidth: '740px', overflowX: "auto"}}>
+
+                        {cluster.map((el, index) => (
+                            <div className={cls.blockCluster}>
+                                <span className={cls.text}>Кластер {index + 1}</span>
+                                <span className={cls.textCluster} style={{maxHeight: "100px", overflowY: "auto"}}>
+                                    {el.keywords.join(', ')}
+                                </span>
+                                <Button onClick={() => deleteCluster(el.id!)} className={cls.btn}><DeleteOutlined/>
+                                    {isLoadingDelete ? ' Удаление...' : 'Удалить кластер'}
+                                </Button>
+                            </div>
+                        ))
+                        }
+                    </div>
+                }
+
             </div>
         </ConfigProvider>
     );

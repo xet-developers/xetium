@@ -1,22 +1,17 @@
-import cls from "./ResultCheckTable.module.scss";
+import cls from "../../../widgets/ResultCheckTable/ui/ResultCheckTable.module.scss";
 import {useState, useEffect} from 'react';
 import {ConfigProvider, Table, TableColumnsType, Skeleton} from "antd";
 import {useSelector} from "react-redux";
-import {currentProjectId} from "@/entity/Project";
-import {useGetAllCheckQuery} from "@/features/CreateCheckModal";
+
 import dayjs from "dayjs";
+import {sitePositionCheck} from "@/widgets/AddKeyWords";
 
 
 const dateFormat = 'DD.MM.YY:HH'
 
 export const ResultCheckTable = () => {
-    const currentProject = useSelector(currentProjectId)
-    const {data: userCheck} = useGetAllCheckQuery({
-        id: currentProject,
-        date: 'firstDate=2024-01-01T00:00:00Z&lastDate=2024-12-31T23:59:59Z'
-    })
 
-    const [loadings, setLoadings] = useState<boolean[]>([]);
+    const sitePositions = useSelector(sitePositionCheck)
     const [generation, setGeneration] = useState(true);
 
     const [tableColumns, setTableColumns] = useState<TableColumnsType>()
@@ -24,73 +19,57 @@ export const ResultCheckTable = () => {
 
 
     useEffect(() => {
-        if (userCheck) {
+        if (sitePositions) {
             const a: Set<string> = new Set()
-            for (let tasks of userCheck.CompletedTask) {
-                a.add(dayjs(tasks.Date).format(dateFormat))
+            for (let tasks of sitePositions) {
+                a.add(dayjs(tasks.date).format(dateFormat))
             }
 
-            const res = Array.from(a).map((el) => {
-                return {
-                    title: el,
-                    dataIndex: el,
-                    key: el,
-                    children: [
-                        {
-                            title: 'Яндекс',
-                            dataIndex: '1',
-                            key: '1',
-                            width: 100,
-                        },
-                        {
-                            title: 'Google',
-                            dataIndex: '0',
-                            key: '0',
-                            width: 100,
-                        },
-                    ],
-                }
-            })
-
             setTableColumns(
-                [{
+                [
+                    {
                     title: 'Ключевые фразы',
                     dataIndex: 'keyword',
                     key: 'keyword',
                     width: 250,
                     fixed: 'left',
-                },
-                    {
-                        title: 'Дата и время',
-                        children: res
-                    }]
+                }, {
+                    title: 'Яндекс',
+                    dataIndex: '1',
+                    key: '1',
+                    width: 100,
+                    }, {
+                    title: 'Google',
+                    dataIndex: '0',
+                    key: '0',
+                    width: 100,
+                    },]
             )
 
             const data: any[] = [];
             const keywords = new Set()
 
-            for (const task of userCheck.CompletedTask) {
+            for (const task of sitePositions) {
 
                 let prSize = keywords.size
-                let nextSize = keywords.add(task.Keyword).size
+                let nextSize = keywords.add(task.keyword).size
 
                 if (prSize !== nextSize) {
                     const res = {
-                        keyword: task.Keyword,
+                        keyword: task.keyword,
                     }
 
-                    // @ts-ignore
-                    res[dayjs(task.Date).format(dateFormat)] = true
-                    // @ts-ignore
-                    res[task.SearchSystem] = task.Position
 
+                    // @ts-ignore
+                    res[task.searchSystem] = task.position
+                    console.log(res)
                     data.push(res)
                 }
 
             }
             setTableData(data)
         }
-    }, [userCheck]);
+    }, [sitePositions]);
 
 
     useEffect(() => {

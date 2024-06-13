@@ -3,25 +3,17 @@ import { useState } from 'react';
 import React from 'react';
 import { DeleteOutlined } from '@ant-design/icons';
 import { ConfigProvider, Modal, Button } from 'antd';
-import {DeleteModal} from "@/features/DeleteCheckModal/DeleteModal.tsx";
+import {DeleteCheckModal} from "@/features/DeleteCheckModal/DeleteCheckModal.tsx";
+import dayjs from "dayjs";
 
-export const ViewCheckModal = ({ open, date, time }: any): React.JSX.Element => {
+export const ViewCheckModal = ({ open, setOpen, task }: any): React.JSX.Element => {
 
-    const [isModalOpen, setIsModalOpen] = useState(open || false);
     const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
-
-    const handleOk = () => {
-        setIsModalOpen(false);
-    };
-
-    const handleCancel = () => {
-        setIsModalOpen(false);
-    };
 
     const showModal = () => {
         setIsModalDeleteOpen(true);
     };
-    
+
     return (
         <>
             <ConfigProvider
@@ -37,20 +29,20 @@ export const ViewCheckModal = ({ open, date, time }: any): React.JSX.Element => 
                 }}
             >
                 <Modal
-                    open={isModalOpen}
-                    onOk={handleOk}
-                    onCancel={handleCancel}
+                    open={open}
+                    onOk={()=>setOpen(false)}
+                    onCancel={()=>setOpen(false)}
                     className={cls.modalView}
                     footer={[
 
                     ]}>
                     <div className={cls.blockData}>
                         <span className={cls.date}>
-                            {date.format('DD.MM.YYYY')} в {time}
+                            {task && dayjs(task.ScheduleTime).format('DD.MM.YYYY')} в {task && dayjs(task.ScheduleTime).add(7,'hours').format('HH:mm')}
                         </span>
 
                             <span className={cls.name}>
-                            Проверка 1
+                            Проверка: {task && task.Id}
                         </span>
 
                         <Button type="text" className={cls.btnDelete} onClick={showModal}>
@@ -62,7 +54,7 @@ export const ViewCheckModal = ({ open, date, time }: any): React.JSX.Element => 
                 </Modal>
             </ConfigProvider>
             <div>
-                {isModalDeleteOpen && <DeleteModal open={isModalDeleteOpen}/>}
+                {isModalDeleteOpen && <DeleteCheckModal open={isModalDeleteOpen}/>}
             </div>
         </>
     );
