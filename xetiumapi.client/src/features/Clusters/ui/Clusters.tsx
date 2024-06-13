@@ -1,10 +1,13 @@
 import cls from "./Clusters.module.scss";
 import { Button, ConfigProvider } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
+import { useState } from 'react';
+import {DeleteModal} from "@/features/DeleteCheckModal/DeleteModal.tsx";
 
 export const Clusters = () => {
 
     const clusters: string[] = [];
+    const [deleteAction, setDeleteAction] = useState(false);
 
     const empty = () => {
         return (
@@ -15,6 +18,15 @@ export const Clusters = () => {
             </div>
 
         )
+    }
+
+    const warning = () => {
+        setDeleteAction(true);
+        setTimeout(costil, 5000)
+    }
+
+    const costil = () => {
+        setDeleteAction(false);
     }
 
     const cluster = () => {
@@ -43,7 +55,7 @@ export const Clusters = () => {
                         слово, слово, словослово, слово, слово, слово,
                         слово
                     </span>
-                    <Button className={cls.btn}><DeleteOutlined/>Удалить кластер</Button>
+                    <Button className={cls.btn} onClick={warning}><DeleteOutlined/>Удалить кластер</Button>
                 </div>
 
                 <div className={cls.blockCluster}>
@@ -75,6 +87,8 @@ export const Clusters = () => {
                     </span>
                     <Button className={cls.btn}><DeleteOutlined/>Удалить кластер</Button>
                 </div>
+
+                { deleteAction && <DeleteModal open={true}/> }
             </div>
         )
     }

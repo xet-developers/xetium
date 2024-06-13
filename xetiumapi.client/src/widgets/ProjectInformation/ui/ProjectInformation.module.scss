@@ -52,7 +52,7 @@
   font-size: 24px;
   font-weight: 600;
   border: none;
-  color: #F66450;
+  color: #ffaba0;
   margin-bottom: -10px;
   margin-left: 0.5em;
   margin-top: -0.5em;
@@ -66,6 +66,17 @@
   border: none;
   color: rgba(246, 100, 80, 0.75);
   margin-left: 1em;
+}
+
+.inputName:disabled,
+.inputUrl:disabled {
+  background-color: rgba(255, 0, 0, 0);
+  color: #F66450;
+  cursor: pointer;
+}
+
+.disabled:disabled {
+  cursor: pointer;
 }
 
 .btns {

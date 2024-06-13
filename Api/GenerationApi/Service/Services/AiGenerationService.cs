@@ -12,6 +12,13 @@ namespace Service.Services
     public class AiGenerationService : IAiGenerationService
     {
         private readonly IYandexGptConnection _yandexGptConnection;
+        private readonly Dictionary<string, IntentType> _intets = new()
+        {
+            {"Сравнительный", IntentType.Comparison},
+            { "Информационный", IntentType.Informational},
+            {"Навигационный",IntentType.Navigation},
+            {"Транзакционный", IntentType.Transactional},
+        };
         public AiGenerationService(IYandexGptConnection yandexGptConnection)
         {
             _yandexGptConnection = yandexGptConnection;
@@ -36,11 +43,81 @@ namespace Service.Services
             return await Task.FromResult(fs);
         }
 
-        public async Task<string> GetAutoQueryGeneration(Query query)
+        public async Task<Intents> GetAutoQueryGeneration(Query query)
         {
             var res = await _yandexGptConnection.GetAutoQueryGeneration(query);
             
-            return res;
+            var parsedIntents = ParseIntents(res);
+            var generatedIntets = GenerateIntets(parsedIntents, query.Intent);
+            
+            return generatedIntets;
+        }
+
+
+
+        private Intents GenerateIntets(Dictionary<IntentType, List<string>> parsedIntents, IntentType intentType)
+        {
+            var intents = new Intents();
+
+            if (intentType == IntentType.All)
+            {
+                if (parsedIntents.TryGetValue(IntentType.Comparison, out List<string>? comparisonValue))
+                    intents.Comparison = comparisonValue;
+                if (parsedIntents.TryGetValue(IntentType.Informational, out List<string>? informationalValue))
+                    intents.Informational = informationalValue;
+                if (parsedIntents.TryGetValue(IntentType.Navigation, out List<string>? navigationalValue))
+                    intents.Navigational = navigationalValue;
+                if (parsedIntents.TryGetValue(IntentType.Transactional, out List<string>? transactionalValue))
+                    intents.Transactional = transactionalValue;
+                
+                intents.Status = true;
+                return intents;
+            }
+
+            if (!parsedIntents.TryGetValue(intentType, out List<string>? value))
+            {
+                return intents;
+            }
+            
+            switch (intentType)
+            {
+                case IntentType.Comparison:
+                    intents.Comparison = value;
+                    break;
+                case IntentType.Informational:
+                    intents.Informational = value;
+                    break;
+                case IntentType.Navigation:
+                    intents.Navigational = value;
+                    break;
+                case IntentType.Transactional:
+                    intents.Transactional = value;
+                    break;
+                default:
+                    return intents;
+            }
+            
+            intents.Status = true;
+            return intents;
+        }
+        private Dictionary<IntentType, List<string>> ParseIntents(string input)
+        {
+            var intents = new Dictionary<IntentType, List<string>>();
+            
+            var segments = input.Split('|');
+
+            foreach (var segment in segments)
+            {
+                var parts = segment.Split(new[] { ": " }, StringSplitOptions.None);
+                if (parts.Length == 2)
+                {
+                    var intent = parts[0].Trim();
+                    var queries = parts[1].Split(new[] { ", " }, StringSplitOptions.None);
+                    intents[_intets[intent]] = new List<string>(queries);
+                }
+            }
+
+            return intents;
         }
     }
 }

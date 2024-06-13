@@ -2,7 +2,7 @@
 
 namespace Api.Controllers;
 
-public class QueryRequest
+public record QueryRequest
 {
     public string Keywords { get; set; }
     public int NumberOfGeneratedWords { get; set; }

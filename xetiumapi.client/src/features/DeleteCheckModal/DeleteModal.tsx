@@ -3,7 +3,7 @@ import {useState} from 'react';
 import React from 'react';
 import {ConfigProvider, Modal, Button} from 'antd';
 
-export const DeleteCheckModal = ({ open }: any): React.JSX.Element => {
+export const DeleteModal = ({ open }: any): React.JSX.Element => {
 
     const [isModalOpen, setIsModalOpen] = useState(open || false);
 
@@ -36,15 +36,12 @@ export const DeleteCheckModal = ({ open }: any): React.JSX.Element => {
                 <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel} className={cls.modalView} footer={[]}>
                     <div className={cls.blockData}>
                         <span className={cls.date}>
-                            Вы уверены, что хотите удалить
-                            запланированную проверку? Если задача
-                            повторяющаяся, то все повторы
-                            будут удалены.
+                            Вы уверены, что хотите удалить?
                         </span>
 
                         <div className={cls.btns}>
                             <Button type="primary" className={cls.btnDelete} size={'large'} onClick={deleteCheck}>
-                                УДАЛИТЬ
+                                Удалить
                             </Button>
 
                             <Button type="primary" className={cls.btnCancel} size={'large'} onClick={handleCancel}>

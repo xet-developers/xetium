@@ -9,9 +9,10 @@ namespace Infrastructure.Connection;
 
 public class YandexGptConnection: IYandexGptConnection
 {
+    private static string AccesToken = "eyJjdHkiOiJqd3QiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwiYWxnIjoiUlNBLU9BRVAtMjU2In0.woXQu-GtzUjTl-lELn-LID0-DT-SGnVZzxG-KIqXo0_JrtcTgqZagvuwH_Qz029LuzUIGxm6r6WqKTL8_h_GqTxoksQ4xaljUikc-Pr-OweTQvCaLMlcl187uG3OHH5C57JrFW8qmne8gX7c4CnJiB-KPu9MjJzjNKSSRiB_gB97YJ4TFLuLMXlJGWIoTjmYQburUfQSlKlyckXq-t1Of1-KWZ0SIDRET_jprHbsngbAUCcsUaBEYYq0CXaCpK1JXm0iwIv6bicitZ9UdHvgIrA2DUT57sJM0Y-cnv3PBWv6hzNj1fFgzbglnRMQzJf6_v0v1rZcw92lintHlROFww.Mnzjy05oaxsIOuz9cFMRwA.ZlMTlaVxatlp5b5KF7U6P_2g6uEgVZHtXe3ponMwaDkAm3Rv0x7uQnjS3HDe1SWNYh5wltqUqhJ0veKUNUaqXOd5frVAI5iv1YhKqajMWfZkXr7yIVLmrl4M2RwsUdZj7Ga8Uw11BfLU4ZaW62j6f17u_GUgP5ewr9q1TitZUO0FkSmomHnVnE1BQM1oU5dtv1Fg2HtknfTwL5mNWpIjO27sDEDsv9QGxq19ZlfxvRlPni4AXr_bBnmnOpFQs9oNUOK6YiZmfsUFTYKkPvJdXVrV6sBucUM3cK09VvVzzz11FaNVXeTO5Hb0BXlpFEY0z1Uw0VJQJVg-3T-zElORkyacvORea_iWBn_X-y1MYUmy4chf19TeSCtA_UfXcaVHf1uY3x77bRJ8FjM8kNIJIhKCosPGzDIoPEYBcrOoJ3fPkzsCf_ihxKOv7H3Soo0yoEvaA0zb73590k9XkK9jD4baiyyyLKY85lRAioXqjSD2ZVqE8bmdbiWVZp4n9DhZha_vw0_37jjcIG85xt4AI0F9zDTbKht1xcJ-Z5uSBRF5jhLtdZQBKENyDltDfjJzuLwvUy9vHSQQV44PdF5N5I6FyLk3BiSLOmkR6n6XgiCL5AXm5g_lAerh1A1piDHqtagJqDy8LpqAM8CjmqH3x5N9W5ymybuHdHWBffirxNQpuMb1AgL7GIvGjT2mIEHn232g90kmtMBUJZGF0HuScUMBUQ-ORIMHuTTp-LnS4vc.CoytRyL6RltKoCOfVvkp48WJLPxxwXHp5m7oFqGaSqo";
     private static readonly string FolderId = "b1g0d2ifbbaarf6mkn2m";
     private static readonly string ApiKey = "Api-Key AQVN3CAag7T1wBhY38O-7ctH1ex5-_pjybJVOHQm";
-    private readonly HttpClient _httpClient;
+    private HttpClient _httpClient;
     private readonly Dictionary<IntentType, string> _intets = new()
     {
         { IntentType.Comparison, "Сравнительный" },
@@ -91,28 +92,99 @@ public class YandexGptConnection: IYandexGptConnection
 
     public async Task<string> GetAutoQueryGeneration(Query query)
     {
-        _httpClient.DefaultRequestHeaders.Add("x-folder-id", FolderId);
-        _httpClient.DefaultRequestHeaders.Add("Authorization", ApiKey);
-        _httpClient.DefaultRequestHeaders.Add("x-data-logging-enabled", false.ToString());
+        HttpClientHandler handler = new HttpClientHandler();
+        handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
 
+        _httpClient = new HttpClient(handler);
+        
+        _httpClient.DefaultRequestHeaders.Remove("Authorization");
+        _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+        _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {AccesToken}");
+        
         var data = new
         {
-            modelUri = "gpt://b1g0d2ifbbaarf6mkn2m/yandexgpt/latest",
-            completionOptions = new
-            {
-                stream = false,
-                temperature = 0.8,
-                maxTokens = "3000"
-            },
+            model = "GigaChat-Pro",
             messages = new object[]
             {
-                new { role = "system", text = $"Твоя роль заключается в том, что ты пишешь автогенерацию поисковых запросов по интенту коммерческий (Коммерческий интент: запросы, которые выражают желание пользователя купить что-то или сравнить цены, характеристики, отзывы и т.д.), информационный (Информационный интент: запросы, которые выражают потребность пользователя в получении информации о чем-то или узнать ответ на вопрос), навигационный (Навигационный интент: запросы, которые выражают намерение пользователя перейти на определенный сайт или страницу), транзакционный (Транзакционный интент: запросы, которые выражают желание пользователя выполнить какое-то действие на сайте или в приложении).\nСгенерируй  {query.NumberOfGeneratedWords} запросов по следующим параметрам, соблюдая равное количество запросов для каждого интента.Генерируй строго в таком формате на примере утюг и 10 слов, интента сравнительный.\n1. Какой утюг лучше купить?\n2. Сравнение утюгов разных производителей.\n3. Отзывы об утюгах.\n4. Где купить хороший утюг?\n5. Как выбрать утюг для дома?\n6. Утюги с парогенератором: плюсы и минусы.\n7. Рейтинг утюгов.\n8. Обзор современных моделей утюгов.\n9. Какие характеристики важны при выборе утюга?\n10. Стоимость утюгов в разных магазинах.\n " },
-                new { role = "user", text = $"Слова, которые нужно рассмотреть: {query.Keywords} по интенту {_intets[query.Intent]} "  }
-            }
+                new { role = "system", content = "Твоя роль заключается в том, что ты занимаешься автогенерацией запросов по интенту. Вот какие есть интенты:\n\nСравнительный: запросы, которые выражают желание пользователя сравнить что-то, например, цены, характеристики, отзывы и т.д.\nИнформационный: запросы, которые выражают потребность пользователя в получении информации о чем-то или узнать ответ на вопрос.\nНавигационный: запросы, которые выражают намерение пользователя перейти на определенный сайт или страницу.\nТранзакционный: запросы, которые выражают желание пользователя выполнить какое-то действие на сайте или в приложении.\n\nЕсть определенные правила, которым ты обязан следовать:\n\n    Ты должен это написать в формате, чтобы автоматически можно было спарсить, то есть ты пишешь название интента и потом после двоеточия слова, и когда напишешь нужное количество слов, оканчиваешь этим символом “|”.\n    Генерируй запросы исключительно по словам, указанным пользователем.\n    Если количество слов для каждого интента указано, ты должен генерировать именно столько слов, сколько указано. Если слов несколько, то делай равное количество для каждого интента.\n    Все запросы должны быть уникальными и логичными.\n    Избегай повторений и следи за тем, чтобы запросы были осмысленными и соответствовали интенту.\n\nПример:\nПользователь указывает слово \"утюг\" и просит сгенерировать 10 слов для каждого интента. Ты генерируешь 10 уникальных запросов для каждого из следующих интентов, связанных только с утюгом:\n\nСравнительный: сравнить цены на утюги, сравнить характеристики утюгов, отзывы на утюги, лучшие утюги, утюги рейтинг, утюги топ, утюги дешевые, утюги дорогие, утюги отзывы, сравнить модели утюгов|\nИнформационный: как выбрать утюг, как почистить утюг, как пользоваться утюгом, история утюга, устройство утюга, виды утюгов, лучшие утюги для дома, как исправить утюг, безопасное использование утюга, советы по уходу за утюгом|\nНавигационный: зайти на сайт утюгов, открыть страницу утюгов на Wikipedia, перейти на форум о бытовой технике, найти отзывы на утюги, перейти в блог о домашних гаджетах, найти магазин утюгов, открыть страницу с рейтингами утюгов, найти инструкции к утюгам, открыть видеообзоры утюгов, найти советы по выбору утюга|\nТранзакционный: купить утюг онлайн, зарегистрироваться на сайте для покупки утюга, заказать утюг с доставкой, оплатить утюг через интернет, оставить отзыв о покупке утюга, вернуть утюг по гарантии, подписаться на рассылку о скидках на утюги, скачать инструкцию к утюгу, обменять утюг на новый, продать утюг|\n\nСгенерируй запросы для всех интентов в указанном формате, основываясь только на словах, которые указал пользователь."},
+                new { role = "user", content = $" Мне нужно, чтобы ты автосгенрировала запрос для этих слов : {query.Keywords}\n Количество запросов которые ты должен сгенерить : {query.NumberOfGeneratedWords}\n"}
+            },
+            n =  1,
+            stream = false,
+            max_tokens =  1024,
+            repetition_penalty =  1,
+            update_interval =  0
         };
-            
-        var res = await SenRequestAsync(data);
+        var json = JsonConvert.SerializeObject(data);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
         
+        var retryPolicy = Policy
+            .HandleResult<HttpResponseMessage>(r => r.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            .RetryAsync(3, async (response, retryCount, context) =>
+            {
+                await GetAuthToken();
+                _httpClient.DefaultRequestHeaders.Remove("Authorization");
+                _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {AccesToken}");
+            });
+        
+        var response = await retryPolicy.ExecuteAsync(async () =>
+        {
+            return await _httpClient.PostAsync("https://gigachat.devices.sberbank.ru/api/v1/chat/completions", content);
+        });
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var jsonData = JObject.Parse(responseContent);
+        var token = jsonData.SelectToken("choices[0].message.content", errorWhenNoMatch: false);
+
+        if (token is null)
+        {
+            return "";
+        }
+
+        var res = token.ToString();
         return res;
+
     }
+    private async Task<bool> GetAuthToken()
+    {
+        _httpClient.DefaultRequestHeaders.Remove("Authorization");
+
+        
+        _httpClient.DefaultRequestHeaders.Add("Authorization", "Basic ZGZiNTYwOTUtMDBiYi00NjM5LWI3ZTgtZjQ1YzI5NGQwOGFiOmM3ZjUzZTMzLWZlNTYtNDU5Yy05MDFmLTNiNzZjM2RjNWJmMw==");
+        _httpClient.DefaultRequestHeaders.Add("RqUID", Guid.NewGuid().ToString());
+        
+        var content = new FormUrlEncodedContent(new[]
+        {
+            new KeyValuePair<string, string>("scope", "GIGACHAT_API_PERS")
+        });
+        
+        var retryPolicy = Policy<JObject>
+            .Handle<Exception>()
+            .OrResult(result => result == null || !result.ContainsKey("access_token"))
+            .WaitAndRetryAsync(30, retryAttempt => TimeSpan.FromSeconds(1));
+        
+        var operationResponse = await retryPolicy.ExecuteAsync(async () =>
+        {
+            var response = await _httpClient.PostAsync("https://ngw.devices.sberbank.ru:9443/api/v2/oauth", content);
+            var responseBody = await response.Content.ReadAsStringAsync();
+
+            var jsonData = JObject.Parse(responseBody);
+            var done = jsonData.TryGetValue("code", out _);
+
+            return done ? null : jsonData;
+        });
+        
+        
+        if (operationResponse is null || operationResponse.ContainsKey("code") || !operationResponse.ContainsKey("access_token"))
+        {
+            return false;
+        }
+        
+        AccesToken = operationResponse["access_token"].ToString();
+        
+        _httpClient.DefaultRequestHeaders.Remove("RqUID");
+        
+        return true;
+    }
+
+
 }

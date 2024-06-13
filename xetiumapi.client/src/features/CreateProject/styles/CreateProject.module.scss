@@ -3,9 +3,8 @@
   background-color: #fff;
   border-radius: 15px;
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 25%;
+  left: 35%;
   display: flex;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
   justify-content: center;
@@ -23,7 +22,7 @@
 }
 
 .header {
-  font-size: 40px;
+  font-size: 32px;
   font-weight: 500;
   color: #252525;
 }
@@ -34,7 +33,7 @@
   margin-top: 2em;
   font-family: "Montserrat", sans-serif;
   color: #252525;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .inputLink {
@@ -43,7 +42,7 @@
   margin-top: 2em;
   font-family: "Montserrat", sans-serif;
   color: #252525;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .inputDesc {
@@ -52,15 +51,15 @@
   margin-top: 2em;
   font-family: "Montserrat", sans-serif;
   color: #252525;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .btnCreate {
-  width: 387px;
-  height: 68px;
+  width: 250px;
+  height: 52px;
   border-radius: 35px;
   font-family: "Montserrat", sans-serif;
-  font-size: 25px;
+  font-size: 18px;
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -71,10 +70,10 @@
 
 .btnCancel {
   width: 200px;
-  height: 35px;
+  height: 52px;
   border-radius: 35px;
   font-family: "Montserrat", sans-serif;
-  font-size: 25px;
+  font-size: 18px;
   color: #ffffff;
   display: flex;
   align-items: center;

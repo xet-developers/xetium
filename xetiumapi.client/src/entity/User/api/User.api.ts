@@ -19,9 +19,16 @@ export const UserApi = rtkApi.injectEndpoints({
                 }),
                 invalidatesTags: ['User']
             }
+        ),
+        logoutUser: build.mutation<void, void>({
+                query: () => ({
+                    url: '/landing',
+                    method: "PATCH",
+                }),
+            }
         )
     })
 })
 
 export const getUserDataQuery = UserApi.endpoints.getUserData.initiate;
-export const {useGetUserDataQuery, useUpdateUserMutation} = UserApi
+export const {useGetUserDataQuery, useUpdateUserMutation, useLogoutUserMutation} = UserApi

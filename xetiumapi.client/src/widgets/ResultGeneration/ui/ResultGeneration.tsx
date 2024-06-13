@@ -8,6 +8,7 @@ export const ResultGeneration = () => {
 
     const [loadings, setLoadings] = useState<boolean[]>([]);
     const [generation, setGeneration] = useState(true);
+    const [downloadDisabled, setDownloadDisabled] = useState(false);
 
     useEffect(() => {
         setTimeout(() => {
@@ -93,7 +94,6 @@ export const ResultGeneration = () => {
         },
     ];
 
-
     return (
         <ConfigProvider
             theme={{
@@ -123,6 +123,7 @@ export const ResultGeneration = () => {
                         loading={loadings[1]}
                         onClick={() => enterLoading(1)}
                         className={cls.btn}
+                        disabled={downloadDisabled}
                     >
                         Скачать в формате Excel
                     </Button>
