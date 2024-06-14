@@ -32,6 +32,7 @@ public class ScheduleController: ControllerBase
         {
             UserId = userID,
             ProjectID = scheduleRequest.ProjectID,
+            ClusterId = scheduleRequest.ClusterId,
             Keywords = scheduleRequest.Keywords,
             ScheduleTime = scheduleRequest.DateTime,
             Top = scheduleRequest.Top,
@@ -64,6 +65,7 @@ public class ScheduleController: ControllerBase
             Frequency = scheduleRequest.Frequency,
             Id = scheduleRequest.Id,
             ProjectID = scheduleRequest.ProjectID,
+            ClusterId = scheduleRequest.ClusterId,
             JobId = scheduleRequest.JobId,
             Keywords = scheduleRequest.Keywords,
             ScheduleTime = scheduleRequest.DateTime,

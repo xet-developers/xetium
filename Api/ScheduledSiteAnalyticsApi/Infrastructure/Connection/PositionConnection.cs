@@ -63,6 +63,7 @@ public class PositionConnection: IScheduleTask
             var pos = new SitePosition()
            {
                 ProjectId = taskDetails.ProjectID,
+                ClusterId = taskDetails.ClusterId,
                 Date = positionAnalysis.Date.ToUniversalTime(),
                 Keyword = positionAnalysis.Keyword,
                 Position = positionAnalysis.Position,

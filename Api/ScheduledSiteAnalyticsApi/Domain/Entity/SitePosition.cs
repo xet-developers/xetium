@@ -10,6 +10,7 @@ namespace Domain.Entity
     public record SitePosition : BaseEntity<Guid>
     {
         public required Guid ProjectId { get; set; }
+        public required Guid ClusterId { get; set; }
         public required DateTime Date { get; set; }
         public required string Keyword { get; set; }
         public required int Position { get; set; }

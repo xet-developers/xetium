@@ -21,6 +21,7 @@ public class GetCompletedTasksConsumer: IConsumer<UserSearchesRequestDto>
         {
             UserId = info.UserId,
             FirstDate = info.FirstDate,
+            ClusterId = info.ClusterId,
             LastDate = info.LastDate,
             ProjectId = info.ProjectId
         });

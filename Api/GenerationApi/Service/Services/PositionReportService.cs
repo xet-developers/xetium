@@ -17,17 +17,52 @@ namespace Service.Services
     {
 
         private readonly IReportConnection _reportConnection;
-        public PositionReportService(IReportConnection reportConnection)
+        private readonly IStandartStore _standartStore;
+        private readonly IReportRepository _reportRepository;
+        public PositionReportService(IReportConnection reportConnection, IStandartStore standartStore, IReportRepository reportRepository)
         {
             _reportConnection = reportConnection;
+            _standartStore = standartStore;
+            _reportRepository = reportRepository;   
         }
         public async Task<FileStream> GetPositionReportAsync(ReportInfo reportInfo, Guid UserId)
+        {
+            await _standartStore.CreateAsync(reportInfo);
+            return await GetReportAsync(reportInfo, UserId);
+        }
+        public async Task<List<ReportResults>> GetAllReportsInfo(Guid userId, Guid projectId)
+        {
+            var res = await _reportRepository.GetAllReportsInfo(userId, projectId);
+            var list = new List<ReportResults>();
+            foreach(var  report in res)
+            {
+                var rep = new ReportResults()
+                {
+                    ReportId = report.Id,
+                    Date = DateTime.Now,
+                    ReportType = ReportType.Standart,
+                    FirstDate = report.FirstDate,
+                    LastDate = report.LastDate
+                };
+                list.Add(rep);
+            };
+            return list;    
+        }
+
+        public async Task<FileStream> GetCompletedReportAsync(Guid Id, Guid userId)
+        {
+            var repInfo = await _standartStore.GetByIdAsync<ReportInfo>(Id);
+            var res = await GetReportAsync(repInfo, userId);
+            return res;
+        }
+        private async Task<FileStream> GetReportAsync(ReportInfo reportInfo, Guid UserId)
         {
             var info = await _reportConnection.GetReportInfo(new UserSearchesRequestDto()
             {
                 FirstDate = reportInfo.FirstDate,
                 LastDate = reportInfo.LastDate,
-                ProjectId = reportInfo.Id,
+                ClusterId = reportInfo.ClusterId,
+                ProjectId = reportInfo.ProjectId,
                 UserId = UserId
             });
             

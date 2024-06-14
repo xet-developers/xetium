@@ -13,11 +13,22 @@ namespace Api.Controllers
     {
         private IPositionReportService _positionReportService;
         private IAiGenerationService _iaiGenerationService;
+  
 
         public GenerationController(IPositionReportService positionReportService, IAiGenerationService iaiGenerationService)
         { 
             _positionReportService = positionReportService;
             _iaiGenerationService = iaiGenerationService;
+        }
+
+        [HttpGet("allreport")]
+        public async Task<ActionResult<List<ReportResults>>> GetAllReportInfo([FromQuery] Guid projectId)
+        {
+            var token = Request.Headers["Authorization"].FirstOrDefault().ParseJWT();
+            var userID = Guid.Parse(token.Claims.FirstOrDefault(c => c.Type == "id").Value);
+
+            var res = _positionReportService.GetAllReportsInfo(userID, projectId);
+            return Ok(res);
         }
 
         [HttpPost("positionreport")]
@@ -27,7 +38,8 @@ namespace Api.Controllers
             var userID = Guid.Parse(token.Claims.FirstOrDefault(c => c.Type == "id").Value);
             var report = new ReportInfo
             {
-                Id = reportRequest.ProjectId,
+                ClusterId = reportRequest.ClusterId,
+                ProjectId = reportRequest.ProjectId,
                 FirstDate = reportRequest.FirstDate,
                 LastDate = reportRequest.LastDate,
             };

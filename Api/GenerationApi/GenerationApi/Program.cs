@@ -9,7 +9,7 @@ using MassTransit;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.TryAddInfrastucture();
+builder.Services.TryAddInfrastucture(builder.Configuration);
 builder.Services.TryAddServices();
 builder.Services.AddAuthorization();
 builder.Services.AddSwaggerStartUpBase();

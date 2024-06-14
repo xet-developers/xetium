@@ -16,7 +16,7 @@ public record TaskDetails: BaseEntity<Guid>
     public required DateTime ScheduleTime { get; set; }
     public required Guid UserId { get; set; }
     public required Guid ProjectID { get; set; }
-    
+    public required Guid ClusterId { get; set; }    
     public string JobId { get; set; }
     public required string Url { get; set; }
    

@@ -28,6 +28,22 @@ public class TaskInfoRepository: ITasksInfoRepository
        return res;
     }
 
+    public async Task<List<SitePosition>> GetTaskReportAsync(UserSearchInfo userSearchInfo)
+    {
+
+        var res = await _applicationDbContext.SitePositions.Include(sp => sp.ScheduleTaskDetails)
+             .ThenInclude(std => std.ScheduleTask)
+             .Where(sp =>
+                 sp.ProjectId == userSearchInfo.ProjectId
+                 && sp.ScheduleTaskDetails.ScheduleTask.UserId == userSearchInfo.UserId
+                 && sp.ClusterId == userSearchInfo.ClusterId    
+                 && sp.Date >= userSearchInfo.FirstDate
+                 && sp.Date <= userSearchInfo.LastDate)
+             .ToListAsync();
+
+        return res;
+    }
+
     public async Task AddOrUpdateAsync(TaskDetails taskDetails)
     {
         var existingTask = await _applicationDbContext.TaskDetails.FindAsync(taskDetails.Id);

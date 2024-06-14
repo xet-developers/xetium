@@ -9,6 +9,7 @@ namespace Service.Interfaces
 {
     public interface IPositionReportService
     {
+        public Task<List<ReportResults>> GetAllReportsInfo(Guid userId, Guid projectId);
         public Task<FileStream> GetPositionReportAsync(ReportInfo reportInfo, Guid UserId);
     }
 }

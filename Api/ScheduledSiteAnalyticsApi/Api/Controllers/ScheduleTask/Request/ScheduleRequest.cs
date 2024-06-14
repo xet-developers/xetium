@@ -5,6 +5,7 @@ namespace Api.Controllers.ScheduleTask.Request;
 public class ScheduleRequest
 {
     public required Guid ProjectID { get; set; }
+    public required Guid ClusterId { get; set; }
     public required DateTime DateTime { get; set; }
     
     public required Frequency Frequency { get; set; }
