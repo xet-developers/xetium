@@ -2,11 +2,16 @@ import cls from "./Clusters.module.scss";
 import {Button, ConfigProvider} from 'antd';
 import {DeleteOutlined} from '@ant-design/icons';
 import {useDeleteWordClusterMutation, useGetAllWordClusterQuery} from "@/entity/WordsCluster";
+import {DeleteModal} from "@/shared/ui/components/DeleteModal";
+import { useState } from "react";
 
 export const Clusters = () => {
+    const {data: cluster, isLoading} = useGetAllWordClusterQuery();
 
-    const {data: cluster, isLoading} = useGetAllWordClusterQuery()
-    const [trigger, {isLoading: isLoadingDelete}] = useDeleteWordClusterMutation()
+    const [trigger, {isLoading: isLoadingDelete}] = useDeleteWordClusterMutation();
+    const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
+    const [currentClusterId, setCurrentClusterId] = useState('')
+
     const empty = () => {
         return (
             <div className={cls.blockEmpty}>
@@ -18,7 +23,13 @@ export const Clusters = () => {
     }
 
     const deleteCluster = (id: string) => {
-        trigger(id)
+        trigger(id);
+        setIsModalDeleteOpen(false);
+    }
+
+    const deleteClusterId = (id: string) => {
+        setCurrentClusterId(id);
+        setIsModalDeleteOpen(true);
     }
 
     return (
@@ -41,7 +52,7 @@ export const Clusters = () => {
         >
             <div className={cls.container}>
                 <span className={cls.header}>Сохраненные кластеры</span>
-                {!cluster || isLoading ? empty() :
+                {!cluster  ? empty() :
                     <div className={cls.clusters} style={{maxWidth: '740px', overflowX: "auto"}}>
 
                         {cluster.map((el, index) => (
@@ -50,7 +61,7 @@ export const Clusters = () => {
                                 <span className={cls.textCluster} style={{maxHeight: "100px", overflowY: "auto"}}>
                                     {el.keywords.join(', ')}
                                 </span>
-                                <Button onClick={() => deleteCluster(el.id!)} className={cls.btn}><DeleteOutlined/>
+                                <Button onClick={() => deleteClusterId(el.id!)} className={cls.btn}><DeleteOutlined/>
                                     {isLoadingDelete ? ' Удаление...' : 'Удалить кластер'}
                                 </Button>
                             </div>
@@ -58,8 +69,8 @@ export const Clusters = () => {
                         }
                     </div>
                 }
-
             </div>
+            <DeleteModal open={isModalDeleteOpen} setOpen={setIsModalDeleteOpen} functionDelete={()=>deleteCluster(currentClusterId)}/>
         </ConfigProvider>
     );
 };

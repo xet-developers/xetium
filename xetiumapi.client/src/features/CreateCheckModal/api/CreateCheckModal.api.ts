@@ -31,7 +31,7 @@ interface IUncompletedTask {
     Keywords: string[],
     searchSystem: number,
     isCompleted: boolean,
-    id: string
+    id: string,
 }
 
 interface IScheduleTaskResp {
@@ -46,7 +46,8 @@ interface IScheduleTaskArg {
     url: string;
     keywords: string[];
     searchSystem: number;
-    top: number
+    top: number;
+    clusterId: string;
 }
 
 export const CreateCheckModalApi = rtkApi.injectEndpoints({

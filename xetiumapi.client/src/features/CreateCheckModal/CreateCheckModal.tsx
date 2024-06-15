@@ -1,5 +1,5 @@
 import cls from "./CreateCheckModule.module.scss";
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import React from 'react';
 import {RawModal} from "@/shared/ui/components/RawModal/RawModal.tsx";
 import {CalendarOutlined, FieldTimeOutlined, RetweetOutlined, ClusterOutlined, SearchOutlined} from '@ant-design/icons';
@@ -69,7 +69,8 @@ export const CreateCheckModal = ({modalOpen, closeModal}): React.JSX.Element => 
             url: "string",
             keywords: currentCluster!.keywords,
             searchSystem: 0,
-            top: 0
+            top: 0,
+		clusterId: curCluster,
         })
 
         console.log(a)
