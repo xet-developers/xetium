@@ -117,7 +117,7 @@ export const ProjectInformation = () => {
                     <Button onClick={() => setOpen(true)} className={cls.btn} ><DeleteOutlined/>Удалить проект</Button>
                 </div>
 
-                {!projects && <CreateProject open={true} setOpen={setCreateProject}/>}
+                {<CreateProject open={createProject} setOpen={setCreateProject}/>}
                 <DeleteModal open={open} setOpen={setOpen} functionDelete={deleteProject}/>
             </div>
         </ConfigProvider>
