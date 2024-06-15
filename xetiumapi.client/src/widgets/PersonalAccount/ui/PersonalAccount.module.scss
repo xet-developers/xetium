@@ -27,9 +27,15 @@
   justify-content: center;
   font-weight: 400;
   margin-top: -2em;
-  left: 24%;
+  margin-left: 27em;
   box-shadow: 0 5px 15px rgba(195, 77, 60, 0.67);
+  border: none;
 }
+
+.btnOk:hover {
+   cursor: pointer;
+   background: #F66450;
+ }
 
 .btnLogout {
   width: 367px;
@@ -46,4 +52,11 @@
   margin-top: -2em;
   left: 29%;
   box-shadow: 0 5px 15px rgba(213, 99, 84, 0.67);
+  gap: 0.4em;
+  border: none;
+}
+
+.btnLogout:hover {
+  cursor: pointer;
+  background: #F66450;
 }

@@ -70,14 +70,14 @@ export const PersonalAccount = () => {
                     <UserPhoto/>
                     <UserData fields={fields} onChange={setFields}/>
                 </div>
-                <Flex vertical={false}>
-                    <Button className={cls.btnOk} onClick={updateUser}>
+                <Flex vertical={false} gap={'4em'}>
+                    <button className={cls.btnOk} onClick={updateUser}>
                         Сохранить изменения
-                    </Button>
-                    <Button className={cls.btnLogout} onClick={logout}>
+                    </button>
+                    <button className={cls.btnLogout} onClick={logout}>
                         <LogoutOutlined/>
                         Выйти
-                    </Button>
+                    </button>
                 </Flex>
 
             </div>
