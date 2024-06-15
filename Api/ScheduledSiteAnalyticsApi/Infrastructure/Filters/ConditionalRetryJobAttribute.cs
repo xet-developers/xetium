@@ -58,6 +58,7 @@ public class ConditionalRetryJobAttribute: JobFilterAttribute, IApplyStateFilter
         
         var taskInfo = new TaskInfo()
         {
+            ClusterId = taskDetails.ClusterId,
             UserId = taskDetails.UserId,
             CompletionTime = taskDetails.ScheduleTime,
             IsCompleted = false,

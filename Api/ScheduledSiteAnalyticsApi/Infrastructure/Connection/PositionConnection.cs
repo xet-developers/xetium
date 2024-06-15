@@ -75,6 +75,7 @@ public class PositionConnection: IScheduleTask
 
         var taskInfo = new TaskInfo()
         {
+            ClusterId = taskDetails.ClusterId,
             UserId = taskDetails.UserId,
             CompletionTime = scheduleTaskDetails.DateTime,
             IsCompleted = true,
