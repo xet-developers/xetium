@@ -36,9 +36,9 @@ namespace Services.Services
             return true;
         }
 
-        public async Task<List<Cluster>> GetAllClustersAsync(Guid userId)
+        public async Task<List<Cluster>> GetAllClustersAsync(Guid userId, Guid projectId)
         {
-            var res = await _repository.GetUserClustersAsync(userId);
+            var res = await _repository.GetUserClustersAsync(userId, projectId);
             return res;
         }
     }

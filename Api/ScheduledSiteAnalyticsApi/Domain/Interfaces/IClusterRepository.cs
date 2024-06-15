@@ -9,6 +9,6 @@ namespace Domain.Interfaces
 {
     public interface IClusterRepository
     {
-        public Task<List<Cluster>> GetUserClustersAsync(Guid userId);
+        public Task<List<Cluster>> GetUserClustersAsync(Guid userId, Guid projectId);
     }
 }

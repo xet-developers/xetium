@@ -12,6 +12,7 @@ namespace Domain.Entity
     {
         [JsonIgnore]
         public Guid UserId { get; set; }
+        public Guid ProjectId { get; set; }
         public required string[] Keywords { get; set; }
     }
 }

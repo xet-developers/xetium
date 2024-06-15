@@ -28,6 +28,7 @@ namespace Api.Controllers
             var id = await _clusterService.CreateClusterAsync(new Domain.Entity.Cluster 
             { 
                 UserId = userID,
+                ProjectId = clusterRequest.ProjectId,
                 Keywords = clusterRequest.Keywords 
             });
 
@@ -48,10 +49,10 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllClusters()
+        public async Task<IActionResult> GetAllClusters([FromQuery] Guid projectId)
         {
             var userID = (Guid)HttpContext.Items["UserId"];
-            var res = await _clusterService.GetAllClustersAsync(userID);
+            var res = await _clusterService.GetAllClustersAsync(userID, projectId);
 
             return Ok(res);
         }
