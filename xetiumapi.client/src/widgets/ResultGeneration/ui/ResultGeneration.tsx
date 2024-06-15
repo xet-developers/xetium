@@ -10,7 +10,6 @@ export const ResultGeneration = () => {
 
     const [loadings, setLoadings] = useState<boolean[]>([]);
     const [generation, setGeneration] = useState(true);
-    const [downloadDisabled, setDownloadDisabled] = useState(false);
     const intends = useSelector(getIntends)
 
 
@@ -115,7 +114,7 @@ export const ResultGeneration = () => {
                         loading={loadings[1]}
                         onClick={() => enterLoading(1)}
                         className={cls.btn}
-                        disabled={downloadDisabled}
+                        disabled={!intends}
                     >
                         Скачать в формате Excel
                     </Button>

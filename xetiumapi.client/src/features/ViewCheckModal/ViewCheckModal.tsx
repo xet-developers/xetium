@@ -3,7 +3,7 @@ import { useState } from 'react';
 import React from 'react';
 import { DeleteOutlined } from '@ant-design/icons';
 import { ConfigProvider, Modal, Button } from 'antd';
-import {DeleteModal} from "@/features/DeleteCheckModal/DeleteModal.tsx";
+import {DeleteCheckModal} from "../DeleteCheckModal";
 import dayjs from "dayjs";
 
 export const ViewCheckModal = ({ open, setOpen, task }: any): React.JSX.Element => {
@@ -54,7 +54,7 @@ export const ViewCheckModal = ({ open, setOpen, task }: any): React.JSX.Element 
                 </Modal>
             </ConfigProvider>
             <div>
-                {isModalDeleteOpen && <DeleteModal jobId={task?.JobId} taskId={task?.Id} open={isModalDeleteOpen}/>}
+                {isModalDeleteOpen && <DeleteCheckModal jobId={task?.JobId} taskId={task?.Id} open={isModalDeleteOpen} setOpen={setIsModalDeleteOpen}/>}
             </div>
         </>
     );

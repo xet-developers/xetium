@@ -1,1 +1,1 @@
-export * from './DeleteModal.tsx'
+export * from './DeleteCheckModal.tsx'
