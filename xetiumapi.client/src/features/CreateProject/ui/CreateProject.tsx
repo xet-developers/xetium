@@ -13,6 +13,7 @@ import {
 } from "@/features/CreateProject/model/selectors/createProject.selectors.ts";
 import {usePostCreateProjectMutation} from "../api/createProject.api.ts";
 import { ProjectValidator} from "@/shared/lib/validator/project/project.ts";
+import {useGetProjectQuery} from "@/entity/Project";
 
 const reducers: ReducersList = {
     createProject: createProjectReducer,
@@ -29,6 +30,7 @@ export const CreateProject: FC<ICreateProjectProps> = (props): React.JSX.Element
     const {open, setOpen}: ICreateProjectProps = props
     const [trigger, {data: result, isLoading}] = usePostCreateProjectMutation();
     const dispatch = useAppDispatch();
+    const {data, } = useGetProjectQuery();
 
     const projectName: string = useSelector(getProjectName);
     const projectUrl: string = useSelector(getProjectUrl);
@@ -93,7 +95,8 @@ export const CreateProject: FC<ICreateProjectProps> = (props): React.JSX.Element
                         },
                         Button: {
                             textHoverBg: '#ba4c3b',
-                            defaultActiveBg: '#ba4c3b'
+                            defaultActiveBg: '#ba4c3b',
+                            defaultHoverColor: '#fff'
                         }
                     }
                 }}
@@ -141,16 +144,16 @@ export const CreateProject: FC<ICreateProjectProps> = (props): React.JSX.Element
                         }
 
                         <div style={{display: 'flex', flexDirection: 'row', gap: '2em'}}>
-                            <Button type="text" onClick={handleOk} className={cls.btnCreate}>
+                            <Button type="primary" onClick={handleOk} className={cls.btnCreate}>
                                 Создать проект
                             </Button>
 
-                            <Button type="text" onClick={handleCancel} className={cls.btnCancel}>
-                                Отмена
-                            </Button>
+                            {data &&
+                                <Button type="primary" onClick={handleCancel} className={cls.btnCancel}>
+                                    Отмена
+                                </Button>
+                            }
                         </div>
-
-
                     </div>
 
                     {isLoading&&<div>Loading</div>}

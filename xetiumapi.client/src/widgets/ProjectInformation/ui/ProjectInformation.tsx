@@ -22,10 +22,10 @@ export const ProjectInformation = () => {
     const [name, setName] = useState('')
     const [disk, setDisk] = useState('')
     const [url, setUrl] = useState('')
-    const [showModal, setShowModal] = useState(false);
     const [isEditing, setIsEditing] = useState(false)
 
     const [open, setOpen] = useState(false);
+    const [createProject, setCreateProject] = useState(false);
 
     useEffect(() => {
         if (projects) {
@@ -37,15 +37,9 @@ export const ProjectInformation = () => {
             setName(proj.name)
             setDisk(proj.description)
             setUrl(proj.url)
-        } else {
-            setShowModal(true);
         }
 
     }, [currentProjId, projects]);
-
-    const closeModal = () => {
-        setShowModal(false);
-    };
 
     const handleUpdate = async () => {
         if (projects) {
@@ -123,7 +117,7 @@ export const ProjectInformation = () => {
                     <Button onClick={() => setOpen(true)} className={cls.btn} ><DeleteOutlined/>Удалить проект</Button>
                 </div>
 
-                {showModal && <CreateProject onClose={closeModal} />}
+                {!projects && <CreateProject open={true} setOpen={setCreateProject}/>}
                 <DeleteModal open={open} setOpen={setOpen} functionDelete={deleteProject}/>
             </div>
         </ConfigProvider>
