@@ -1,10 +1,5 @@
 import {rtkApi} from "@/shared/api/rtkApi.ts";
 
-// "completedTask": [],
-//     "uncompletedTask": [
-//     {
-
-//     },
 
 interface ScheduleTaskDetails {
 
@@ -34,9 +29,18 @@ interface IUncompletedTask {
     id: string,
 }
 
+interface taskInfo{
+    userId: string;
+    clusterId: string;
+    projectId: string;
+    isCompleted: string;
+    completionTime: string
+}
+
 interface IScheduleTaskResp {
     CompletedTask: ICompT[]
     UncompletedTask: IUncompletedTask[]
+    TaskInfos: taskInfo[]
 }
 
 interface IScheduleTaskArg {

@@ -1,7 +1,6 @@
 import cls from "./CreateCheckModule.module.scss";
-import {useState} from 'react';
+import {useMemo, useState} from 'react';
 import React from 'react';
-import {RawModal} from "@/shared/ui/components/RawModal/RawModal.tsx";
 import {CalendarOutlined, FieldTimeOutlined, RetweetOutlined, ClusterOutlined, SearchOutlined} from '@ant-design/icons';
 import {ConfigProvider, Calendar, theme, TimePicker, Space, Checkbox, Select, Modal, Button} from 'antd';
 import dayjs from 'dayjs';
@@ -18,9 +17,10 @@ export const CreateCheckModal = ({modalOpen, closeModal}): React.JSX.Element => 
     const [repeat, setRepeat] = useState(null);
     const [date, setDate] = useState(() => dayjs());
     const [trigger, {isLoading, data}] = usePostCreateCheckMutation()
-    const {data: cluster} = useGetAllWordClusterQuery()
-
     const currentProject = useSelector(currentProjectId)
+
+    const {data: cluster} = useGetAllWordClusterQuery(currentProject!)
+
 
     const {token} = theme.useToken();
     const format = 'HH:mm';
@@ -61,7 +61,6 @@ export const CreateCheckModal = ({modalOpen, closeModal}): React.JSX.Element => 
         console.log(dayjs().format('YYYY-MM-DD') + 'T' + dayjs().add(1, 'minutes').format('HH:mm') + ':00.000Z')
 
         const currentCluster = cluster.find(el => el.id === curCluster)
-        console.log(currentCluster!.keywords)
         const a = await trigger({
             projectID: currentProject!,
             dateTime: dayjs().format('YYYY-MM-DD') + 'T' + dayjs().add(1, 'minutes').format('hh:mm') + ':00.000Z',
@@ -70,12 +69,34 @@ export const CreateCheckModal = ({modalOpen, closeModal}): React.JSX.Element => 
             keywords: currentCluster!.keywords,
             searchSystem: 0,
             top: 0,
-		    clusterId: curCluster,
+		    clusterId: curCluster!,
         })
 
         console.log(a)
     }
 
+    const getClusterOption = useMemo(() => {
+
+        const res: [] = [{
+            value: '-1', label: (
+                <span>
+                       <Link to={'/checksitepositions'} style={{color: '#F66450'}}>+ Создать кластер</Link>
+                    </span>
+            )
+        }]
+
+        if(!cluster || cluster.length === 0){
+            return res
+        }
+
+        return cluster.map((el, index) => {
+                return {
+                    value: el.id,
+                    label: 'Кластер ' + (index + 1)
+                }
+            }).concat(res)
+
+    }, [cluster])
 
     return (
         <Modal onOk={closeModal} open={modalOpen} onCancel={closeModal} className={cls.modalView} footer={null}
@@ -155,7 +176,7 @@ export const CreateCheckModal = ({modalOpen, closeModal}): React.JSX.Element => 
                                     <span>Кластер ключевых слов</span>
                                 </div>
                                 <Space wrap>
-                                    {cluster &&
+
                                         <Select
                                             defaultValue={'-1'}
                                             style={{
@@ -165,22 +186,8 @@ export const CreateCheckModal = ({modalOpen, closeModal}): React.JSX.Element => 
                                                 fontFamily: 'Montserrat, sans-serif'
                                             }}
                                             onChange={handleChangeCluster}
-                                            options={[
-                                                cluster.map((el, index) => {
-                                                    return {
-                                                        value: el.id,
-                                                        label: 'Кластер ' + (index + 1)
-                                                    }
-                                                }),
-                                                {
-                                                    value: '-1', label: (
-                                                        <span>
-                                                <Link to={'/checksitepositions'} style={{color: '#F66450'}}>+ Создать кластер</Link>
-                                            </span>
-                                                    )
-                                                },
-                                            ]}
-                                        />}
+                                            options={getClusterOption}
+                                        />
                                 </Space>
                             </div>
 

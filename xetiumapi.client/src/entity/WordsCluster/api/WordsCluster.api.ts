@@ -1,7 +1,9 @@
 import {rtkApi} from "@/shared/api/rtkApi.ts";
 
 interface ICluster {
+    projectId: string;
     keywords: string[]
+    id: string
 }
 
 
@@ -28,10 +30,10 @@ export const WordsClusterApi = rtkApi.injectEndpoints({
             },
         ),
 
-        getAllWordCluster: build.query<ICluster[], void>({
-            query: () => ({
+        getAllWordCluster: build.query<ICluster[], string>({
+            query: (projectId: string) => ({
                 method: 'GET',
-                url: '/cluster'
+                url: '/cluster?projectId=' + projectId
             }),
 
             providesTags: ['WordCluster']

@@ -4,9 +4,12 @@ import {DeleteOutlined} from '@ant-design/icons';
 import {useDeleteWordClusterMutation, useGetAllWordClusterQuery} from "@/entity/WordsCluster";
 import {DeleteModal} from "@/shared/ui/components/DeleteModal";
 import { useState } from "react";
+import {useSelector} from "react-redux";
+import {currentProjectId} from "@/entity/Project";
 
 export const Clusters = () => {
-    const {data: cluster, isLoading} = useGetAllWordClusterQuery();
+    const projId = useSelector(currentProjectId)
+    const {data: cluster, isLoading} = useGetAllWordClusterQuery(projId!);
 
     const [trigger, {isLoading: isLoadingDelete}] = useDeleteWordClusterMutation();
     const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);

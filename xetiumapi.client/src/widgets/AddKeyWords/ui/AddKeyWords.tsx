@@ -63,6 +63,7 @@ export const AddKeyWords = () => {
 
         if (inv) {
             createCluster({
+                projectId: projId!,
                 keywords: inputValue.split(', ')
             })
         }
