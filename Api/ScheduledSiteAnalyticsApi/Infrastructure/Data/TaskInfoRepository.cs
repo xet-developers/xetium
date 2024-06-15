@@ -30,6 +30,10 @@ public class TaskInfoRepository: ITasksInfoRepository
 
     public async Task<List<SitePosition>> GetTaskReportAsync(UserSearchInfo userSearchInfo)
     {
+        if(userSearchInfo.ClusterId == Guid.Empty)
+        {
+            return await GetCompletedTaskAsync(userSearchInfo);
+        }
 
         var res = await _applicationDbContext.SitePositions.Include(sp => sp.ScheduleTaskDetails)
              .ThenInclude(std => std.ScheduleTask)

@@ -14,9 +14,9 @@ namespace Infrastructure.Data
             _applicationDbContext = applicationDbContext;
         }
 
-        public async Task<List<Cluster>> GetUserClustersAsync(Guid userId)
+        public async Task<List<Cluster>> GetUserClustersAsync(Guid userId, Guid projectId)
         {
-            var res = await _applicationDbContext.Clusters.Where(cluster =>  cluster.UserId == userId).ToListAsync();    
+            var res = await _applicationDbContext.Clusters.Where(cluster =>  cluster.UserId == userId && cluster.ProjectId == projectId).ToListAsync();    
             return res;
         }
     }

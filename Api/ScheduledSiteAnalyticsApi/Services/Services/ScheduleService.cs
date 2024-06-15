@@ -53,6 +53,13 @@ public class ScheduleService: IScheduleService
         return completedTasks;
     }
 
+    public async Task<List<SitePosition>> GetReportInfoAsync(UserSearchInfo request)
+    {
+        var completedTasks = await _tasksInfoRepository.GetTaskReportAsync(request);
+
+        return completedTasks;
+    }
+
     public async Task<List<TaskDetails>> GetPendingTasksInfoAsync(UserSearchInfo request)
     {
         var pendingTasks = await _tasksInfoRepository.GetPendingTasksAsync(request);

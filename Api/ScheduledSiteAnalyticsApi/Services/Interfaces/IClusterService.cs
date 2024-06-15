@@ -11,6 +11,6 @@ namespace Services.Interfaces
     {
         public Task<Guid> CreateClusterAsync(Cluster cluster);
         public Task<bool> DeleteClusterAsync(Guid userId);
-        public Task<List<Cluster>> GetAllClustersAsync(Guid userId);
+        public Task<List<Cluster>> GetAllClustersAsync(Guid userId, Guid projectid);
     }
 }
