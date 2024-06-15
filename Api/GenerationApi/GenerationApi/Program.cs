@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Security;
+using ExampleCore.AuthOptions;
 using ExampleCore.BrokerLogic;
 using ExampleCore.HttpLogic;
 using ExampleCore.Swagger;
@@ -13,10 +14,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.TryAddInfrastucture(builder.Configuration);
 builder.Services.TryAddServices();
-builder.Services.AddAuthorization();
 builder.Services.AddSwaggerStartUpBase();
 builder.Services.AddHttpRequestService();
-
+builder.Services.AddAuth();
 
 
 builder.Services.AddMassTransit(x =>
@@ -45,6 +45,7 @@ app.UseSwaggerUI();
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

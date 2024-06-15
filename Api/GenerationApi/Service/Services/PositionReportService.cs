@@ -32,7 +32,7 @@ namespace Service.Services
         }
         public async Task<List<ReportResults>> GetAllReportsInfo(Guid userId, Guid projectId)
         {
-            var res = await _reportRepository.GetAllReportsInfo(userId, projectId);
+            var res = await _reportRepository.GetAllReportsInfo(projectId, userId);
             var list = new List<ReportResults>();
             foreach(var  report in res)
             {
@@ -66,8 +66,6 @@ namespace Service.Services
                 UserId = UserId
             });
             
-            // todo list iz odnogo element ispravvvvvvvvvvvvvvvvvv  ^u^
-            var project = new List<UserSearchesResponseDto>() { info };
             var fileName = new Uuid7().ToString();
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
@@ -79,7 +77,7 @@ namespace Service.Services
                 };
             }
 
-            var fs =  File.Open($"{Directory.GetCurrentDirectory()}{fileName}.xlsx", FileMode.Open);
+            var fs =  File.Open($"{Directory.GetCurrentDirectory()}/GenerationSave/{fileName}.xlsx", FileMode.Open);
             return await Task.FromResult(fs);
         }
 
@@ -124,7 +122,7 @@ namespace Service.Services
 
             SetStyles(sheet, row, column);
 
-            await package.SaveAsAsync(new FileInfo($"{Directory.GetCurrentDirectory()}{fileName}.xlsx"));
+            await package.SaveAsAsync(new FileInfo($"{Directory.GetCurrentDirectory()}/GenerationSave/{fileName}.xlsx"));
             return true;
         }
 

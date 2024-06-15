@@ -4,11 +4,13 @@ using Service.Interfaces;
 using Core.Extensions;
 using Domain.Entity;
 using Api.Controllers.PositionReport;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
     [Route("generation")]
     [ApiController]
+    [Authorize]
     public class GenerationController : ControllerBase
     {
         private IPositionReportService _positionReportService;
@@ -22,15 +24,27 @@ namespace Api.Controllers
         }
 
         [HttpGet("allreport")]
-        public async Task<ActionResult<List<ReportResults>>> GetAllReportInfo([FromQuery] Guid projectId)
+        public async Task<IActionResult> GetAllReportInfo([FromQuery] Guid projectId)
         {
             var token = Request.Headers["Authorization"].FirstOrDefault().ParseJWT();
             var userID = Guid.Parse(token.Claims.FirstOrDefault(c => c.Type == "id").Value);
 
-            var res = _positionReportService.GetAllReportsInfo(userID, projectId);
+            var res = await _positionReportService.GetAllReportsInfo(userID, projectId);
             return Ok(res);
         }
+        
+        [HttpGet("completedreport")]
+        public async Task<IActionResult> GetCompletedReport([FromQuery] Guid reportId)
+        {
+            var token = Request.Headers["Authorization"].FirstOrDefault().ParseJWT();
+            var userID = Guid.Parse(token.Claims.FirstOrDefault(c => c.Type == "id").Value);
 
+            var res = await _positionReportService.GetCompletedReportAsync(reportId, userID);
+            return new FileStreamResult(res, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            {
+                FileDownloadName = "Report.xlsx"
+            };
+        }
         [HttpPost("positionreport")]
         public async Task<IActionResult> CreatePositionReport([FromBody] ReportRequest reportRequest)
         {
@@ -38,6 +52,7 @@ namespace Api.Controllers
             var userID = Guid.Parse(token.Claims.FirstOrDefault(c => c.Type == "id").Value);
             var report = new ReportInfo
             {
+                UserId = userID,
                 ClusterId = reportRequest.ClusterId,
                 ProjectId = reportRequest.ProjectId,
                 FirstDate = reportRequest.FirstDate,
@@ -66,9 +81,9 @@ namespace Api.Controllers
             {
                 return BadRequest();
             }
-            return new FileStreamResult(clustering, "text/plain")
+            return new FileStreamResult(clustering, "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
             {
-                FileDownloadName = "Clustering.txt"
+                FileDownloadName = "Clustering.docx"
             };
         }
 

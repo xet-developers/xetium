@@ -1,4 +1,6 @@
 ﻿using System.Text;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Domain.Entity;
 using Domain.Interfaces;
 using Medo;
@@ -6,6 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Polly;
 using Service.Interfaces;
+using Query = Domain.Entity.Query;
 
 namespace Service.Services
 {
@@ -34,12 +37,19 @@ namespace Service.Services
 
             var textFileName = new Uuid7().ToString();
 
-            using (StreamWriter sw = new StreamWriter($"{Directory.GetCurrentDirectory()}{textFileName}.txt", true))
+            var docFileName = $"{Directory.GetCurrentDirectory()}/GenerationSave/{new Uuid7()}.docx";
+
+            using (var wordDocument = WordprocessingDocument.Create(docFileName, DocumentFormat.OpenXml.WordprocessingDocumentType.Document))
             {
-                sw.WriteLine(res);
+                var mainPart = wordDocument.AddMainDocumentPart();
+                mainPart.Document = new Document();
+                var body = mainPart.Document.AppendChild(new Body());
+                var para = body.AppendChild(new Paragraph());
+                var run = para.AppendChild(new Run());
+                run.AppendChild(new Text(res));
             }
 
-            var fs = File.Open($"{Directory.GetCurrentDirectory()}{textFileName}.txt", FileMode.Open);
+            var fs = File.Open(docFileName, FileMode.Open);
             return await Task.FromResult(fs);
         }
 

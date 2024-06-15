@@ -1,6 +1,7 @@
 ﻿using Domain.Entity;
 using MassTransit;
 using ProfileConnectionLib.ConnectionServices.DtoModels.Request;
+using ProfileConnectionLib.ConnectionServices.DtoModels.Response;
 using Services.Interfaces;
 
 namespace Api.Controllers;
@@ -25,7 +26,20 @@ public class GetCompletedTasksConsumer: IConsumer<UserSearchesRequestDto>
             LastDate = info.LastDate,
             ProjectId = info.ProjectId
         });
-
-        await context.RespondAsync(res);
+        
+        var positionAnalyses = res.Select(sp => new PositionAnalysis
+        {
+            Date = sp.Date,
+            Keyword = sp.Keyword,
+            Position = sp.Position,
+            SearchSystem = sp.SearchSystem,
+            IsCompleted = true
+        }).ToList();
+        
+        await context.RespondAsync(new UserSearchesResponseDto()
+        {
+            PositionAnalysisData = positionAnalyses
+        });
+        
     }
 }
