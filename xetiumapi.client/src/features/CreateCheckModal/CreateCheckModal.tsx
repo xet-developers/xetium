@@ -112,7 +112,8 @@ export const CreateCheckModal = ({modalOpen, closeModal}): React.JSX.Element => 
                         },
                         Button: {
                             textHoverBg: '#ba4c3b',
-                            defaultActiveBg: '#ba4c3b'
+                            defaultActiveBg: '#ba4c3b',
+                            defaultHoverColor: '#fff'
                         }
                     }
                 }}
@@ -197,24 +198,36 @@ export const CreateCheckModal = ({modalOpen, closeModal}): React.JSX.Element => 
                                     <span>Поисковая система</span>
                                 </div>
                                 <div className={cls.checkbox}>
-                                    <Checkbox onChange={handleCheckboxChange} value="Yandex">Yandex</Checkbox>
-                                    <Checkbox onChange={handleCheckboxChange} value="Google">Google</Checkbox>
+                                    <Checkbox
+                                        onChange={handleCheckboxChange}
+                                        value="Yandex"
+                                        style={{fontFamily: 'Montserrat, sans-serif', fontSize: '13px', fontWeight: '500'}}
+                                    >
+                                        Yandex
+                                    </Checkbox>
+
+                                    <Checkbox
+                                        onChange={handleCheckboxChange}
+                                        value="Google"
+                                        style={{fontFamily: 'Montserrat, sans-serif', fontSize: '13px', fontWeight: '500'}}
+                                    >
+                                        Google
+                                    </Checkbox>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div style={{display: 'flex', flexDirection: 'row', gap: '2em', justifyContent: 'center'}}>
-                        <Button type="text" onClick={handleSetCheck} className={cls.btnCreate}>
+                        <Button type="primary" onClick={handleSetCheck} className={cls.btnCreate}>
                             Создать проверку
                         </Button>
 
-                        <Button type="text" onClick={closeModal} className={cls.btnCancel}>
+                        <Button type="primary" onClick={closeModal} className={cls.btnCancel}>
                             Отмена
                         </Button>
                     </div>
                 </div>
-
             </ConfigProvider>
         </Modal>
     );
