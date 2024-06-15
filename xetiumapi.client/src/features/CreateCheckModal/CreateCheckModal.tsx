@@ -3,7 +3,7 @@ import {useState} from 'react';
 import React from 'react';
 import {RawModal} from "@/shared/ui/components/RawModal/RawModal.tsx";
 import {CalendarOutlined, FieldTimeOutlined, RetweetOutlined, ClusterOutlined, SearchOutlined} from '@ant-design/icons';
-import {ConfigProvider, Calendar, theme, TimePicker, Space, Checkbox, Select} from 'antd';
+import {ConfigProvider, Calendar, theme, TimePicker, Space, Checkbox, Select, Modal, Button} from 'antd';
 import dayjs from 'dayjs';
 import {usePostCreateCheckMutation} from "./api/CreateCheckModal.api.ts";
 import {useSelector} from "react-redux";
@@ -70,7 +70,7 @@ export const CreateCheckModal = ({modalOpen, closeModal}): React.JSX.Element => 
             keywords: currentCluster!.keywords,
             searchSystem: 0,
             top: 0,
-		clusterId: curCluster,
+		    clusterId: curCluster,
         })
 
         console.log(a)
@@ -78,8 +78,8 @@ export const CreateCheckModal = ({modalOpen, closeModal}): React.JSX.Element => 
 
 
     return (
-        <RawModal onSubmint={handleSetCheck} isOpen={modalOpen} onClose={closeModal} className={cls.Modal}
-                  textBtn={'Отмена'}>
+        <Modal onOk={closeModal} open={modalOpen} onCancel={closeModal} className={cls.modalView} footer={null}
+               closeIcon={null} width={'730px'} style={{top: '20%'}}>
             <ConfigProvider
                 theme={{
                     token: {
@@ -88,85 +88,103 @@ export const CreateCheckModal = ({modalOpen, closeModal}): React.JSX.Element => 
                     components: {
                         DatePicker: {
                             activeBorderColor: '#F66450'
+                        },
+                        Button: {
+                            textHoverBg: '#ba4c3b',
+                            defaultActiveBg: '#ba4c3b'
                         }
                     }
                 }}
             >
-                <div style={{marginTop: '1em', marginLeft: '1em', display: 'flex', flexDirection: 'row', gap: '1em'}}>
-                    <div className={cls.blockData}>
-                        <div className={cls.headerData}>
-                            <CalendarOutlined style={{color: '#454545'}}/>
-                            <span>Дата</span>
-                        </div>
-                        <div style={wrapperStyle}>
-                            <Calendar fullscreen={false} value={date} onChange={handleSelect} style={{marginBottom: '2em'}}/>
-                            <span
-                                style={{fontSize: '14px'}}>Выбранная дата: {date ? date.format('DD.MM.YYYY') : 'Не выбрана'}</span>
-                        </div>
-                    </div>
-
-                    <div style={{display: 'flex', flexDirection: 'column', gap: '1em'}}>
+                <div style={{height: '570px'}}>
+                    <span className={cls.header}>Создание проверки</span>
+                    <div className={cls.modal}>
                         <div className={cls.blockData}>
                             <div className={cls.headerData}>
-                                <FieldTimeOutlined style={{color: '#454545'}}/>
-                                <span>Время</span>
+                                <CalendarOutlined style={{color: '#454545'}}/>
+                                <span>Дата</span>
                             </div>
-                            <TimePicker minuteStep={15} hourStep={1} format={format}
-                                        style={{colorPrimary: '#252525', marginTop: '1em'}}
-                                        onChange={handleTimeChange}/>
+                            <div style={wrapperStyle}>
+                                <Calendar fullscreen={false} value={date} onChange={handleSelect}
+                                          style={{marginBottom: '2em'}}/>
+                                <span
+                                    style={{fontSize: '14px'}}>Выбранная дата: {date ? date.format('DD.MM.YYYY') : 'Не выбрана'}</span>
+                            </div>
                         </div>
 
-                        <div className={cls.blockData}>
-                            <div className={cls.headerData}>
-                                <RetweetOutlined style={{color: '#454545'}}/>
-                                <span>Повторение</span>
+                        <div style={{display: 'flex', flexDirection: 'column', gap: '1em'}}>
+                            <div className={cls.blockData}>
+                                <div className={cls.headerData}>
+                                    <FieldTimeOutlined style={{color: '#454545'}}/>
+                                    <span>Время</span>
+                                </div>
+                                <TimePicker minuteStep={15} hourStep={1} format={format}
+                                            style={{colorPrimary: '#252525', marginTop: '1em'}}
+                                            onChange={handleTimeChange}/>
                             </div>
 
-                            <Space wrap>
-                                <Select
-                                    defaultValue="Без повторения"
-                                    style={{width: 200, marginTop: '1em', colorPrimary: '#252525', fontFamily: 'Montserrat, sans-serif'}}
-                                    onChange={handleChangeRepeat}
-                                    options={[
-                                        {value: 'Без повторения', label: 'Без повторения'},
-                                        {value: 'Каждый день', label: 'Каждый день'},
-                                        {value: 'Каждую неделю', label: 'Каждую неделю'},
-                                        {value: 'Каждый месяц', label: 'Каждый месяц'},
-                                    ]}
-                                />
-                            </Space>
-                        </div>
+                            <div className={cls.blockData}>
+                                <div className={cls.headerData}>
+                                    <RetweetOutlined style={{color: '#454545'}}/>
+                                    <span>Повторение</span>
+                                </div>
 
-                        <div className={cls.blockData}>
-                            <div className={cls.headerData}>
-                                <ClusterOutlined style={{color: '#454545'}}/>
-                                <span>Кластер ключевых слов</span>
-                            </div>
-                            <Space wrap>
-                                {cluster &&
+                                <Space wrap>
                                     <Select
-                                        defaultValue={'-1'}
-                                        style={{width: 200, marginTop: '1em', colorPrimary: '#252525', fontFamily: 'Montserrat, sans-serif'}}
-                                        onChange={handleChangeCluster}
+                                        defaultValue="Без повторения"
+                                        style={{
+                                            width: 200,
+                                            marginTop: '1em',
+                                            colorPrimary: '#252525',
+                                            fontFamily: 'Montserrat, sans-serif'
+                                        }}
+                                        onChange={handleChangeRepeat}
                                         options={[
-                                            cluster.map((el, index) => {
-                                                return {
-                                                    value: el.id,
-                                                    label: 'Кластер ' + (index + 1)
-                                                }
-                                            }),
-                                            { value: '-1', label: (
-                                                <span>
-                                                    <Link to={'/checksitepositions'} style={{color: '#F66450'}}>+ Создать кластер</Link>
-                                                </span>
-                                                )
-                                            },
+                                            {value: 'Без повторения', label: 'Без повторения'},
+                                            {value: 'Каждый день', label: 'Каждый день'},
+                                            {value: 'Каждую неделю', label: 'Каждую неделю'},
+                                            {value: 'Каждый месяц', label: 'Каждый месяц'},
                                         ]}
-                                    />}
-                                    </Space>
-                                    </div>
+                                    />
+                                </Space>
+                            </div>
 
-                                    <div className={cls.blockData}>
+                            <div className={cls.blockData}>
+                                <div className={cls.headerData}>
+                                    <ClusterOutlined style={{color: '#454545'}}/>
+                                    <span>Кластер ключевых слов</span>
+                                </div>
+                                <Space wrap>
+                                    {cluster &&
+                                        <Select
+                                            defaultValue={'-1'}
+                                            style={{
+                                                width: 200,
+                                                marginTop: '1em',
+                                                colorPrimary: '#252525',
+                                                fontFamily: 'Montserrat, sans-serif'
+                                            }}
+                                            onChange={handleChangeCluster}
+                                            options={[
+                                                cluster.map((el, index) => {
+                                                    return {
+                                                        value: el.id,
+                                                        label: 'Кластер ' + (index + 1)
+                                                    }
+                                                }),
+                                                {
+                                                    value: '-1', label: (
+                                                        <span>
+                                                <Link to={'/checksitepositions'} style={{color: '#F66450'}}>+ Создать кластер</Link>
+                                            </span>
+                                                    )
+                                                },
+                                            ]}
+                                        />}
+                                </Space>
+                            </div>
+
+                            <div className={cls.blockData}>
                                 <div className={cls.headerData}>
                                     <SearchOutlined style={{color: '#454545'}}/>
                                     <span>Поисковая система</span>
@@ -175,11 +193,22 @@ export const CreateCheckModal = ({modalOpen, closeModal}): React.JSX.Element => 
                                     <Checkbox onChange={handleCheckboxChange} value="Yandex">Yandex</Checkbox>
                                     <Checkbox onChange={handleCheckboxChange} value="Google">Google</Checkbox>
                                 </div>
+                            </div>
                         </div>
                     </div>
-                    {/*<p>Данные проверки: {date.format('DD.MM.YYYY')} в {time}, повторять {repeat}, использовать кластер №{cluster}, искать в {selectedCheckbox}</p>*/}
+
+                    <div style={{display: 'flex', flexDirection: 'row', gap: '2em', justifyContent: 'center'}}>
+                        <Button type="text" onClick={handleSetCheck} className={cls.btnCreate}>
+                            Создать проверку
+                        </Button>
+
+                        <Button type="text" onClick={closeModal} className={cls.btnCancel}>
+                            Отмена
+                        </Button>
+                    </div>
                 </div>
+
             </ConfigProvider>
-        </RawModal>
+        </Modal>
     );
 };

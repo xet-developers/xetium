@@ -1,27 +1,28 @@
-.Modal {
+.modal {
   font-family: "Montserrat", sans-serif;
-  width: 720px;
-  height: 530px;
-  background-color: #DEDEDE;
-  border-radius: 15px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  z-index: 3;
+  flex-direction: row;
+  gap: 1em;
+  width: auto;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.header {
+  font-family: "Montserrat", sans-serif;
+  font-size: 28px;
+  font-weight: 500;
+  color: #252525;
+  margin-left: 25%;
 }
 
 .blockData {
   display: flex;
   flex-direction: column;
   color: #454545;
-  background-color: #fff;
+  border: 1px solid rgba(246, 100, 80, 0.51);
   padding: 1em;
-  border-radius: 15px;
+  border-radius: 8px;
   width: 335px;
 }
 
@@ -39,3 +40,32 @@
   align-items: center;
   margin-top: 1em;
 }
+
+.btnCreate {
+  width: 250px;
+  height: 52px;
+  border-radius: 35px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 18px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  background-color: #F66450;
+  justify-content: center;
+  margin-top: 1em;
+}
+
+.btnCancel {
+  width: 200px;
+  height: 52px;
+  border-radius: 35px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 18px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  background-color: rgba(246, 100, 80, 0.79);
+  justify-content: center;
+  margin-top: 1em;
+}
+

@@ -21,11 +21,11 @@ export const ResultClusterTable = () => {
             title: 'Дата',
             dataIndex: 'date',
             key: 'name',
-            width: 250,
+            width: 100,
             fixed: 'left',
             onFilter: (value, record) => record.date.indexOf(value as string) === 0,
         },
-        {
+        /*{
             title: 'Количество запросов',
             dataIndex: 'count',
             key: 'name',
@@ -38,7 +38,7 @@ export const ResultClusterTable = () => {
             key: 'name',
             width: 250,
             fixed: 'left',
-        },
+        },*/
         {
             title: 'Ссылка для скачивания',
             dataIndex: 'link',
@@ -54,7 +54,7 @@ export const ResultClusterTable = () => {
     for (let i = 0; i < 1; i++) {
         data.push({
             key: i,
-            date: '13/06/2024',
+            date: '13.06.2024',
             count: 10,
             countGood: 7,
             link: 'https://post-images.org/photo-page.php?photo=8YPKfLzi'
