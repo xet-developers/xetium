@@ -67,7 +67,7 @@ export const CreateCheckModal = ({modalOpen, closeModal}): React.JSX.Element => 
             frequency: 0,
             url: "string",
             keywords: currentCluster!.keywords,
-            searchSystem: 0,
+            searchSystem: 1,
             top: 0,
 		    clusterId: curCluster!,
         })

@@ -4,8 +4,9 @@ import {taskInfo, useGetAllCheckQuery} from "@/features/CreateCheckModal";
 import {useSelector} from "react-redux";
 import {currentProjectId} from "@/entity/Project";
 import dayjs from "dayjs";
-import {useMemo, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import { useCreateReportMutation } from "../api/resultsLast.api";
+import {USER_LOCALSTORAGE_KEY} from "@/shared/const/localstorage.ts";
 
 
 export const ResultsLast = () => {
@@ -13,18 +14,30 @@ export const ResultsLast = () => {
     const {data: userCheck} = useGetAllCheckQuery({
         id: currentProject!, date: 'firstDate=2024-01-01T00:00:00Z&lastDate=2024-12-31T23:59:59Z'
     })
-    const [trigger, {isLoading}] = useCreateReportMutation()
+    const [trigger, {isLoading, data}] = useCreateReportMutation()
     const [report, setReport] = useState('')
+    const [detectedC, setDetectedC] = useState(false)
 
     const generateReport = async (taskInfo: taskInfo) => {
-        await trigger({
-            firstDate: taskInfo.CompletionTime,
-            lastDate: taskInfo.CompletionTime,
-            clusterId: taskInfo.ClusterId,
-            projectId: taskInfo.ProjectId
-        }).then(resp => {
-            return resp.blob()
+        const token = localStorage.getItem(USER_LOCALSTORAGE_KEY) || '';
+
+        await fetch('/generation/positionreport', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+                'Authorization': 'Bearer ' +  token
+            },
+            body: JSON.stringify({
+                    firstDate: '2024-01-01T00:00:00Z',
+                    lastDate: '2024-06-15T20:00:00Z',
+                    clusterId: taskInfo.ClusterId,
+                    projectId: taskInfo.ProjectId
+            })
+        }).then(res => {
+            return res.blob()
         }).then(blob => {
+            setDetectedC(!detectedC)
+
             setReport(URL.createObjectURL(blob))
         })
     }
@@ -40,11 +53,10 @@ export const ResultsLast = () => {
                     <span className={cls.text} style={{textDecoration: 'underline', cursor: 'pointer'}}
                           onClick={()=>generateReport(el)}>
 
-                        { isLoading ? 'Генирация отчета' :
-                            report ?
-                                (<a download='sitePositionReport.txt' href={report}>Скачать отчет </a>) :
-                                'Сформировать отчет'
-                        }
+                           { detectedC ?
+                                (<a download='sitePositionReport.xlsx' href={report}>Скачать отчет</a>) :
+                                'Сформировать отчет '
+                           }
 
                     </span>
                 </div>)

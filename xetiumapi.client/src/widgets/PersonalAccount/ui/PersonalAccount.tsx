@@ -1,11 +1,14 @@
 import cls from "./PersonalAccount.module.scss";
-import {Button, ConfigProvider, Flex} from "antd";
+import { ConfigProvider, Flex} from "antd";
 import {LogoutOutlined} from '@ant-design/icons';
 import {UserPhoto} from "@/features/UserPhoto/UserPhoto.tsx";
 import {UserData} from "@/features/UserData/UserData.tsx";
-import {useGetUserDataQuery, useLogoutUserMutation, useUpdateUserMutation} from "@/entity/User";
+import {useGetUserDataQuery,  useUpdateUserMutation} from "@/entity/User";
 import {useState} from "react";
 import dayjs from "dayjs";
+import {USER_CURRENT_PROJECT_ID, USER_LOCALSTORAGE_KEY} from "@/shared/const/localstorage.ts";
+import {useAppDispatch} from "@/shared/lib/hooks/useAppDispatch/useAppDispatch.ts";
+import {UserSliceActions} from "@/entity/User/model/slice/User.slice.ts";
 
 interface FieldData {
     name: string | number | (string | number)[];
@@ -16,7 +19,8 @@ interface FieldData {
 export const PersonalAccount = () => {
     const {data: user} = useGetUserDataQuery()
     const [trigger] = useUpdateUserMutation()
-    const [logoutUser] = useLogoutUserMutation();
+
+    const dispatch = useAppDispatch()
 
     const [fields, setFields] = useState<FieldData[]>([
         {name: ['username'], value: user?.userName},
@@ -27,8 +31,10 @@ export const PersonalAccount = () => {
 
     const logout = async () => {
         try {
-            await logoutUser();
-            console.log('q')
+            localStorage.removeItem(USER_LOCALSTORAGE_KEY)
+            localStorage.removeItem(USER_CURRENT_PROJECT_ID)
+
+            dispatch(UserSliceActions.setAuthData(null))
         } catch (error) {
         }
     }
@@ -37,14 +43,11 @@ export const PersonalAccount = () => {
         let name = fields[0].value
         let email = fields[1].value
 
-        const a = await trigger({
+        await trigger({
             userName: name,
             mail: email
         })
-
-        console.log(await a)
     }
-
 
     return (
         <ConfigProvider

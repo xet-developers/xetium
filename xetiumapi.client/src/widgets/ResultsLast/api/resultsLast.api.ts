@@ -9,7 +9,7 @@ interface ICreteReportArg{
 
 export const ResultsLastApi = rtkApi.injectEndpoints({
     endpoints: (build) => ({
-        createReport: build.mutation<void, ICreteReportArg>({
+        createReport: build.mutation<Blob, ICreteReportArg>({
                 query: (body) => ({
                     url: '/generation/positionreport',
                     method: "POST",

@@ -32,9 +32,9 @@ export const CreateProject: FC<ICreateProjectProps> = (props): React.JSX.Element
     const dispatch = useAppDispatch();
     const {data, } = useGetProjectQuery();
 
-    const projectName: string = useSelector(getProjectName);
-    const projectUrl: string = useSelector(getProjectUrl);
-    const projectDesc: string = useSelector(getProjectLabel);
+    const projectName = useSelector(getProjectName);
+    const projectUrl = useSelector(getProjectUrl);
+    const projectDesc = useSelector(getProjectLabel);
 
     const [validateNameProject, setValidateNameProject] = useState(false);
     const [validateUrlProject, setValidateUrlProject] = useState(false);
@@ -52,8 +52,15 @@ export const CreateProject: FC<ICreateProjectProps> = (props): React.JSX.Element
         dispatch(createProjectActions.setProjectLabel(event.target.value));
     }, [dispatch]);
 
+
     const handleOk = async () => {
         if (validate()) {
+            console.log({
+                url: projectUrl,
+                name: projectName,
+                description: projectDesc,
+            })
+
             await trigger({
                 url: projectUrl,
                 name: projectName,

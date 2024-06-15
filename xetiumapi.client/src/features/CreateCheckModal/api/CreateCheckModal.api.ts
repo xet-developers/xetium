@@ -30,11 +30,11 @@ interface IUncompletedTask {
 }
 
 export interface taskInfo{
-    userId: string;
-    clusterId: string;
-    projectId: string;
-    isCompleted: string;
-    completionTime: string
+    UserId: string;
+    ClusterId: string;
+    ProjectId: string;
+    IsCompleted: string;
+    CompletionTime: string
 }
 
 interface IScheduleTaskResp {
