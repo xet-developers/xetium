@@ -148,7 +148,7 @@ export const CreateProject: FC<ICreateProjectProps> = (props): React.JSX.Element
                                 Создать проект
                             </Button>
 
-                            {
+                            {data &&
                                 <Button type="primary" onClick={handleCancel} className={cls.btnCancel}>
                                     Отмена
                                 </Button>

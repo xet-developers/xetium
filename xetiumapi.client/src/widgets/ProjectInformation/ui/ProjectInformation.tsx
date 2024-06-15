@@ -37,6 +37,9 @@ export const ProjectInformation = () => {
             setName(proj.name)
             setDisk(proj.description)
             setUrl(proj.url)
+            setCreateProject(false);
+        } else {
+            setCreateProject(true);
         }
 
     }, [currentProjId, projects]);
@@ -117,7 +120,7 @@ export const ProjectInformation = () => {
                     <Button onClick={() => setOpen(true)} className={cls.btn} ><DeleteOutlined/>Удалить проект</Button>
                 </div>
 
-                {<CreateProject open={createProject} setOpen={setCreateProject}/>}
+                {!projects && <CreateProject open={createProject} setOpen={setCreateProject}/>}
                 <DeleteModal open={open} setOpen={setOpen} functionDelete={deleteProject}/>
             </div>
         </ConfigProvider>
