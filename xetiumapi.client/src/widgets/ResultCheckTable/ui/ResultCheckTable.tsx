@@ -5,6 +5,7 @@ import {useSelector} from "react-redux";
 import {currentProjectId} from "@/entity/Project";
 import {useGetAllCheckQuery} from "@/features/CreateCheckModal";
 import dayjs from "dayjs";
+import {useGetAllWordClusterQuery} from "@/entity/WordsCluster";
 
 
 const dateFormat = 'DD.MM.YY:HH'
@@ -16,16 +17,30 @@ export const ResultCheckTable = () => {
         date: 'firstDate=2024-01-01T00:00:00Z&lastDate=2024-12-31T23:59:59Z'
     })
 
+    const {data: clusters, } = useGetAllWordClusterQuery(currentProject!);
+
     const [loadings, setLoadings] = useState<boolean[]>([]);
     const [generation, setGeneration] = useState(true);
 
     const [tableColumns, setTableColumns] = useState<TableColumnsType>()
     const [tableData, setTableData] = useState()
 
+    const getFilters = (): { value: string; text: string; }[] => {
+        if (clusters) {
+            return clusters.map((el, index) => {
+                return {
+                    value: el.id,
+                    text: 'Кластер ' + (index + 1)
+                }
+            })
+        }
+        return [];
+    }
 
     useEffect(() => {
         if (userCheck) {
             const a: Set<string> = new Set()
+
             for (let tasks of userCheck.CompletedTask) {
                 a.add(dayjs(tasks.Date).format(dateFormat))
             }
@@ -59,6 +74,8 @@ export const ResultCheckTable = () => {
                     key: 'keyword',
                     width: 250,
                     fixed: 'left',
+                    filters: getFilters(),
+                    onFilter: (value, record) => record.clusterId === value,
                 },
                     {
                         title: 'Дата и время',
