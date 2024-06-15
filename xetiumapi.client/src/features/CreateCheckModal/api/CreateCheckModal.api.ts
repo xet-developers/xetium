@@ -29,7 +29,7 @@ interface IUncompletedTask {
     id: string,
 }
 
-interface taskInfo{
+export interface taskInfo{
     userId: string;
     clusterId: string;
     projectId: string;
