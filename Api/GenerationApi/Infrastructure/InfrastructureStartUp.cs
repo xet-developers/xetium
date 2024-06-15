@@ -2,6 +2,7 @@
 using ExampleCore.BrokerLogic;
 using Infrastructure;
 using Infrastructure.Connection;
+using Infrastructure.Data;
 using Infrastucture.Data;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ public static class InfrastuctureStartup
     public static IServiceCollection TryAddInfrastucture(this IServiceCollection serviceCollection, IConfigurationManager configurationManager)
     {
         serviceCollection.TryAddScoped<IReportConnection, ReportConnection>();
+        serviceCollection.TryAddScoped<IReportRepository, ReportRepository>(); 
         serviceCollection.TryAddScoped<IProjectConnectionService, ProjectConnectionService>();
         serviceCollection.TryAddScoped<IYandexGptConnection, YandexGptConnection>();
         serviceCollection.TryAddScoped<IStandartStore, BaseRepository>();
