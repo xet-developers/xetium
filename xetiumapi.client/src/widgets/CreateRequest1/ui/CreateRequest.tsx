@@ -108,7 +108,7 @@ export const CreateRequest = () => {
                 </div>
 
                 <div className={cls.footer}>
-                    <div>
+                    {/*<div>
                         <span className={cls.textUp}>Количество генерируемых слов</span>
                         <Select
                             key={defaultValueCount}
@@ -122,9 +122,9 @@ export const CreateRequest = () => {
                                 { value: 20, label: '20' },
                             ]}
                         />
-                    </div>
+                    </div>*/}
 
-                    <div>
+                    <div style={{display: 'flex', flexDirection: 'column', gap: '0.5em'}}>
                         <span className={cls.textUp}>Интент пользователя</span>
                         <Select
                             onChange={(el)=> setDefaultValue(el)}
