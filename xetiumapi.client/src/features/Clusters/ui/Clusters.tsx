@@ -20,6 +20,8 @@ export const Clusters = () => {
             <div className={cls.blockEmpty}>
                 <span className={cls.empty}>
                     Вы еще не сохранили ни одного кластера!
+                    <br/>
+                    Создать кластер можно в блоке слева, максимальное количество 3.
                 </span>
             </div>
         )

@@ -3,7 +3,7 @@ import {useState} from 'react';
 import {Button, Input, Checkbox, GetProp, ConfigProvider} from "antd";
 import {FileSyncOutlined} from '@ant-design/icons';
 import {CheckPositionValidator} from "@/shared/lib/validator/checkPosition/checkPosition.ts";
-import {useCreateWordClusterMutation} from "@/entity/WordsCluster";
+import {useCreateWordClusterMutation, useGetAllWordClusterQuery} from "@/entity/WordsCluster";
 import {useGetSitePositionMutation} from "../api/addKeyWords.api.ts";
 import {useSelector} from "react-redux";
 import {currentProjectId, useGetProjectQuery} from "@/entity/Project";
@@ -30,10 +30,16 @@ export const AddKeyWords = () => {
         setValidateSystem(!isAnyChecked);
     };
 
-
     const [createCluster, {isLoading: isLoadingCluster}] = useCreateWordClusterMutation()
     const [getSitePosition, {isLoading: isLoadingSitePosition}] = useGetSitePositionMutation()
+    const {data: clusters, } = useGetAllWordClusterQuery(projId!);
+    const [disabled, setDisabled] = useState(false);
 
+    const checkCountClusters = ()  => {
+        if (clusters && clusters.length === 3) {
+            setDisabled(true);
+        }
+    }
 
     const onInputChange = (e) => {
         setInputValue(e.target.value);
@@ -59,13 +65,17 @@ export const AddKeyWords = () => {
     }
 
     const saveCluster = () => {
-        let inv = CheckPositionValidator.validateInputValue(inputValue);
+        checkCountClusters();
 
-        if (inv) {
-            createCluster({
-                projectId: projId!,
-                keywords: inputValue.split(', ')
-            })
+        if (validate()) {
+            let inv = CheckPositionValidator.validateInputValue(inputValue);
+
+            if (inv) {
+                createCluster({
+                    projectId: projId!,
+                    keywords: inputValue.split(', ')
+                })
+            }
         }
     }
 
@@ -135,10 +145,12 @@ export const AddKeyWords = () => {
 
                     <div className={cls.footer}>
                         <Button className={cls.btn}
-                                onClick={saveCluster}><FileSyncOutlined/>{isLoadingCluster ? 'отправка' : 'Сохранить как кластер'}
+                                onClick={saveCluster}
+                                disabled={disabled}
+                        ><FileSyncOutlined/>{isLoadingCluster ? 'Сохраняем...' : 'Сохранить как кластер'}
                         </Button>
                         <Button className={cls.btn}
-                                onClick={handleGenerate}><FileSyncOutlined/>{isLoadingSitePosition ? 'отправка' : 'Отправить'}
+                                onClick={handleGenerate}><FileSyncOutlined/>{isLoadingSitePosition ? 'Отправляем...' : 'Отправить'}
                         </Button>
                     </div>
                 </div>
