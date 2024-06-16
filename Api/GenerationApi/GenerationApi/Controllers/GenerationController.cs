@@ -30,7 +30,20 @@ namespace Api.Controllers
             var res = _positionReportService.GetAllReportsInfo(userID, projectId);
             return Ok(res);
         }
+        
+        [HttpGet("completedreport")]
+        public async Task<IActionResult> GetCompletedReport([FromQuery] Guid reportId)
+        {
+            var token = Request.Headers["Authorization"].FirstOrDefault().ParseJWT();
+            var userID = Guid.Parse(token.Claims.FirstOrDefault(c => c.Type == "id").Value);
 
+            var res = await _positionReportService.GetCompletedReportAsync(reportId, userID);
+            return new FileStreamResult(res, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            {
+                FileDownloadName = "Report.xlsx"
+            };
+        }
+        
         [HttpPost("positionreport")]
         public async Task<IActionResult> CreatePositionReport([FromBody] ReportRequest reportRequest)
         {

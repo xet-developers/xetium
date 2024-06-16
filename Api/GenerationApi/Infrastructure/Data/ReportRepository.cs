@@ -23,5 +23,14 @@ namespace Infrastructure.Data
             var res = await _applicationDbContext.ReportInfo.Where(report => report.UserId == userId && report.ProjectId == projectId).ToListAsync();
             return res;
         }
+
+        public async Task<bool> DeleteReportInfo(Guid userId, Guid projectId)
+        {
+            var reports = await GetAllReportsInfo(projectId, userId);
+
+            _applicationDbContext.ReportInfo.RemoveRange(reports);
+
+            return true;
+        }
     }
 }

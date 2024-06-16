@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ProfileConnectionLib.ConnectionServices;
 using ProfileConnectionLib.ConnectionServices.Interfaces;
+using ReportConnectionLib;
 
 public static class InfrastuctureStartup
 {
@@ -21,6 +22,7 @@ public static class InfrastuctureStartup
         serviceCollection.TryAddScoped<IProjectConnectionService, ProjectConnectionService>();
         serviceCollection.TryAddScoped<IYandexGptConnection, YandexGptConnection>();
         serviceCollection.TryAddScoped<IStandartStore, BaseRepository>();
+        
         var connectionString = configurationManager.GetConnectionString("DefaultConnection");
         serviceCollection.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(connectionString));

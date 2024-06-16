@@ -10,5 +10,7 @@ namespace Domain.Interfaces
     public interface IReportRepository
     {
         public Task<List<ReportInfo>> GetAllReportsInfo(Guid projectId, Guid userId);
+
+        public Task<bool> DeleteReportInfo(Guid userId, Guid projectId);
     }
 }

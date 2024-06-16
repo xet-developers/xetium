@@ -12,5 +12,6 @@ namespace Service.Interfaces
         public Task<List<ReportResults>> GetAllReportsInfo(Guid userId, Guid projectId);
         public Task<FileStream> GetPositionReportAsync(ReportInfo reportInfo, Guid UserId);
         public Task<FileStream> GetCompletedReportAsync(Guid Id, Guid userId);
+        public Task<bool> DeleteUsersReportInfo(Guid projectId, Guid userId);
     }
 }

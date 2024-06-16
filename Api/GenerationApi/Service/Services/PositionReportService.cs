@@ -55,6 +55,13 @@ namespace Service.Services
             var res = await GetReportAsync(repInfo, userId);
             return res;
         }
+
+        public async Task<bool> DeleteUsersReportInfo(Guid projectId, Guid userId)
+        {
+            var state = await _reportRepository.DeleteReportInfo(userId, projectId);
+            return state;
+        }
+
         private async Task<FileStream> GetReportAsync(ReportInfo reportInfo, Guid UserId)
         {
             var info = await _reportConnection.GetReportInfo(new UserSearchesRequestDto()

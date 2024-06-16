@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Security;
+using Api.Controllers;
 using ExampleCore.AuthOptions;
 using ExampleCore.BrokerLogic;
 using ExampleCore.HttpLogic;
@@ -21,8 +22,11 @@ builder.Services.AddAuth();
 
 builder.Services.AddMassTransit(x =>
 {
+    x.AddConsumer<ReportConsumer>();
+    
     x.UsingRabbitMq((context, cfg) =>
     {
+        
         cfg.Host("xetium-rabbitmq-service", "/", h =>
         {
             h.Username("guest");
