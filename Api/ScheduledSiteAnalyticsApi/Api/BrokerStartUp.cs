@@ -1,4 +1,5 @@
 ﻿using Api.Controllers;
+using Api.Controllers.Consumers;
 using MassTransit;
 
 namespace Api;
@@ -9,6 +10,7 @@ public static class BrokerStartUp
     {
         serviceCollection.AddMassTransit(x =>
         {
+            x.AddConsumer<DeleteProjectInfoConsumer>();
             x.AddConsumer<GetCompletedTasksConsumer>();
             x.UsingRabbitMq((context, cfg) =>
             {

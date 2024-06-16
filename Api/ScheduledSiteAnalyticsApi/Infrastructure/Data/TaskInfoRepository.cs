@@ -1,5 +1,6 @@
 ﻿using Domain.Entity;
 using Domain.Interfaces;
+using Hangfire;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data;
@@ -13,6 +14,31 @@ public class TaskInfoRepository: ITasksInfoRepository
         _applicationDbContext = applicationDbContext;
     }
    
+    public async Task<bool> DeleteProjectInfoAsync(Guid projectId)
+    {
+        var clusters = await _applicationDbContext.Clusters.Where(cluster =>  cluster.ProjectId == projectId).ToListAsync();
+        _applicationDbContext.Clusters.RemoveRange(clusters);
+
+        var tasksInfos = await _applicationDbContext.TaskInfos.Where(info =>  info.ProjectId == projectId).ToListAsync();
+        _applicationDbContext.TaskInfos.RemoveRange(tasksInfos);
+
+        var tasks = await _applicationDbContext.TaskDetails.Where(detail => detail.ProjectID == projectId).ToListAsync();   
+        foreach(var task in tasks)
+        {
+            var state = BackgroundJob.Delete(task.JobId);
+            if(!state)
+            {
+                return state;
+            }
+        }
+        _applicationDbContext.TaskDetails.RemoveRange(tasks);
+
+        var scheduletask = await _applicationDbContext.ScheduleTaskDetails.Where(detail => detail.ProjectID == projectId).ToListAsync();
+        _applicationDbContext.ScheduleTaskDetails.RemoveRange(scheduletask);
+
+        return true;
+    }
+
     public async Task<List<SitePosition>> GetCompletedTaskAsync(UserSearchInfo userSearchInfo)
     {
 

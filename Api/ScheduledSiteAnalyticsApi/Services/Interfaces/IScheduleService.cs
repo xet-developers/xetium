@@ -7,7 +7,7 @@ namespace Services.Interfaces;
 public interface IScheduleService
 {
     public Task<TaskDetails> ScheduleTaskAsync(TaskDetails taskDetails);
-    
+    public Task<bool> DeleteProjectInfoAsync(Guid projectId);
     public Task<bool> DeleteTaskAsync(string jobId, Guid taskId);
     public Task<TaskDetails?> UpdateTaskAsync(TaskDetails? taskDetails);
     public Task<List<SitePosition>> GetReportInfoAsync(UserSearchInfo request);
