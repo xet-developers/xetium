@@ -37,8 +37,9 @@ public class ProjectService: IProjectService
             project.UserId != userId)
         {
             throw new Exception("User not owner or project doesn't exist");
-        }
-        await _deleteProjectInfo.DeleteProjectInfoAsync(projectId);
+        } 
+        
+        await _deleteProjectInfo.DeleteProjectInfoAsync(projectId, userId);
         await _standartStore.DeleteAsync(project);
     }
 
