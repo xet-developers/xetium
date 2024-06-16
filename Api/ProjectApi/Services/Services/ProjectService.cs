@@ -17,7 +17,7 @@ public class ProjectService: IProjectService
     }
     public async Task<Guid> CreateAsync(Project project)
     {
-        var res = await _standartStore.CreateAsync(project);
+         var res = await _standartStore.CreateAsync(project);
         
         return res;
     }

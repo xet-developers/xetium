@@ -12,7 +12,6 @@ public static class HttpServiceStartup
 
     public static IServiceCollection AddBrokerLogic(this IServiceCollection services)
     {
-        
         services.TryAddKeyedTransient<IRequestService, ProducerRequestService>("broker");
         return services;
     }

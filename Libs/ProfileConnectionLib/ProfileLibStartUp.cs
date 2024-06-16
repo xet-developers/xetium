@@ -16,19 +16,6 @@ public static class ProfileLibStartUp
     {
         serviceCollection.TryAddScoped<IProfileConnectionServcie, ProfileConnectionService>();
         serviceCollection.AddBrokerLogic();
-        serviceCollection.AddMassTransit(x =>
-        {
-            x.UsingRabbitMq((context, cfg) =>
-            {
-                cfg.Host("xetium-rabbitmq-service", "/", h =>
-                {
-                    h.Username("guest");
-                    h.Password("guest");
-                });
-            });
-            
-        });
-        
         return serviceCollection;
     }
 }

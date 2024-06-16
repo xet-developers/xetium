@@ -1,4 +1,5 @@
 ﻿using Domain.Interfaces;
+using ExampleCore.BrokerLogic;
 using Infrastucture;
 using Infrastucture.Connection;
 using Infrastucture.Data;
@@ -13,6 +14,7 @@ public static class InfrastructureStartUp
 {
     public static IServiceCollection TryAddInfrastructure(this IServiceCollection serviceCollection, IConfigurationManager configurationManager)
     {
+        serviceCollection.AddBrokerLogic();
         serviceCollection.AddScoped<IProjectStore, ProjectStore>();
         serviceCollection.TryAddScoped<IStandartStore, BaseRepository>();
         serviceCollection.TryAddPositionLib(configurationManager);

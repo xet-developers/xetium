@@ -13,7 +13,7 @@ public class TaskInfoRepository: ITasksInfoRepository
     {
         _applicationDbContext = applicationDbContext;
     }
-   
+    
     public async Task<bool> DeleteProjectInfoAsync(Guid projectId)
     {
         var clusters = await _applicationDbContext.Clusters.Where(cluster =>  cluster.ProjectId == projectId).ToListAsync();
@@ -23,6 +23,7 @@ public class TaskInfoRepository: ITasksInfoRepository
         _applicationDbContext.TaskInfos.RemoveRange(tasksInfos);
 
         var tasks = await _applicationDbContext.TaskDetails.Where(detail => detail.ProjectID == projectId).ToListAsync();   
+        
         foreach(var task in tasks)
         {
             var state = BackgroundJob.Delete(task.JobId);
@@ -36,6 +37,7 @@ public class TaskInfoRepository: ITasksInfoRepository
         var scheduletask = await _applicationDbContext.ScheduleTaskDetails.Where(detail => detail.ProjectID == projectId).ToListAsync();
         _applicationDbContext.ScheduleTaskDetails.RemoveRange(scheduletask);
 
+        await _applicationDbContext.SaveChangesAsync();
         return true;
     }
 
@@ -67,8 +69,8 @@ public class TaskInfoRepository: ITasksInfoRepository
                  sp.ProjectId == userSearchInfo.ProjectId
                  && sp.ScheduleTaskDetails.ScheduleTask.UserId == userSearchInfo.UserId
                  && sp.ClusterId == userSearchInfo.ClusterId    
-                 && sp.Date >= userSearchInfo.FirstDate.AddMinutes(-1)
-                 && sp.Date <= userSearchInfo.LastDate.AddMinutes(1))
+                 && sp.Date >= userSearchInfo.FirstDate
+                 && sp.Date <= userSearchInfo.LastDate)
              .ToListAsync();
 
         return res;
