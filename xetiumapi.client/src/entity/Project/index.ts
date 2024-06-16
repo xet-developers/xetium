@@ -1,6 +1,0 @@
-//export {Project} from './ui/Project'
-export {ProjectAsync as Project} from './ui/Project.async'
-export * from './api/Project.api.ts'
-export * from './model/slice/Project.slice.ts'
-export * from './model/types/IProjectSliceSchema.ts'
-export * from './model/selectors/Project.selector.ts'

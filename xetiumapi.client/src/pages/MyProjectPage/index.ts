@@ -1,1 +1,0 @@
-export { MyProjectPageAsync as MyProjectPage } from './ui/MyProjectPage.async.tsx'
