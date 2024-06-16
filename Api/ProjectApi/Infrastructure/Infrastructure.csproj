@@ -15,11 +15,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\Libs\ProjectConnectionService\ProjectConnectionService.csproj" />
       <ProjectReference Include="..\Services\Services.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Connection\" />
     </ItemGroup>
 
 </Project>

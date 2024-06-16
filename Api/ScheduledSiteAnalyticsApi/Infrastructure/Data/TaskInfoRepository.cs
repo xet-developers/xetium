@@ -12,7 +12,7 @@ public class TaskInfoRepository: ITasksInfoRepository
     {
         _applicationDbContext = applicationDbContext;
     }
-    
+   
     public async Task<List<SitePosition>> GetCompletedTaskAsync(UserSearchInfo userSearchInfo)
     {
 
@@ -41,8 +41,8 @@ public class TaskInfoRepository: ITasksInfoRepository
                  sp.ProjectId == userSearchInfo.ProjectId
                  && sp.ScheduleTaskDetails.ScheduleTask.UserId == userSearchInfo.UserId
                  && sp.ClusterId == userSearchInfo.ClusterId    
-                 && sp.Date >= userSearchInfo.FirstDate
-                 && sp.Date <= userSearchInfo.LastDate)
+                 && sp.Date >= userSearchInfo.FirstDate.AddMinutes(-1)
+                 && sp.Date <= userSearchInfo.LastDate.AddMinutes(1))
              .ToListAsync();
 
         return res;

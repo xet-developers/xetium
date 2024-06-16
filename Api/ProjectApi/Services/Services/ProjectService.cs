@@ -8,10 +8,12 @@ public class ProjectService: IProjectService
 {
     private IProjectStore _projectStore;
     private IStandartStore _standartStore;
-    public ProjectService(IProjectStore projectStore, IStandartStore standartStore)
+    private IDeleteProjectInfo _deleteProjectInfo;
+    public ProjectService(IProjectStore projectStore, IStandartStore standartStore, IDeleteProjectInfo deleteProjectInfo)
     {
         _projectStore = projectStore;
         _standartStore = standartStore;
+        _deleteProjectInfo = deleteProjectInfo;
     }
     public async Task<Guid> CreateAsync(Project project)
     {
@@ -36,7 +38,7 @@ public class ProjectService: IProjectService
         {
             throw new Exception("User not owner or project doesn't exist");
         }
-        
+        await _deleteProjectInfo.DeleteProjectInfoAsync(projectId);
         await _standartStore.DeleteAsync(project);
     }
 

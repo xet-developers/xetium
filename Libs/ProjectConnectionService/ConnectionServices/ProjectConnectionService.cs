@@ -5,6 +5,7 @@ using CoreLib.HttpServiceV2.Services.Interfaces;
 using ExampleCore.HttpLogic.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PositionConnectionLib.ConnectionServices.DtoModels.Request;
 using ProfileConnectionLib.ConnectionServices.DtoModels.Request;
 using ProfileConnectionLib.ConnectionServices.DtoModels.Response;
 using ProfileConnectionLib.ConnectionServices.Interfaces;
@@ -39,7 +40,20 @@ public class ProjectConnectionService : IProjectConnectionService
         
         return client.Body;
     }
+    
+    public async Task<DeleteProjectInfoResponseDto> DeleteProjectInfoResponse(DeleteProjectInfoRequestDto request)
+    {
+        var requestData = new RequestData()
+        {
+            ContentType = ContentType.ApplicationJson,
+            Body = request
+        };
 
+        var client =
+            await _clientFactory.SendRequestAsync<DeleteProjectInfoResponseDto, DeleteProjectInfoRequestDto>(requestData);
+
+        return (client.StatusCode >= (HttpStatusCode)400 ? null : client.Body)!;
+    }
     public async Task<UserSearchesResponseDto> GetReportInfoOrDefault(UserSearchesRequestDto request)
     {
         var requestData = new RequestData()

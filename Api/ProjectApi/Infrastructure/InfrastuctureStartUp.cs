@@ -1,10 +1,12 @@
 ﻿using Domain.Interfaces;
 using Infrastucture;
+using Infrastucture.Connection;
 using Infrastucture.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ProfileConnectionLib;
 
 
 public static class InfrastructureStartUp
@@ -13,7 +15,9 @@ public static class InfrastructureStartUp
     {
         serviceCollection.AddScoped<IProjectStore, ProjectStore>();
         serviceCollection.TryAddScoped<IStandartStore, BaseRepository>();
-        
+        serviceCollection.TryAddPositionLib(configurationManager);
+        serviceCollection.TryAddScoped<IDeleteProjectInfo, DeleteProjectInfoConnection>();
+
         var connectionString = configurationManager.GetConnectionString("DefaultConnection");
         
         serviceCollection.AddDbContext<ApplicationDbContext>(options =>
