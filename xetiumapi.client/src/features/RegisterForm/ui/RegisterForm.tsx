@@ -213,7 +213,7 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
                                         </span>
                                     }
 
-                                    <Input onChange={(e) => onChangePassword(e.target.value)}
+                                    <Input.Password onChange={(e) => onChangePassword(e.target.value)}
                                            placeholder={'Пароль'} className={cls.input}/>
 
                                     {
@@ -230,7 +230,7 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
                                         </span>
                                     }
 
-                                    <Input onChange={(e) => onChangeSecondPassword(e.target.value)}
+                                    <Input.Password onChange={(e) => onChangeSecondPassword(e.target.value)}
                                            placeholder={'Повторите пароль'} className={cls.input}/>
 
                                     {

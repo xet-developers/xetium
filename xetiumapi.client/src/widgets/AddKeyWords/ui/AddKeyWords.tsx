@@ -65,9 +65,7 @@ export const AddKeyWords = () => {
     }
 
     const saveCluster = () => {
-        checkCountClusters();
-
-        if (validate()) {
+        if (validate() && checkCountClusters()) {
             let inv = CheckPositionValidator.validateInputValue(inputValue);
 
             if (inv) {

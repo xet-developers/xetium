@@ -33,16 +33,17 @@ export const ViewCheckModal = ({ open, setOpen, task }: any): React.JSX.Element 
                     onOk={()=>setOpen(false)}
                     onCancel={()=>setOpen(false)}
                     className={cls.modalView}
-                    footer={[
-
-                    ]}>
-                    <div className={cls.blockData}>
+                    footer={null}
+                    width={'400px'}
+                    style={{top: '40%'}}
+                >
+                    <div className={cls.blockData} >
                         <span className={cls.date}>
-                            {task && dayjs(task.ScheduleTime).format('DD.MM.YYYY')} в {task && dayjs(task.ScheduleTime).add(7,'hours').format('HH:mm')}
+                            {task && dayjs(task.ScheduleTime).format('DD.MM.YYYY')}
                         </span>
 
                             <span className={cls.name}>
-                            Проверка: {task && task.Id}
+                            Проверка состоится в {task && dayjs(task.ScheduleTime).add(7,'hours').format('HH:mm')}
                         </span>
 
                         <Button type="text" className={cls.btnDelete} onClick={showModal}>
@@ -50,7 +51,6 @@ export const ViewCheckModal = ({ open, setOpen, task }: any): React.JSX.Element 
                             Удалить
                         </Button>
                     </div>
-
                 </Modal>
             </ConfigProvider>
             <div>

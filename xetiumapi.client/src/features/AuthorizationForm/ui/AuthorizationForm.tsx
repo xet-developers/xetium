@@ -97,7 +97,7 @@ export const AuthorizationForm: FC<IAuthorizationFormProps> = () => {
                             <Flex vertical={true} justify={'center'} gap={40}>
                                 <Input onChange={(e) => onChangeUsername(e.target.value)}
                                        placeholder={'Имя пользователя'} className={cls.input}/>
-                                <Input onChange={(e) => onChangePassword(e.target.value)}
+                                <Input.Password onChange={(e) => onChangePassword(e.target.value)}
                                        placeholder={'Пароль'} className={cls.input}/>
                             </Flex>
 

@@ -1,24 +1,8 @@
-.modalView {
-  font-family: "Montserrat", sans-serif;
-  width: 369px;
-  height: 230px;
-  background-color: #C0CCF7;
-  border-radius: 15px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 3;
-}
 
 .blockData {
-  width: 450px;
-  height: 160px;
-  background-color: #ffffff;
+  font-family: "Montserrat", sans-serif;
+  width: 400px;
+  height: 170px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -30,11 +14,11 @@
 
 .date {
   font-size: 14px;
-  color: #454545;
+  color: #ff6a4f;
 }
 
 .name {
-  font-size: 20px;
+  font-size: 18px;
   color: #454545;
   margin-bottom: 1em;
 }
