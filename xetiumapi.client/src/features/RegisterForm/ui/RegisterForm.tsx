@@ -51,29 +51,28 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
         (value: string) => {
             dispatch(registerFormActions.setUsername(value));
         },
-        [dispatch],
+        [dispatch, username],
     );
 
     const onChangeEmail = useCallback(
         (value: string) => {
             dispatch(registerFormActions.setEmail(value));
         },
-        [dispatch],
+        [dispatch, email],
     );
 
     const onChangePassword = useCallback(
         (value: string) => {
             dispatch(registerFormActions.setPassword(value));
         },
-        [dispatch],
+        [dispatch, password],
     );
 
     const onChangeSecondPassword = useCallback(
         (value: string) => {
             dispatch(registerFormActions.setSecondPassword(value));
-            console.log(secPassword)
         },
-        [dispatch],
+        [dispatch, secPassword],
     );
 
     const onChangeSpamCheckbox = useCallback(
@@ -118,9 +117,6 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
                     }
                 }
             } catch (e) {
-                if (secPassword.length === 0) {
-                    setValidateRepeatPassword(true);
-                }
             }
         },
         [dispatch, password, secPassword, username, email, acceptPersonalData, acceptConfPolitics, acceptSpam],
@@ -139,7 +135,8 @@ export const RegisterForm: FC<IRegisterFormProps> = memo(() => {
         setValidateCheckboxData(!acceptPersonalData);
         setValidateCheckboxConf(!acceptConfPolitics);
 
-        return un && em && pass && validateRepeatPassword && acceptPersonalData && acceptConfPolitics;
+
+        return un && em && pass && rep && acceptPersonalData && acceptConfPolitics;
     }
 
     return (
